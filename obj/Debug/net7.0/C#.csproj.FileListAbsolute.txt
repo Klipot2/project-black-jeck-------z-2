@@ -1,0 +1,53 @@
+C:\Studing Phyton\C#\obj\Debug\net7.0\C#.csproj.AssemblyReference.cache
+C:\Studing Phyton\C#\obj\Debug\net7.0\C#.GeneratedMSBuildEditorConfig.editorconfig
+C:\Studing Phyton\C#\obj\Debug\net7.0\C#.AssemblyInfoInputs.cache
+C:\Studing Phyton\C#\obj\Debug\net7.0\C#.AssemblyInfo.cs
+C:\Studing Phyton\C#\obj\Debug\net7.0\C#.csproj.CoreCompileInputs.cache
+C:\Studing Phyton\C#\bin\Debug\net7.0\C#.exe
+C:\Studing Phyton\C#\bin\Debug\net7.0\C#.deps.json
+C:\Studing Phyton\C#\bin\Debug\net7.0\C#.runtimeconfig.json
+C:\Studing Phyton\C#\bin\Debug\net7.0\C#.dll
+C:\Studing Phyton\C#\bin\Debug\net7.0\C#.pdb
+C:\Studing Phyton\C#\obj\Debug\net7.0\C#.dll
+C:\Studing Phyton\C#\obj\Debug\net7.0\refint\C#.dll
+C:\Studing Phyton\C#\obj\Debug\net7.0\C#.pdb
+C:\Studing Phyton\C#\obj\Debug\net7.0\C#.genruntimeconfig.cache
+C:\Studing Phyton\C#\obj\Debug\net7.0\ref\C#.dll
+C:\Studing Phyton\project black jeck\obj\Debug\net7.0\C#.csproj.AssemblyReference.cache
+C:\Studing Phyton\project black jeck\obj\Debug\net7.0\C#.GeneratedMSBuildEditorConfig.editorconfig
+C:\Studing Phyton\project black jeck\obj\Debug\net7.0\C#.AssemblyInfoInputs.cache
+C:\Studing Phyton\project black jeck\obj\Debug\net7.0\C#.AssemblyInfo.cs
+C:\Studing Phyton\project black jeck\obj\Debug\net7.0\C#.csproj.CoreCompileInputs.cache
+C:\Studing Phyton\project black jeck\obj\Debug\net7.0\C#.dll
+C:\Studing Phyton\project black jeck\obj\Debug\net7.0\refint\C#.dll
+C:\Studing Phyton\project black jeck\obj\Debug\net7.0\C#.pdb
+C:\Studing Phyton\project black jeck — копия\bin\Debug\net7.0\C#.exe
+C:\Studing Phyton\project black jeck — копия\bin\Debug\net7.0\C#.deps.json
+C:\Studing Phyton\project black jeck — копия\bin\Debug\net7.0\C#.runtimeconfig.json
+C:\Studing Phyton\project black jeck — копия\bin\Debug\net7.0\C#.dll
+C:\Studing Phyton\project black jeck — копия\bin\Debug\net7.0\C#.pdb
+C:\Studing Phyton\project black jeck — копия\obj\Debug\net7.0\C#.csproj.AssemblyReference.cache
+C:\Studing Phyton\project black jeck — копия\obj\Debug\net7.0\C#.GeneratedMSBuildEditorConfig.editorconfig
+C:\Studing Phyton\project black jeck — копия\obj\Debug\net7.0\C#.AssemblyInfoInputs.cache
+C:\Studing Phyton\project black jeck — копия\obj\Debug\net7.0\C#.AssemblyInfo.cs
+C:\Studing Phyton\project black jeck — копия\obj\Debug\net7.0\C#.csproj.CoreCompileInputs.cache
+C:\Studing Phyton\project black jeck — копия\obj\Debug\net7.0\C#.dll
+C:\Studing Phyton\project black jeck — копия\obj\Debug\net7.0\refint\C#.dll
+C:\Studing Phyton\project black jeck — копия\obj\Debug\net7.0\C#.pdb
+C:\Studing Phyton\project black jeck — копия\obj\Debug\net7.0\C#.genruntimeconfig.cache
+C:\Studing Phyton\project black jeck — копия\obj\Debug\net7.0\ref\C#.dll
+C:\Studing Phyton\project black jeck — копиz 2\bin\Debug\net7.0\C#.exe
+C:\Studing Phyton\project black jeck — копиz 2\bin\Debug\net7.0\C#.deps.json
+C:\Studing Phyton\project black jeck — копиz 2\bin\Debug\net7.0\C#.runtimeconfig.json
+C:\Studing Phyton\project black jeck — копиz 2\bin\Debug\net7.0\C#.dll
+C:\Studing Phyton\project black jeck — копиz 2\bin\Debug\net7.0\C#.pdb
+C:\Studing Phyton\project black jeck — копиz 2\obj\Debug\net7.0\C#.csproj.AssemblyReference.cache
+C:\Studing Phyton\project black jeck — копиz 2\obj\Debug\net7.0\C#.GeneratedMSBuildEditorConfig.editorconfig
+C:\Studing Phyton\project black jeck — копиz 2\obj\Debug\net7.0\C#.AssemblyInfoInputs.cache
+C:\Studing Phyton\project black jeck — копиz 2\obj\Debug\net7.0\C#.AssemblyInfo.cs
+C:\Studing Phyton\project black jeck — копиz 2\obj\Debug\net7.0\C#.csproj.CoreCompileInputs.cache
+C:\Studing Phyton\project black jeck — копиz 2\obj\Debug\net7.0\C#.dll
+C:\Studing Phyton\project black jeck — копиz 2\obj\Debug\net7.0\refint\C#.dll
+C:\Studing Phyton\project black jeck — копиz 2\obj\Debug\net7.0\C#.pdb
+C:\Studing Phyton\project black jeck — копиz 2\obj\Debug\net7.0\C#.genruntimeconfig.cache
+C:\Studing Phyton\project black jeck — копиz 2\obj\Debug\net7.0\ref\C#.dll
