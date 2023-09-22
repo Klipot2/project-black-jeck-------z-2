@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace Poker
 {
     class CardDeck
@@ -13,6 +10,7 @@ namespace Poker
             D   // Diamonds
         }
 
+        // Suggestion: move visuals to separate data class
         public enum AllRanks
         {
             Two = '2',
@@ -54,17 +52,17 @@ namespace Poker
         {
             foreach (var card in cardDeck)
             {
-                Console.WriteLine($"{card.GetRank()} of {card.GetSuit()}");
+                Console.WriteLine($"{card.Rank} of {card.Suit}");
             }
         }
 
-    public Card GetCard()
-    {
-      Card card = cardDeck[0];
-	  cardDeck.RemoveAt(0);
-      // Возвращаем первую карту из перемешанной колоды
-      return card;
-    }
+        public Card GetCard()
+        {
+            Card card = cardDeck[0];
+            cardDeck.RemoveAt(0);
+            // Возвращаем первую карту из перемешанной колоды
+            return card;
+        }
 
         private void ShuffleDeck(List<Card> deck)
         {

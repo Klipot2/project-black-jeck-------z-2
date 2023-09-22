@@ -2,30 +2,16 @@
 {
     class Card
     {
+        private char _rank;
+        private char _suit;
 
-        char rank;
-        char suit;
+        public char Rank { get { return _rank; } }
+        public char Suit { get { return _suit; } }
  
         public Card(char rank, char suit)
         {
-            this.rank = rank;
-            this.suit = suit;          
-        }
- 
-        public Card(Card card)
-        {
-            this.rank = card.rank;
-            this.suit = card.suit;
-        }
- 
-        public char GetRank()
-        {
-            return rank;
-        }
- 
-        public char GetSuit()
-        {
-            return suit;
+            _rank = rank;
+            _suit = suit;          
         }
     }
 }

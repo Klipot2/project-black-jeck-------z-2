@@ -1,40 +1,46 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Poker
 {
     class Hand
     {
-        List<Card> cardHand = new List<Card>();
+        public List<Card> Cards { get { return _cardHand; } }
+        public int CurrentSize { get { return _cardHand.Count; } }
 
-        private void FillHand(CardDeck deck, int number)
+        private int _handLimit;
+        private List<Card> _cardHand = new List<Card>();
+
+        public Hand(int handSizeLimit)
         {
-            for (int i = 0; i < number; i++)
+            _handLimit = handSizeLimit;
+        }
+
+        public void AddCard(Card card)
+        {
+            if (CurrentSize >= _handLimit)
+                throw new Exception("Cannot add card to hand due to reaching hand size limit.");
+            _cardHand.Add(card);
+        }
+
+        public void AddCards(List<Card> cardList)
+        {
+            foreach (Card card in cardList)
             {
-                cardHand.Add(deck.GetCard());
+                AddCard(card);
             }
         }
 
-        public Hand(CardDeck deck, int number)
+        public void DrawCardsFromDeck(CardDeck deck, int amountToDraw)
         {
-            FillHand(deck, number);
+            for (int i = 0; i < amountToDraw; i++)
+            {
+                AddCard(deck.GetCard());
+            }
         }
 
-        public void AddCardToHand(Card card)
-        {
-            cardHand.Add(card);
-        }
-
-        public void AddHandToHand(List<Card> cardList)
-        {
-            cardHand.AddRange(cardList);
-        }
-
+        //TODO: This logic needs to be handled by Poker-specific class
         public string EvaluateHand()
         {
             // Сортировка карт в руке по номиналу
-            cardHand.Sort((a, b) => a.GetRank().CompareTo(b.GetRank()));
+            _cardHand.Sort((a, b) => a.Rank.CompareTo(b.Suit));
 
             // Проверка на стрит
             bool isStraight = CheckForStraight();
@@ -78,16 +84,17 @@ namespace Poker
             else
             {
                 // Если не найдено ни одной комбинации, вернуть старшую карту
-                return "Старшая карта: " + cardHand.Last().ToString();
+                return "Старшая карта: " + _cardHand.Last().ToString();
             }
         }
 
+        //TODO: This logic needs to be handled by Poker-specific class
         private bool CheckForStraight()
         {
             // Проверка на стрит
-            for (int i = 0; i < cardHand.Count - 1; i++)
+            for (int i = 0; i < _cardHand.Count - 1; i++)
             {
-                if (cardHand[i].GetRank() + 1 != cardHand[i + 1].GetRank())
+                if (_cardHand[i].Rank + 1 != _cardHand[i + 1].Rank)
                 {
                     return false;
                 }
@@ -95,21 +102,23 @@ namespace Poker
             return true;
         }
 
+        //TODO: This logic needs to be handled by Poker-specific class      
         private bool CheckForFlush()
         {
             // Проверка на флеш
-            char suit = cardHand[0].GetSuit();
-            return cardHand.All(card => card.GetSuit() == suit);
+            char suit = _cardHand[0].Suit;
+            return _cardHand.All(card => card.Suit == suit);
         }
 
+        //TODO: This logic needs to be handled by Poker-specific class
         private bool HasFourOfAKind()
         {
             // Проверка на каре (четыре карты одного номинала)
-            for (int i = 0; i < cardHand.Count - 3; i++)
+            for (int i = 0; i < _cardHand.Count - 3; i++)
             {
-                if (cardHand[i].GetRank() == cardHand[i + 1].GetRank() &&
-                    cardHand[i].GetRank() == cardHand[i + 2].GetRank() &&
-                    cardHand[i].GetRank() == cardHand[i + 3].GetRank())
+                if (_cardHand[i].Rank == _cardHand[i + 1].Rank &&
+                    _cardHand[i].Rank == _cardHand[i + 2].Rank &&
+                    _cardHand[i].Rank == _cardHand[i + 3].Rank)
                 {
                     return true;
                 }
@@ -117,15 +126,16 @@ namespace Poker
             return false;
         }
 
+        //TODO: This logic needs to be handled by Poker-specific class
         private bool HasFullHouse()
         {
             // Проверка на фулл-хаус (тройка + пара)
             if (HasThreeOfAKind())
             {
-                for (int i = 0; i < cardHand.Count - 1; i++)
+                for (int i = 0; i < _cardHand.Count - 1; i++)
                 {
-                    if (cardHand[i].GetRank() == cardHand[i + 1].GetRank() &&
-                        cardHand[i].GetRank() != cardHand[i + 2].GetRank())
+                    if (_cardHand[i].Rank == _cardHand[i + 1].Rank &&
+                        _cardHand[i].Rank != _cardHand[i + 2].Rank)
                     {
                         return true;
                     }
@@ -134,13 +144,14 @@ namespace Poker
             return false;
         }
 
+        //TODO: This logic needs to be handled by Poker-specific class
         private bool HasThreeOfAKind()
         {
             // Проверка на тройку (три карты одного номинала)
-            for (int i = 0; i < cardHand.Count - 2; i++)
+            for (int i = 0; i < _cardHand.Count - 2; i++)
             {
-                if (cardHand[i].GetRank() == cardHand[i + 1].GetRank() &&
-                    cardHand[i].GetRank() == cardHand[i + 2].GetRank())
+                if (_cardHand[i].Rank == _cardHand[i + 1].Rank &&
+                    _cardHand[i].Rank == _cardHand[i + 2].Rank)
                 {
                     return true;
                 }
@@ -148,13 +159,14 @@ namespace Poker
             return false;
         }
 
+        //TODO: This logic needs to be handled by Poker-specific class
         private bool HasTwoPair()
         {
             // Проверка на две пары
             int pairCount = 0;
-            for (int i = 0; i < cardHand.Count - 1; i++)
+            for (int i = 0; i < _cardHand.Count - 1; i++)
             {
-                if (cardHand[i].GetRank() == cardHand[i + 1].GetRank())
+                if (_cardHand[i].Rank == _cardHand[i + 1].Rank)
                 {
                     pairCount++;
                     i++; // Пропустить следующую карту, так как она уже в паре
@@ -163,12 +175,13 @@ namespace Poker
             return pairCount == 2;
         }
 
+        //TODO: This logic needs to be handled by Poker-specific class
         private bool HasPair()
         {
             // Проверка на пару (две карты одного номинала)
-            for (int i = 0; i < cardHand.Count - 1; i++)
+            for (int i = 0; i < _cardHand.Count - 1; i++)
             {
-                if (cardHand[i].GetRank() == cardHand[i + 1].GetRank())
+                if (_cardHand[i].Rank == _cardHand[i + 1].Rank)
                 {
                     return true;
                 }

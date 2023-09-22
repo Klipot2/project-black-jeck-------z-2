@@ -27,8 +27,8 @@ namespace Poker
  
                 foreach (Card card in cards)
                 {
-                    string suit = GetSuitSign(card.GetSuit());
-                    string content = card.GetRank() + suit + ", ";
+                    string suit = GetSuitSign(card.Suit);
+                    string content = card.Rank + suit + ", ";
                     Write(content, false);
                 }
  

@@ -83,7 +83,7 @@ namespace Poker
                     throw new IndexOutOfRangeException();
                 }
  
-                Card card = new Card(cards[index]);
+                Card card = new Card(cards[index].Rank,cards[index].Suit);
                 cardsToDeal.Add(card);
  
                 cards.RemoveAt(index);
@@ -211,7 +211,7 @@ namespace Poker
  
             foreach (Card card in playerCards)
             {
-                int rank = rankMap.FirstOrDefault(x => x.Value == card.GetRank()).Key;
+                int rank = rankMap.FirstOrDefault(x => x.Value == card.Rank).Key;
                 int value;
                 output.TryGetValue(rank, out value);
  
@@ -227,7 +227,7 @@ namespace Poker
  
             foreach (Card card in playerCards)
             {
-                char suit = card.GetSuit();
+                char suit = card.Suit;
                 int value;
                 output.TryGetValue(suit, out value);
  
