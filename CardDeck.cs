@@ -6,26 +6,51 @@ using System.Reflection;
 namespace Poker
 {
 	class CardDeck
-	{
+	{	
 		public enum allSuits
 		{
-			'S',	// Spades
-			'H',	// Hearts	
-			'C',	// Clubs
-			'D'		// Diamonds
+			S,	// Spades
+			H,	// Hearts	
+			C,	// Clubs
+			D	// Diamonds
 		}
 
 		public enum allRanks
 		{
-			2,3,4,5,6,7,8,9,'T','J','Q','K','A'
+			two = 2,
+			three,
+			four,
+			five,
+			six,
+			seven,
+			eight,
+			nine,
+			ten,
+			J, //Jack
+			Q,	//Queen
+			K,	//King
+			A	// Ace
 		}
 
 		List<Card> cardDeck = new List<Card>();
 
-		foreach(var suit in allSuits)
+		
+		private void fillDeck(){
+			foreach(var suit in allSuits)
 			{
-				foreach
+				foreach(var rank in allRanks)
+				{
+					Card temporaryCard = new Card(rank,suit);
+					cardDeck.Add(temporaryCard);
+				}
 			}
+		}
 
+		public CardDeck(){
+			fillDeck()
+		}	
+		public void writeDeck(){
+			Console.WriteLine(cardDeck);
+		}
 	}
 }
