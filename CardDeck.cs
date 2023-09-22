@@ -7,7 +7,7 @@ namespace Poker
 {
 	class CardDeck
 	{
-		private enum allSuits
+		public enum allSuits
 		{
 			'S',	// Spades
 			'H',	// Hearts	
@@ -15,7 +15,7 @@ namespace Poker
 			'D'		// Diamonds
 		}
 
-		private enum allRanks
+		public enum allRanks
 		{
 			2,3,4,5,6,7,8,9,'T','J','Q','K','A'
 		}
@@ -24,7 +24,7 @@ namespace Poker
 
 		foreach(var suit in allSuits)
 			{
-				
+				foreach
 			}
 
 	}

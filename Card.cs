@@ -1,8 +1,7 @@
 ﻿﻿namespace Poker
 {
     class Card
-    {  
-        int value;
+    {
 
         char rank;
         char suit;
