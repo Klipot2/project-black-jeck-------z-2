@@ -44,9 +44,17 @@ namespace Poker
             }
         }
 
+		private void ShafleDeck(){
+			for (var i= 1; i< cardDeck.lenght; i++){
+			int randomNumber = random (1 - cardDeck.lenght)
+			cardDeck[i] = cardDeck[randomNumber]
+			cardDeck[randomNumber] = cardDeck[i]
+			}
+		}
         public CardDeck()
         {
             FillDeck();
+			// ShafleDeck();
         }
 
         public void WriteDeck()
