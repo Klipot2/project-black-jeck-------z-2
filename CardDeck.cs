@@ -44,17 +44,10 @@ namespace Poker
             }
         }
 
-		private void ShafleDeck(){
-			for (var i= 1; i< cardDeck.lenght; i++){
-			int randomNumber = random (1 - cardDeck.lenght)
-			cardDeck[i] = cardDeck[randomNumber]
-			cardDeck[randomNumber] = cardDeck[i]
-			}
-		}
         public CardDeck()
         {
             FillDeck();
-			// ShafleDeck();
+			ShuffleDeck(cardDeck);
         }
 
         public void WriteDeck()
@@ -65,13 +58,13 @@ namespace Poker
             }
         }
 
-        public List<Card> GetShuffledDeck()
-        {
-            List<Card> shuffledDeck = new List<Card>(cardDeck);
-            // реализовать логику тасования колоды.
-            ShuffleDeck(shuffledDeck);
-            return shuffledDeck;
-        }
+    public Card GetCard()
+    {
+      Card card = cardDeck[0];
+	  cardDeck.RemoveAt(0);
+      // Возвращаем первую карту из перемешанной колоды
+      return card;
+    }
 
         private void ShuffleDeck(List<Card> deck)
         {

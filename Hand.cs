@@ -16,7 +16,7 @@ namespace Poker
 
         public Hand(CardDeck deck, int number)
         {
-            FillHand(deck);			
+            FillHand(deck, number);			
         }
 
         public void AddCardToHand(Card card){
