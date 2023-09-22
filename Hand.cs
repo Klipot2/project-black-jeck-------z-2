@@ -23,8 +23,9 @@ namespace Poker
             cardHand.Add(card);
         }
 
-        public void AddHandToHand(List<Card> cardList){
-            cardHand // cardHand = cardHand + cardList
+        public void AddHandToHand(List<Card> cardList)
+        {
+            cardHand.AddRange(cardList);
         }
        
         // тут по идее метод для оценки стоимости (использовать когда рука = 7)
