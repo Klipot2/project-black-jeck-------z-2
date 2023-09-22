@@ -30,5 +30,4 @@ namespace Poker
 			A	// Ace
 		}
 
-	
 }
