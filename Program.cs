@@ -1,104 +1,71 @@
 using System;
-using System.IO;
 
 namespace Poker
 {
     class Program
     {
-        static CardDeck cardDeck;
-        static Hand playerHand;
-        static PokerHandEvaluator handEvaluator;
-        static StreamWriter file;
-
         static void Main(string[] args)
         {
-            cardDeck = new CardDeck();
-            playerHand = new Hand(5); // Например, рука из 5 карт
-            handEvaluator = new PokerHandEvaluator();
-
-            game = new Game();
-
-            int numberOfPlayers = 2;
-
-            for (int i = 0; i < numberOfPlayers; i++)
+            if (OperatingSystem.IsWindows())
             {
-                var cards = game.DealCards();
-                var summary = game.GetHandSummary(cards);
-
-                Write(summary.Item2, true);
-
-                foreach (Card card in cards)
-                {
-                    string suit = GetSuitSign(card.GetSuit());
-                    string content = card.GetRank() + suit + ", ";
-                    Write(content, false);
-                }
-
-                TestPlayerHand();  // Добавляем проверку руки после раздачи
-
-                Write(string.Empty, true);
+                Console.SetWindowSize(65, 40);
+                Console.BufferWidth = 65;
+                Console.BufferHeight = 40;
             }
+            Console.Title = "Game Selection";
+            Console.WriteLine();
+            Console.WriteLine("Select a game to play:");
+            Console.WriteLine("1. Poker Game");
+            Console.WriteLine("2. Triangle Drawer Game");
+            Console.WriteLine("3. Dice Game");
+            Console.WriteLine("4. Guessing Game");
+            Console.WriteLine("Enter the number of the game to play:");
 
-            file.Close();
-            Console.ReadLine();
-        }
+            string choice = Console.ReadLine();
 
-        static void TestPlayerHand()
-        {
-            var cards = playerHand.Cards;  // Получаем карты из руки игрока
-
-            // Оцениваем руку игрока
-            string handEvaluation = handEvaluator.EvaluateHand(cards);
-
-            // Выводим результат
-            Console.WriteLine($"Рука игрока: {handEvaluation}");
-        }
-
-        static string GetSuitSign(char suit)
-        {
-            string suitSign = string.Empty;
- 
-            switch (suit.ToString())
+            switch (choice)
             {
-                case "S":
-                    suitSign = "♠";
+                case "1":
+                    PlayPokerGame();
                     break;
-                case "H":
-                    suitSign = "♥";
+                case "2":
+                    PlayTriangleDrawerGame();
                     break;
-                case "C":
-                    suitSign = "♣";
+                case "3":
+                    PlayDiceGame();
                     break;
-                case "D":
-                    suitSign = "♦";
+                case "4":
+                    PlayGuessingGame();
                     break;
                 default:
-                    throw new NotImplementedException();
+                    Console.WriteLine("Invalid choice. Exiting.");
+                    break;
             }
- 
-            return suitSign;
         }
- 
-        static StreamWriter CreateFile()
+
+        static void PlayPokerGame()
         {
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            return new System.IO.StreamWriter(path + @"\test.txt");
+            Console.Title = "Poker Game";
+            Console.WriteLine();
+            Console.WriteLine();
+            PokerGame game = new PokerGame();
+            game.PlayGame();
         }
- 
-        static void Write(string text, bool moveToNewLine)
+        static void PlayTriangleDrawerGame()
         {
-            file = file ?? CreateFile();
- 
-            if (moveToNewLine)
-            {
-                Console.WriteLine(text);
-                file.WriteLine(text);
-            }
-            else
-            {
-                Console.Write(text);
-                file.Write(text);
-            }
+            TriangleDrawer drawer = new TriangleDrawer();
+            drawer.ReadHeightFromInput();
+            drawer.DrawTriangle();
+        }
+        static void PlayDiceGame()
+        {
+            DiceGame game = new DiceGame();
+            game.Throw();
+        }
+        static void PlayGuessingGame()
+        {
+            GuessingGameRight game = new GuessingGameRight();
+            game.StartGame();
         }
     }
 }
