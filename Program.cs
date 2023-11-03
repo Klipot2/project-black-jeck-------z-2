@@ -1,49 +1,59 @@
 using System;
 using System.IO;
- 
+
 namespace Poker
 {
     class Program
     {
-        static Game game;
+        static CardDeck cardDeck;
+        static Hand playerHand;
+        static PokerHandEvaluator handEvaluator;
         static StreamWriter file;
- 
+
         static void Main(string[] args)
         {
+            cardDeck = new CardDeck();
+            playerHand = new Hand(5); // Например, рука из 5 карт
+            handEvaluator = new PokerHandEvaluator();
+
             game = new Game();
- 
-            //for (int j = 0; j < 10000; j++)
-            //{
- 
-            // Don't make it more than 10 players 
+
             int numberOfPlayers = 2;
- 
+
             for (int i = 0; i < numberOfPlayers; i++)
             {
                 var cards = game.DealCards();
                 var summary = game.GetHandSummary(cards);
- 
+
                 Write(summary.Item2, true);
- 
+
                 foreach (Card card in cards)
                 {
                     string suit = GetSuitSign(card.GetSuit());
                     string content = card.GetRank() + suit + ", ";
                     Write(content, false);
                 }
- 
+
+                TestPlayerHand();  // Добавляем проверку руки после раздачи
+
                 Write(string.Empty, true);
             }
- 
-            //game.Reset();
- 
-            //Write(string.Empty, true);
-            //}
- 
+
             file.Close();
             Console.ReadLine();
         }
- 
+
+        static void TestPlayerHand()
+        {
+            var cards = playerHand.Cards;  // Получаем карты из руки игрока
+
+            // Оцениваем руку игрока
+            string handEvaluation = handEvaluator.EvaluateHand(cards);
+
+            // Выводим результат
+            Console.WriteLine($"Рука игрока: {handEvaluation}");
+        }
+
         static string GetSuitSign(char suit)
         {
             string suitSign = string.Empty;
