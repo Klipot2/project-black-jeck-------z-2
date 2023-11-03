@@ -6,27 +6,28 @@ using System.Threading.Tasks;
 
 namespace Poker
 {
-    class DeckCards : Card
+    class DeckCards
     {
         const int NUM_OF_CARDS = 52;
-        private Card[] deck;
+        private List<Card> deck;
 
         public DeckCards()
         {
-            deck = new Card[NUM_OF_CARDS];
+            deck = new List<Card>(); // new Card[NUM_OF_CARDS];
         }
-        public Card[] getDeck {get { return deck; } }
+        public List<Card> getDeck { get { return deck; } }
         public void setUpDeck()
         {
-            int i=0;
-            foreach (SUIT s in Enum.GetValues(typeof(SUIT)))
+            int i = 0;
+            foreach (Card.Suit s in Enum.GetValues(typeof(Card.Suit)))
             {
-                foreach (VALUE v in Enum.GetValues(typeof(VALUE)))
+                foreach (Card.Value v in Enum.GetValues(typeof(Card.Value)))
                 {
-                    deck[i] = new Card {MySuit = s, MyValue = v};
+                    Card cardToAdd = new(s, v);
+                    deck.Add(cardToAdd);
                     i++;
                 }
-                
+
             }
             ShuffleCards();
 

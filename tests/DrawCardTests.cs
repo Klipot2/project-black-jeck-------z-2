@@ -1,7 +1,5 @@
 using FluentAssertions;
 using Poker;
-using System;
-using System.IO;
 using Xunit;
 
 public class DrawCardsTests
@@ -26,15 +24,16 @@ public class DrawCardsTests
     {
         // Arrange
         var expectedOutput = new StringWriter();
-        Console.SetOut(expectedOutput);
-        Card card = new Card { MySuit = Card.SUIT.H, MyValue = Card.VALUE.Ace };
+        Card card = new(Card.Suit.H, Card.Value.Ace);
+        //TODO: add card line constructor
+        var expectedCard = " ________\n| \u2665      |\n|   A     |\n|        |\n|        |\n|        |\n|        |\n|        |\n|        |\n|        |\n|________|\n";
 
         // Act
+        Console.SetOut(expectedOutput);
+        var actualOutput = expectedOutput.ToString();
         DrawCards.DrawCardSuitValue(card, 0, 0);
 
         // Assert
-        var actualOutput = expectedOutput.ToString();
-        var expectedCard = " ________\n| \u2665      |\n|   A     |\n|        |\n|        |\n|        |\n|        |\n|        |\n|        |\n|        |\n|________|\n";
         actualOutput.Should().Be(expectedCard);
     }
 }

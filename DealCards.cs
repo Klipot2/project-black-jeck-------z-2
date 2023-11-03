@@ -46,11 +46,11 @@ namespace Poker
             if (playerHand != null && computerHand != null)
             {
                 var queryPlayer = from hand in playerHand
-                                  orderby hand.MyValue
+                                  orderby hand.CardValue
                                   select hand;
 
                 var queryComputer = from hand in computerHand
-                                    orderby hand.MyValue
+                                    orderby hand.CardValue
                                     select hand;
 
                 var index = 0;
@@ -138,7 +138,7 @@ namespace Poker
                     playerBank -= GetBetAmount();
                     SetBetAmount(0);
                 }
-            else
+                else
                 {
                     if (playerHandEvaluator.HandValues.HighCard > computerHandEvaluator.HandValues.HighCard)
                     {
