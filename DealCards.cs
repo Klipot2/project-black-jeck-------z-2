@@ -25,7 +25,7 @@ namespace Poker
 
         public void Deal()
         {
-            setUpDeck();
+            SetUpDeck();
             getHand();
             sortCards();
             displayCards();
@@ -35,10 +35,10 @@ namespace Poker
         public void getHand()
         {
             for (int i = 0; i < 5; i++)
-                playerHand[i] = getDeck[i];
+                playerHand[i] = GetAllCards[i];
 
             for (int i = 5; i < 10; i++)
-                computerHand[i - 5] = getDeck[i];
+                computerHand[i - 5] = GetAllCards[i];
         }
 
         public void sortCards()

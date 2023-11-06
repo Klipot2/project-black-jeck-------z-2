@@ -13,10 +13,11 @@ namespace Poker.Tests
             DeckCards deck = new DeckCards();
 
             // Act
-            deck.setUpDeck();
+            deck.SetUpDeck();
 
             // Assert
-            deck.getDeck.Length.Should().Be(52); // Проверяем, что массив наполнился 52 картами
+            deck.GetAllCards.Length.Should().Be(52); // Проверяем, что массив наполнился 52 картами
+            // Проверяем, что общее число комбинаций равно 52
             // Для проверки наличия конкретных карт в колоде, можно использовать Assert.Contains:
             // deck.getDeck.Should().Contain(card => card.MyValue == Card.VALUE.Two && card.MySuit == Card.SUIT.S);
             // deck.getDeck.Should().Contain(card => card.MyValue == Card.VALUE.Three && card.MySuit == Card.SUIT.H);
@@ -30,12 +31,12 @@ namespace Poker.Tests
             DeckCards deck = new DeckCards();
 
             // Act
-            deck.setUpDeck(); // Сначала заполним колоду
-            Card[] originalDeck = (Card[])deck.getDeck.Clone(); // Создадим копию "оригинальной" колоды
+            deck.SetUpDeck(); // Сначала заполним колоду
+            Card[] originalDeck = (Card[])deck.GetAllCards.Clone(); // Создадим копию "оригинальной" колоды
             deck.ShuffleCards(); // Перемешаем колоду
 
             // Assert
-            originalDeck.Should().NotEqual(deck.getDeck); // Проверим, что после перемешивания колода не такая же, как оригинальная
+            originalDeck.Should().NotEqual(deck.GetAllCards); // Проверим, что после перемешивания колода не такая же, как оригинальная
         }
     }
 }
