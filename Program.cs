@@ -1,6 +1,7 @@
-using System;
+using Casino.CardGames;
+using Casino.SmallGames;
 
-namespace Poker
+namespace Casino
 {
     class Program
     {
@@ -23,49 +24,38 @@ namespace Poker
 
             string choice = Console.ReadLine();
 
+            IPlayable game = new DebugPoker();
+
             switch (choice)
             {
                 case "1":
-                    PlayPokerGame();
+                    game = new DebugPoker();
                     break;
                 case "2":
-                    PlayTriangleDrawerGame();
+                    game = new TriangleDrawer();
                     break;
                 case "3":
-                    PlayDiceGame();
+                    game = new DiceGame();
                     break;
                 case "4":
-                    PlayGuessingGame();
+                    game = new GuessingGameRight();
                     break;
                 default:
                     Console.WriteLine("Invalid choice. Exiting.");
+                    Environment.Exit(0);
                     break;
             }
+
+            game.Play();
         }
 
-        static void PlayPokerGame()
-        {
-            Console.Title = "Poker Game";
-            Console.WriteLine();
-            Console.WriteLine();
-            PokerGame game = new PokerGame();
-            game.PlayGame();
-        }
-        static void PlayTriangleDrawerGame()
-        {
-            TriangleDrawer drawer = new TriangleDrawer();
-            drawer.ReadHeightFromInput();
-            drawer.DrawTriangle();
-        }
-        static void PlayDiceGame()
-        {
-            DiceGame game = new DiceGame();
-            game.Throw();
-        }
-        static void PlayGuessingGame()
-        {
-            GuessingGameRight game = new GuessingGameRight();
-            game.StartGame();
-        }
+        // static void PlayPokerGame()
+        // {
+        //     Console.Title = "Poker Game";
+        //     Console.WriteLine();
+        //     Console.WriteLine();
+        //     PokerGame game = new PokerGame();
+        //     game.PlayGame();
+        // }
     }
 }

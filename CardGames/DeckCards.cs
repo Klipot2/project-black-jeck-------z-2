@@ -1,4 +1,4 @@
-namespace Poker
+namespace Casino.CardGames
 {
     class DeckCards
     {

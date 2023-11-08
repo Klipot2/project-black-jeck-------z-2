@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Poker
+namespace Casino.SmallGames
 {
-    public class TriangleDrawer
+    public class TriangleDrawer : IPlayable
     {
         private int height;
 
@@ -40,6 +36,12 @@ namespace Poker
             layerString += "\\" + new string(' ', height - currentLayer - 1);
 
             Console.WriteLine(layerString);
+        }
+
+        public void Play()
+        {
+            ReadHeightFromInput();
+            DrawTriangle();
         }
     }
 }

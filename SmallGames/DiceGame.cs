@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Poker
+namespace Casino.SmallGames
 {
-    class DiceGame
+    class DiceGame : IPlayable
     {
-        private Random rand = new Random();
+        private readonly Random _rand = new();
 
-        public void Throw()
+        public void Play()
         {
             InitializeThrow();
 
@@ -39,13 +35,13 @@ namespace Poker
 
         private int GetDieRoll(int numSides)
         {
-            return rand.Next(1, numSides + 1);
+            return _rand.Next(1, numSides + 1);
         }
 
         private int GetNumberFromUser(string message)
         {
             int number;
-            bool isValidInput = false;
+            bool isValidInput;
 
             do
             {

@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-
-namespace Poker
+namespace Casino.SmallGames
 {
-    public class GuessingGameRight
+    public class GuessingGameRight : IPlayable
     {
         private int userLimit;
         private int numberOfGuesses;
@@ -18,7 +13,7 @@ namespace Poker
             Yes, No, Undo, Exit, Default
         }
 
-        public void StartGame()
+        public void Play()
         {
             Console.WriteLine("Please input a positive number to limit the guessing space.");
 
@@ -27,13 +22,13 @@ namespace Poker
             if (!int.TryParse(input, out userLimit))
             {
                 Console.WriteLine("Input couldn't be recognized as a number.");
-                StartGame();
+                Play();
                 return;
             }
             if (userLimit <= 0)
             {
                 Console.WriteLine("Your input was a non-positive number.");
-                StartGame();
+                Play();
                 return;
             }
             Console.WriteLine("\nGreat! Now think of a number within guessing space and I'll try to guess it!");
@@ -62,7 +57,7 @@ namespace Poker
             }
 
             Console.WriteLine($"\nIs your number bigger than {newTry}?");
-            exitOrUndo = ProcessInput(out inputAnswer); 
+            exitOrUndo = ProcessInput(out inputAnswer);
             if (exitOrUndo) // TODO: Remove undefined behaviour
             {
                 return;
@@ -136,7 +131,7 @@ namespace Poker
             Console.WriteLine($"\nGuessed your number! Number of tries: {numberOfGuesses}. Want to try again?\n");
             exitOrUndo = ProcessInput(out inputAnswer);
             if (exitOrUndo) return;
-            else if (inputAnswer == InputAnswer.Yes) StartGame();
+            else if (inputAnswer == InputAnswer.Yes) Play();
             else ExitGame();
         }
 
@@ -150,7 +145,7 @@ namespace Poker
         {
             if (guessList.Count == 0)
             {
-                StartGame();
+                Play();
             }
             else
             {
