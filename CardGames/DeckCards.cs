@@ -1,6 +1,6 @@
 namespace Casino.CardGames
 {
-    class DeckCards
+    public class DeckCards
     {
         public int DeckSize { get{ return _deck.Count; } }
 

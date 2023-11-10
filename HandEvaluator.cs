@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Poker
 {
-    public enum Hand
+    public enum HandState
     {
         Nothing,
         OnePair,

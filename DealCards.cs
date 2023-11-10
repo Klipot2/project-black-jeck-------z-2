@@ -1,44 +1,47 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Casino.CardGames;
 
 namespace Poker
 {
-    class DealCards : DeckCards
+    class DealCards
     {
-        private Card[] playerHand;
-        private Card[] computerHand;
-        private Card[] sortedPlayerHand;
-        private Card[] sortedComputerHand;
+        private const int PLAYER_HAND_SIZE = 5;
+
+        private DeckCards _deck;
+        private Hand _playerHand;
+        private Hand _computerHand;
+        // private Card[] sortedPlayerHand;
+        // private Card[] sortedComputerHand;
         private int betAmount;
         private int playerBank;
 
         public DealCards()
         {
-            playerHand = new Card[5];
-            sortedPlayerHand = new Card[5];
-            computerHand = new Card[5];
-            sortedComputerHand = new Card[5];
+            _deck = new DeckCards();
+            _playerHand = new Hand();
+            _computerHand = new Hand();
+            // sortedPlayerHand = new Card[5];
+            // sortedComputerHand = new Card[5];
             playerBank = 1000; // Начальный банк игрока
             betAmount = 0;
         }
 
         public void Deal()
         {
-            SetUpDeck();
-            getHand();
+            _deck.SetUpDeck();
+            FillHand(_playerHand);
+            FillHand(_computerHand);
             sortCards();
             displayCards();
             evaluateHands();
         }
 
-        public void getHand()
+        private void FillHand(Hand hand)
         {
-            for (int i = 0; i < 5; i++)
-                playerHand[i] = GetAllCards[i];
-
-            for (int i = 5; i < 10; i++)
-                computerHand[i - 5] = GetAllCards[i];
+            List<Card> fullHand = _deck.DrawCards(PLAYER_HAND_SIZE);
+            hand.AddCards(fullHand);
         }
 
         public void sortCards()
