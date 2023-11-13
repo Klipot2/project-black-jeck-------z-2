@@ -1,6 +1,6 @@
 namespace Casino.SmallGames
 {
-    class DiceGame : IPlayable
+    public class DiceGame : IPlayable
     {
         private readonly Random _rand = new();
 

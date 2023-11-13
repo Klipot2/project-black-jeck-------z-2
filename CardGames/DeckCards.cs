@@ -79,6 +79,8 @@ namespace Casino.CardGames
                 string.Format("Cannot form a deck from non-positive amount of full decks (currently {0}).",
                 amountOfFullDecks));
 
+            ResetDeck();
+
             for (int i = 0; i < amountOfFullDecks; i++)
             {
                 foreach (Card.Suit s in Enum.GetValues(typeof(Card.Suit)))
@@ -104,6 +106,11 @@ namespace Casino.CardGames
             }
 
             _deck = shuffledDeck;
+        }
+
+        private void ResetDeck() 
+        {
+            _deck = new List<Card>();
         }
 
         public List<Card> GetAllCards() => _deck;

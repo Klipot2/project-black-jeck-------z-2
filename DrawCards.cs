@@ -1,8 +1,6 @@
-using System.Text;
-
-namespace Poker
+namespace Casino.CardGames
 {
-    class DrawCards
+    public static class DrawCards
     {
         public static void DrawCardOutline(int xcoor, int ycoor)
         {
@@ -24,6 +22,7 @@ namespace Poker
                     Console.WriteLine("|________|");
             }
         }
+        
         public static void DrawCardSuitValue(Card card, int xcoor, int ycoor)
         {
             char cardSuit = ' ';

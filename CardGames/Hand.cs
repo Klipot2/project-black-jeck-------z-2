@@ -4,7 +4,7 @@ namespace Casino.CardGames
     {
         public int Size { get { return _hand.Count; } }
 
-        private readonly List<Card> _hand;
+        private List<Card> _hand;
 
         public Hand()
         {
@@ -22,6 +22,11 @@ namespace Casino.CardGames
             {
                 AddCard(card);
             }
+        }
+
+        public void ResetHand()
+        {
+            _hand = new List<Card>();
         }
 
         public List<Card> GetCards() => _hand;
