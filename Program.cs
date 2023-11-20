@@ -7,12 +7,12 @@ namespace Casino
     {
         static void Main(string[] args)
         {
-            if (OperatingSystem.IsWindows())
-            {
-                Console.SetWindowSize(65, 40);
-                Console.BufferWidth = 65;
-                Console.BufferHeight = 40;
-            }
+            // if (OperatingSystem.IsWindows())
+            // {
+            //     Console.SetWindowSize(65, 40);
+            //     Console.BufferWidth = 65;
+            //     Console.BufferHeight = 40;
+            // }
             Console.Title = "Game Selection";
             Console.WriteLine();
             Console.WriteLine("Select a game to play:");
@@ -22,14 +22,14 @@ namespace Casino
             Console.WriteLine("4. Guessing Game");
             Console.WriteLine("Enter the number of the game to play:");
 
-            string choice = Console.ReadLine();
+            string? choice = Console.ReadLine();
 
-            IPlayable game = new DebugPoker();
+            IPlayable game = new FiveCardPoker();
 
             switch (choice)
             {
                 case "1":
-                    game = new DebugPoker();
+                    game = new FiveCardPoker();
                     break;
                 case "2":
                     game = new TriangleDrawer();

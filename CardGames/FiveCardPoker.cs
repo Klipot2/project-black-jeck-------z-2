@@ -11,8 +11,8 @@ namespace Casino.CardGames
 
         public FiveCardPoker()
         {
-            _playerHand = new Hand();
-            _dealerHand = new Hand();
+            _playerHand = new Hand("Player");
+            _dealerHand = new Hand("Dealer");
 
             _allHands = new List<Hand>
             {
@@ -32,7 +32,12 @@ namespace Casino.CardGames
                 hand.ResetHand();
                 hand.AddCards(dealtCards);
             }
+
+            HandEvaluator.SortHand(_playerHand);
             //TODO: добавить отображение карт игрока
+            Console.WriteLine("\n" + _playerHand.Owner + ":");
+            CardVisualizerStub.VisualizeHand(_playerHand);
+            Console.WriteLine();
         }
     }
 }

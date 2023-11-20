@@ -6,7 +6,7 @@ namespace Casino.CardGames
         {
             DeckCards deck = new();
             deck.SetUpDeck();
-            Hand playerHand = new();
+            Hand playerHand = new("Player");
             Card card = deck.DrawCard();
             playerHand.AddCard(card);
             DrawCards.DrawCardOutline(0, 0);

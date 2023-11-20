@@ -3,12 +3,16 @@ namespace Casino.CardGames
     public class Hand
     {
         public int Size { get { return _hand.Count; } }
+        public string Owner { get { return _owner; } }
 
         private List<Card> _hand;
 
-        public Hand()
+        private string _owner;
+
+        public Hand(string ownerName)
         {
             _hand = new List<Card>();
+            _owner = ownerName;
         }
 
         public void AddCard(Card card)
