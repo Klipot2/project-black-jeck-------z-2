@@ -28,6 +28,11 @@ namespace Casino.CardGames
             }
         }
 
+        public void SwapCard(int previousCardPosition, Card newCard)
+        {
+            _hand[previousCardPosition] = newCard;
+        }
+
         public void ResetHand()
         {
             _hand = new List<Card>();
