@@ -1,6 +1,6 @@
-namespace Casino.CardGames
+namespace Casino.CardGames.Poker
 {
-    public static class UIHandler
+    public static class PokerUIHandler
     {
         public delegate void ProcessInput(Input input);
         public delegate void ProcessInt(int inputInt);
@@ -70,7 +70,7 @@ namespace Casino.CardGames
             intProcessor(parsedInt);
         }
 
-        public static string SwapArrayToString(List<int> swapArray)
+                public static string SwapArrayToString(List<int> swapArray)
         {
             string output = "Currently swapping ";
             output += swapArray.Count > 1 ?

@@ -1,4 +1,4 @@
-namespace Casino.CardGames
+namespace Casino.CardGames.Poker
 {
     public enum Input
     {

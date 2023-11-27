@@ -1,4 +1,4 @@
-namespace Casino.CardGames
+namespace Casino.CardGames.Poker
 {
     public class FiveCardPoker : IPlayable
     {
@@ -43,16 +43,16 @@ namespace Casino.CardGames
             HandEvaluator.SortHand(_playerHand);
             //TODO: добавить отображение карт игрока
             Console.WriteLine();
-            UIHandler.DisplayHand(_playerHand);
+            PokerUIHandler.DisplayHand(_playerHand);
             Input[] possibleInputs = { Input.Yes, Input.No };
-            UIHandler.MessageWithInputResponse("Do you want to swap any cards? Press (Y)es or (N)o.",
+            PokerUIHandler.MessageWithInputResponse("Do you want to swap any cards? Press (Y)es or (N)o.",
                 possibleInputs, "Press 'Y' to swap cards, or 'N' to skip.", LaunchCardSwap);  
             foreach (var cardPosition in _swapArray)
             {
                 Card newCard = _deck.DrawCard();
                 _playerHand.SwapCard(cardPosition - 1, newCard);
             }
-            UIHandler.DisplayHand(_playerHand); 
+            PokerUIHandler.DisplayHand(_playerHand); 
         }
 
         private void LaunchCardSwap(Input input)
@@ -69,7 +69,7 @@ namespace Casino.CardGames
                     string initialSwapMessage = "Which card do you want to swap first? Enter " + swapMessageBody;
                     string fallbackSwapMessage = "To swap card enter " + swapMessageBody;
 
-                    UIHandler.MessageWithNumericResponse(initialSwapMessage, _possibleSwapInputs,
+                    PokerUIHandler.MessageWithNumericResponse(initialSwapMessage, _possibleSwapInputs,
                         fallbackSwapMessage, ProcessCardSwapStep);
                     break;
                 case Input.No:
@@ -94,13 +94,13 @@ namespace Casino.CardGames
             _possibleSwapInputs.Remove(inputInt);
 
             string initialSwapMessage = string.Format("{0} Choose another card to swap, or press '{1}' to stop.",
-                UIHandler.SwapArrayToString(_swapArray), CARD_SWAP_TERMINATOR);
+                PokerUIHandler.SwapArrayToString(_swapArray), CARD_SWAP_TERMINATOR);
             string fallbackSwapMessage = string.Format(
                 "{0} Select a card that has not been swapped already, or press '{1}' to stop.",
-                UIHandler.SwapArrayToString(_swapArray), CARD_SWAP_TERMINATOR);
+                PokerUIHandler.SwapArrayToString(_swapArray), CARD_SWAP_TERMINATOR);
 
-            UIHandler.MessageWithNumericResponse(initialSwapMessage, _possibleSwapInputs,
+            PokerUIHandler.MessageWithNumericResponse(initialSwapMessage, _possibleSwapInputs,
                 fallbackSwapMessage, ProcessCardSwapStep);
-        }
+        } 
     }
 }
