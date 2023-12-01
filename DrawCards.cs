@@ -1,34 +1,32 @@
-namespace Casino.CardGames
+using System;
+
+namespace Casino.CardGames.Poker
 {
     public static class DrawCards
     {
-        public static void DrawCardOutline(int xcoor, int ycoor)
+        public static void DrawCard(Card card)
         {
             Console.ForegroundColor = ConsoleColor.White;
 
-            int x = xcoor * 12;
-            int y = ycoor;
-
-            Console.SetCursorPosition(x, y);
-            Console.Write(" ________\n");
-
+            Console.WriteLine(" ________");
             for (int i = 0; i < 10; i++)
             {
-                Console.SetCursorPosition(x, y + 1 + i);
-
-                if (i != 9)
-                    Console.WriteLine("|        |");
-                else
+                if (i == 9)
+                {
                     Console.WriteLine("|________|");
+                }
+                else
+                {
+                    Console.WriteLine("|        |");
+                }
             }
+
+            DrawCardSuitValue(card);
         }
-        
-        public static void DrawCardSuitValue(Card card, int xcoor, int ycoor)
+
+        private static void DrawCardSuitValue(Card card)
         {
             char cardSuit = ' ';
-            int x = xcoor * 12;
-            int y = ycoor;
-
             switch (card.CardSuit)
             {
                 case Card.Suit.H:
@@ -48,9 +46,10 @@ namespace Casino.CardGames
                     Console.ForegroundColor = ConsoleColor.Red;
                     break;
             }
-            Console.SetCursorPosition(x + 5, y + 5);
+
+            Console.SetCursorPosition(6, 5);
             Console.Write(cardSuit);
-            Console.SetCursorPosition(x + 4, y + 7);
+            Console.SetCursorPosition(5, 7);
             Console.Write(card.CardValue);
         }
     }
