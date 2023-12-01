@@ -70,7 +70,7 @@ namespace Casino.CardGames.Poker
             intProcessor(parsedInt);
         }
 
-                public static string SwapArrayToString(List<int> swapArray)
+        public static string SwapArrayToString(List<int> swapArray)
         {
             string output = "Currently swapping ";
             output += swapArray.Count > 1 ?
@@ -81,10 +81,10 @@ namespace Casino.CardGames.Poker
                 output += " " + position.ToString() + ",";
             }
             
-            return output.ReplaceAt(output.Length - 1, '.');
+            return ReplaceCharacterAt(output, output.Length - 1, '.');
         }
 
-        private static string ReplaceAt(this string input, int index, char newChar)
+        private static string ReplaceCharacterAt(string input, int index, char newChar)
         {
             if (input == null)
                 throw new ArgumentNullException("Trying to replace character, but string is null.");

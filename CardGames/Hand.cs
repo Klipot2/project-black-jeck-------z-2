@@ -15,6 +15,12 @@ namespace Casino.CardGames
             _owner = ownerName;
         }
 
+        public Hand(string ownerName, List<Card> cards)
+        {
+            _hand = cards;
+            _owner = ownerName;
+        }
+
         public void AddCard(Card card)
         {
             _hand.Add(card);

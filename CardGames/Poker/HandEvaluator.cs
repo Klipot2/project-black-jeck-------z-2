@@ -23,7 +23,7 @@ namespace Casino.CardGames.Poker
         Для любой комбинации запоминаем последовательность старших карт
         */
 
-        public static int GetHandValue(Hand hand)
+        public static int GetHandCardsValue(List<Card> handCards)
         {
             Dictionary<Card.Suit, int> suitComposition = new();
             foreach (Card.Suit suit in Enum.GetValues(typeof(Card.Suit)))
@@ -37,7 +37,7 @@ namespace Casino.CardGames.Poker
                 valueComposition[value] = 0;
             }
 
-            foreach (var card in hand.GetCards())
+            foreach (var card in handCards)
             {
                 suitComposition[card.CardSuit] += 1;
                 valueComposition[card.CardValue] += 1;
@@ -69,9 +69,9 @@ namespace Casino.CardGames.Poker
                 }
                 combinationValue -= COMBINATION_STEP;
             }
-            // 22345 - 33AKQ
-            // 22445 - 3322A
-            // 22445 - 44226
+            // 22345 - 33AKQ : 0202030405 - 0303141312
+            // 44225 - 3322A : 0404020205 - 0303020214
+            // 44225 - 44226
             return handValue;
         }
 
@@ -111,17 +111,26 @@ namespace Casino.CardGames.Poker
         public static void SortHand(Hand hand)
         {
             List<Card> cards = hand.GetCards();
-
-            cards.Sort(delegate(Card a, Card b)
-            {
-                return ValueCard(a) - ValueCard(b);
-            });
-
+            SortCardsAscending(cards);
             hand.ResetHand();
             hand.AddCards(cards);
         }
 
-        private static int ValueCard(Card card)
+        public static void SortCardsAscending(List<Card> cards)
+        {
+            cards.Sort(delegate(Card a, Card b)
+            {
+                return ValueCard(a) - ValueCard(b);
+            });
+        }
+
+        public static void SortCardsDescending(List<Card> cards)
+        {
+            SortCardsDescending(cards);
+            cards.Reverse();
+        }
+
+        public static int ValueCard(Card card)
         {
             string[] namesOfAllCards = Enum.GetNames(typeof(Card.Value));
             string? cardName = Enum.GetName(typeof(Card.Value), card.CardValue);
@@ -129,6 +138,6 @@ namespace Casino.CardGames.Poker
             int cardValue = Array.IndexOf(namesOfAllCards, cardName) + LOWEST_CARD_VALUE;
 
             return cardValue;
-        }
+        }  
     }
 }

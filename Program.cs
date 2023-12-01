@@ -1,4 +1,4 @@
-using Casino.CardGames;
+using Casino.CardGames.Poker;
 using Casino.SmallGames;
 
 namespace Casino
