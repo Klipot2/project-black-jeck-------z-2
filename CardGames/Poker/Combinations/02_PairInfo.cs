@@ -10,7 +10,6 @@ namespace Casino.CardGames.Poker.Combinations
         {
             base.SortCards(); // Potential bug with return from base function not working properly
 
-            //Modify this method to work with Set and FourOfAKind
             List<Card> pair = PopDuplicates(_cards);
             InsertAtFront(pair); 
         } 

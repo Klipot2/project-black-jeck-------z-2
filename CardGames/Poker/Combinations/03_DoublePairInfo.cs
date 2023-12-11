@@ -9,7 +9,7 @@ namespace Casino.CardGames.Poker.Combinations
             int pairAmount = 0;
             foreach (var value in _valueComposition.Values)
             {
-                if (value == 2) pairAmount += 1;
+                if (value >= 2) pairAmount += 1;
             }
 
             return pairAmount > 1;
@@ -17,9 +17,7 @@ namespace Casino.CardGames.Poker.Combinations
 
         protected override void SortCards()
         {
-            HandEvaluator.SortCardsDescending(_cards);
-
-            if (!IsCombinationPresent()) return;
+            base.SortCards();
 
             List<Card> firstPair = PopDuplicates(_cards);
             List<Card> secondPair = PopDuplicates(_cards);

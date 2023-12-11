@@ -14,7 +14,7 @@ namespace Casino.CardGames.Poker
         protected readonly List<Card> _cards;
         protected readonly Dictionary<Card.Suit, int> _suitComposition;
         protected readonly Dictionary<Card.Value, int> _valueComposition;
-
+        
         public CombinationInfo(List<Card> cards)
         {
             _cards = cards;
@@ -70,7 +70,7 @@ namespace Casino.CardGames.Poker
         /// <c>List&lt;Card&gt;</c> needs to be sorted first.<br/>
         /// Duplicates are cards with equal <c>Card.Value</c>.
         /// </remarks>
-        /// <param name="cards">list of cards that is checked for duplicates.</param>
+        /// <param name="cards">List of cards that is checked for duplicates.</param>
         /// <returns>
         /// <c>List&lt;Card&gt;</c> that contains most common duplicates in no specified order.
         /// </returns>
@@ -79,15 +79,17 @@ namespace Casino.CardGames.Poker
         /// </exception>
         protected List<Card> PopDuplicates(List<Card> cards)
         {
-            int expectedAmount = -1; // Placeholder
             List<Card> duplicates = new();
             Card.Value? duplicateCard = null;
+            int maxAmountOfDuplicates = 0;
+
             foreach (var cardValueAndAmountPair in _valueComposition)
             {
-                if (cardValueAndAmountPair.Value == expectedAmount)
+                // Will not work in out of order Dictionary
+                if (cardValueAndAmountPair.Value >= maxAmountOfDuplicates)
                 {
+                    maxAmountOfDuplicates = cardValueAndAmountPair.Value;
                     duplicateCard = cardValueAndAmountPair.Key;
-                    break;
                 }
             }
             if (duplicateCard == null) throw new NullReferenceException(
