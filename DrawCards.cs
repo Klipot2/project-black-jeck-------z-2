@@ -52,12 +52,15 @@ private static void DrawBottomLine(List<Card> cards, int line, int cardsPerLine)
 
 public static void DrawCard(Card card)
 {
-    Console.ForegroundColor = ConsoleColor.White;
-
     Console.Write("|");
 
-    // If the card value is 10, print "10" instead of "T"
-    Console.Write($"{(card.CardValue == Card.Value.Ten ? "10" : card.CardValue.ToString().PadLeft(2))} ");
+    string valueString = card.CardValue switch
+    {
+        Card.Value.Ten => "10",
+        _ => card.CardValue.ToString().Substring(0, 1)
+    };
+
+    Console.Write($"{valueString.PadRight(4)}");
 
     // Draw the suit
     DrawCardSuitValue(card);
@@ -68,29 +71,22 @@ public static void DrawCard(Card card)
 private static void DrawCardSuitValue(Card card)
 {
     char cardSuit = ' ';
-    ConsoleColor fontColor = ConsoleColor.White; // Default color
 
     switch (card.CardSuit)
     {
         case Card.Suit.H:
             cardSuit = '\u2665';
-            fontColor = ConsoleColor.Red;
             break;
         case Card.Suit.D:
             cardSuit = '\u2666';
-            fontColor = ConsoleColor.Red;
             break;
         case Card.Suit.C:
             cardSuit = '\u2663';
-            fontColor = ConsoleColor.Black;
             break;
         case Card.Suit.S:
             cardSuit = '\u2660';
-            fontColor = ConsoleColor.Black;
             break;
     }
 
-    Console.ForegroundColor = fontColor;
-    Console.Write($"{cardSuit}");
-    Console.ResetColor();
+    Console.Write($"{cardSuit}  ");
 }
