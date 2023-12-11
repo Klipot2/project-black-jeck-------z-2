@@ -21,8 +21,8 @@ namespace Casino.CardGames.Poker.Combinations
 
             if (!IsCombinationPresent()) return;
 
-            List<Card> firstPair = PopDuplicates(_cards, 2);
-            List<Card> secondPair = PopDuplicates(_cards, 2);
+            List<Card> firstPair = PopDuplicates(_cards);
+            List<Card> secondPair = PopDuplicates(_cards);
             InsertAtFront(secondPair); 
             InsertAtFront(firstPair); 
         } 

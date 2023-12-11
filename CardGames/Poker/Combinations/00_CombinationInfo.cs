@@ -43,11 +43,10 @@ namespace Casino.CardGames.Poker
         }
 
         protected abstract bool IsCombinationPresent();
-        // Make virtual?
         protected virtual void SortCards()
         {
             HandEvaluator.SortCardsDescending(_cards);
-            if (IsCombinationPresent()) return;
+            if (!IsCombinationPresent()) return;
         }
 
         private ValueData GenerateValueData()
@@ -63,8 +62,24 @@ namespace Casino.CardGames.Poker
             return combinationValue;
         }
 
-        protected List<Card> PopDuplicates(List<Card> cards, int expectedAmount)
+        // TODO: Refactor PopDuplicates to pop most common duplicate first (no int required)
+        /// <summary>
+        /// Pops most common duplicates from target <c>List&lt;Card&gt;</c>.
+        /// </summary>
+        /// <remarks>
+        /// <c>List&lt;Card&gt;</c> needs to be sorted first.<br/>
+        /// Duplicates are cards with equal <c>Card.Value</c>.
+        /// </remarks>
+        /// <param name="cards">list of cards that is checked for duplicates.</param>
+        /// <returns>
+        /// <c>List&lt;Card&gt;</c> that contains most common duplicates in no specified order.
+        /// </returns>
+        /// <exception cref="NullReferenceException">
+        /// Thrown when there are no duplicates in the provided <c>List&lt;Card&gt;</c>.
+        /// </exception>
+        protected List<Card> PopDuplicates(List<Card> cards)
         {
+            int expectedAmount = -1; // Placeholder
             List<Card> duplicates = new();
             Card.Value? duplicateCard = null;
             foreach (var cardValueAndAmountPair in _valueComposition)
@@ -95,7 +110,7 @@ namespace Casino.CardGames.Poker
             foreach (var card in cards)
             {
                 _cards.Insert(0, card);
-            }  
+            }
         }
 
         protected bool CompositionContainsOneOf(int[] values)
@@ -105,7 +120,7 @@ namespace Casino.CardGames.Poker
             {
                 doesContain = doesContain || _valueComposition.ContainsValue(value);
             }
-            return doesContain;  
+            return doesContain;
         }
     }
 }

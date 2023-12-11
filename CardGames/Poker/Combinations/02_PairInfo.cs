@@ -8,13 +8,10 @@ namespace Casino.CardGames.Poker.Combinations
 
         protected override void SortCards()
         {
-            base.SortCards();
-            //Move those lines below to base method
-            HandEvaluator.SortCardsDescending(_cards);
-            if (IsCombinationPresent()) return;
+            base.SortCards(); // Potential bug with return from base function not working properly
 
             //Modify this method to work with Set and FourOfAKind
-            List<Card> pair = PopDuplicates(_cards, 2);
+            List<Card> pair = PopDuplicates(_cards);
             InsertAtFront(pair); 
         } 
     }
