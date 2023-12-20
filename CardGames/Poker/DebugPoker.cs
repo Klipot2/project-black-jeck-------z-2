@@ -9,8 +9,7 @@ namespace Casino.CardGames.Poker
             Hand playerHand = new("Player");
             Card card = deck.DrawCard();
             playerHand.AddCard(card);
-            DrawCards.DrawCardOutline(0, 0);
-            DrawCards.DrawCardSuitValue(card, 0, 0);
+            CardRenderer.PrintFiveCards(playerHand.GetCards()); 
             Console.WriteLine("Game under construction");
         }
     }
