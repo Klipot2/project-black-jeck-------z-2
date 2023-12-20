@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Casino.CardGames.Poker
 {
     public class FiveCardPoker : IPlayable
@@ -24,10 +28,10 @@ namespace Casino.CardGames.Poker
                 _dealerHand
             };
 
-            _deck = new();
+            _deck = new DeckCards();
 
-            _swapArray = new();
-            _possibleSwapInputs = new();
+            _swapArray = new List<int>();
+            _possibleSwapInputs = new List<int>();
         }
 
         public void Play()
@@ -41,18 +45,19 @@ namespace Casino.CardGames.Poker
             }
 
             HandEvaluator.SortHand(_playerHand);
-            //TODO: добавить отображение карт игрока
+            Console.WriteLine("Player's Hand:");
+            CardRenderer.PrintFiveCards(_playerHand.GetCards());
+
             Console.WriteLine();
             PokerUIHandler.DisplayHand(_playerHand);
             Input[] possibleInputs = { Input.Yes, Input.No };
             PokerUIHandler.MessageWithInputResponse("Do you want to swap any cards? Press (Y)es or (N)o.",
-                possibleInputs, "Press 'Y' to swap cards, or 'N' to skip.", LaunchCardSwap);  
+                possibleInputs, "Press 'Y' to swap cards, or 'N' to skip.", LaunchCardSwap);
             foreach (var cardPosition in _swapArray)
             {
                 Card newCard = _deck.DrawCard();
                 _playerHand.SwapCard(cardPosition - 1, newCard);
             }
-            PokerUIHandler.DisplayHand(_playerHand); 
         }
 
         private void LaunchCardSwap(Input input)
@@ -101,6 +106,6 @@ namespace Casino.CardGames.Poker
 
             PokerUIHandler.MessageWithNumericResponse(initialSwapMessage, _possibleSwapInputs,
                 fallbackSwapMessage, ProcessCardSwapStep);
-        } 
+        }
     }
 }

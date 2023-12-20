@@ -1,56 +1,86 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace Casino.CardGames.Poker
+namespace Casino.CardGames
 {
-    public static class DrawCards
+    public class CardRenderer
     {
-        public static void DrawCard(Card card)
+        // Возвращает строку, представляющую верхнюю часть карты
+        private static string GetCardTop() => " ____ ";
+
+        // Возвращает строку, представляющую верхнюю часть средней части карты с учетом значения и масти
+        private static string GetCardMiddleTop(Card card)
         {
-            Console.ForegroundColor = ConsoleColor.White;
+            string cardPositionStatus = GetCardValueSymbol(card.CardValue);
+            string suitSymbol = SuitToString(card.CardSuit);
 
-            Console.WriteLine(" ________");
-            for (int i = 0; i < 10; i++)
-            {
-                if (i == 9)
-                {
-                    Console.WriteLine("|________|");
-                }
-                else
-                {
-                    Console.WriteLine("|        |");
-                }
-            }
-
-            DrawCardSuitValue(card);
+            int spaces = 2 - cardPositionStatus.Length; // Вычисляем количество пробелов для выравнивания
+            return $"|{new string(' ', spaces)}{cardPositionStatus}{suitSymbol} |";
         }
 
-        private static void DrawCardSuitValue(Card card)
+        private static string GetCardValueSymbol(Card.Value value)
         {
-            char cardSuit = ' ';
-            switch (card.CardSuit)
+            return value switch
             {
-                case Card.Suit.H:
-                    cardSuit = '\u2665';
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    break;
-                case Card.Suit.D:
-                    cardSuit = '\u2666';
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    break;
-                case Card.Suit.C:
-                    cardSuit = '\u2663';
-                    Console.ForegroundColor = ConsoleColor.Black;
-                    break;
-                case Card.Suit.S:
-                    cardSuit = '\u2660';
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    break;
+                Card.Value.Two => "2",
+                Card.Value.Three => "3",
+                Card.Value.Four => "4",
+                Card.Value.Five => "5",
+                Card.Value.Six => "6",
+                Card.Value.Seven => "7",
+                Card.Value.Eight => "8",
+                Card.Value.Nine => "9",
+                Card.Value.Ten => "10",
+                Card.Value.Jack => "J",
+                Card.Value.Queen => "Q",
+                Card.Value.King => "K",
+                Card.Value.Ace => "A",
+                _ => throw new ArgumentException("Couldn't recognize card value to convert it into string."),
+            };
+        }
+
+        // Возвращает строку, представляющую нижнюю часть средней части карты
+        private static string GetCardMiddleBottom() => "|    |";
+
+        // Возвращает строку, представляющую нижнюю часть карты
+        private static string GetCardBottom() => "|____|";
+
+        // Выводит на консоль пять карт из переданной коллекции
+        public static void PrintFiveCards(IEnumerable<Card> playerHand)
+        {
+            string outputTop = "";
+            string outputMiddleTop = "";
+            string outputMiddleBottom = "";
+            string outputBottom = "";
+
+            // Для каждой карты из коллекции строим строки для верхней, средней и нижней части карты
+            foreach (var card in playerHand.Take(5))
+            {
+                outputTop += GetCardTop() + " ";
+                outputMiddleTop += GetCardMiddleTop(card) + " ";
+                outputMiddleBottom += GetCardMiddleBottom() + " ";
+                outputBottom += GetCardBottom() + " ";
             }
 
-            Console.SetCursorPosition(6, 5);
-            Console.Write(cardSuit);
-            Console.SetCursorPosition(5, 7);
-            Console.Write(card.CardValue);
+            // Выводим строки на консоль
+            Console.WriteLine(outputTop);
+            Console.WriteLine(outputMiddleTop);
+            Console.WriteLine(outputMiddleBottom);
+            Console.WriteLine(outputBottom);
+        }
+
+        // Возвращает символ масти для заданной масти карты
+        private static string SuitToString(Card.Suit suit)
+        {
+            return suit switch
+            {
+                Card.Suit.H => "\u2665", // ♥
+                Card.Suit.S => "\u2660", // ♠
+                Card.Suit.C => "\u2663", // ♣
+                Card.Suit.D => "\u2666", // ♦
+                _ => throw new ArgumentException("Couldn't recognize card suit to convert it into string."),
+            };
         }
     }
 }

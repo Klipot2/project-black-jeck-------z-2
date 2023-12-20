@@ -5,23 +5,16 @@ namespace Casino.CardGames
         /// <summary> Suit of a card.</summary>
         public enum Suit
         {
-            /// <summary> Spades.</summary>
             S,
-            /// <summary> Hearts.</summary>
             H,
-            C,  // Clubs
-            D   // Diamonds
+            C,
+            D
         }
 
         /// <summary> Value of a card.</summary>
         public enum Value
         {
-            /// <summary> Two.</summary>
-            Two,
-            /// <summary> Three.</summary>
-            Three,
-            Four, Five, Six, Seven, Eight, Nine, Ten, 
-            Jack, Queen, King, Ace 
+            Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, Ace
         }
 
         public Suit CardSuit { get { return _suit; } }
@@ -67,11 +60,6 @@ namespace Casino.CardGames
                 Value.Ace => "Ace",
                 _ => throw new ArgumentException("Couldn't recognize card value to convert it into string."),
             };
-        }
-
-        public override string ToString()
-        {
-            return ValueToString(_value) + " of " + SuitToString(_suit);
         }
     }
 }
