@@ -78,8 +78,8 @@ namespace Casino.CardGames.Poker
         /// </remarks>
         protected virtual void SortCards()
         {
-            HandEvaluator.SortCardsDescending(_cards);
             if (!IsCombinationPresent()) return;
+            HandEvaluator.SortCardsDescending(_cards);
         }
 
         private ValueData GenerateValueData()

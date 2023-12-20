@@ -1,7 +1,11 @@
+using Casino.CardGames.Poker.Combinations;
+
 namespace Casino.CardGames.Poker
 {
     public static class HandEvaluator
     {
+        public const int COMBINATION_AMOUNT = 10;
+
         private const int LOWEST_CARD_VALUE = 2;
         private const int HIGHEST_COMBINATION_VALUE = 1000;
         private const int COMBINATION_STEP = 100;
@@ -22,6 +26,11 @@ namespace Casino.CardGames.Poker
         Если подряд идет последовательность кол-ва карт 11111 - стрит
         Для любой комбинации запоминаем последовательность старших карт
         */
+
+        public static void CalculateHandValueData(List<Card> handCards, ValueData valueData)
+        {
+            
+        }
 
         public static int GetHandCardsValue(List<Card> handCards)
         {

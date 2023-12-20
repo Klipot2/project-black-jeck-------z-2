@@ -66,19 +66,29 @@ namespace Casino.CardGames.Poker.Combinations
 
         public void AddValueDataAtFront(ValueData valueData)
         {
-            // 02020202030000000000
-            // 00000000000202020203
-            // 02020202030202020203
+            // 0202020203000000000000000000000000000000
+            // 0202020203020202020300000000000000000000
+            // 0000000000020202020300000000000000000000
+            // 0202020203020202020300000000000000000000
+            // Check if shift is possible
             int shiftSize = valueData.Size;
             if (shiftSize + _lastFilledIndex >= Size)
                 throw new OverflowException("No space to insert ValueData during AddValueDataAtFront().");
 
-            for (int i = shiftSize - 1; i >= shiftSize; i--)
+            // Shift values in array
+            for (int i = Size - 1; i >= shiftSize; i--)
             {
                 _valueArray[i] = _valueArray[i - shiftSize];
             }
             _lastFilledIndex += shiftSize;
 
+            // Clear array start to add value
+            for (int i = 0; i < shiftSize; i++)
+            {
+                _valueArray[i] = 0;
+            }
+
+            // Adding value at start
             foreach (var value in valueData.ValueArray)
             {
                 AddValue(value);

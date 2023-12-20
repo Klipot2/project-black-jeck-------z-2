@@ -45,10 +45,6 @@ namespace Casino.CardGames.Poker
             }
 
             HandEvaluator.SortHand(_playerHand);
-            Console.WriteLine("Player's Hand:");
-            CardRenderer.PrintFiveCards(_playerHand.GetCards());
-
-            Console.WriteLine();
             PokerUIHandler.DisplayHand(_playerHand);
             Input[] possibleInputs = { Input.Yes, Input.No };
             PokerUIHandler.MessageWithInputResponse("Do you want to swap any cards? Press (Y)es or (N)o.",
@@ -58,6 +54,7 @@ namespace Casino.CardGames.Poker
                 Card newCard = _deck.DrawCard();
                 _playerHand.SwapCard(cardPosition - 1, newCard);
             }
+            PokerUIHandler.DisplayHand(_playerHand);
         }
 
         private void LaunchCardSwap(Input input)
