@@ -2,17 +2,25 @@ namespace Casino.CardGames
 {
     public class Card
     {
+        /// <summary> Suit of a card.</summary>
         public enum Suit
         {
-            S,  // Spades
-            H,  // Hearts  
+            /// <summary> Spades.</summary>
+            S,
+            /// <summary> Hearts.</summary>
+            H,
             C,  // Clubs
             D   // Diamonds
         }
 
+        /// <summary> Value of a card.</summary>
         public enum Value
         {
-            Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, 
+            /// <summary> Two.</summary>
+            Two,
+            /// <summary> Three.</summary>
+            Three,
+            Four, Five, Six, Seven, Eight, Nine, Ten, 
             Jack, Queen, King, Ace 
         }
 

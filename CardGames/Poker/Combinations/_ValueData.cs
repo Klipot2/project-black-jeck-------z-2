@@ -23,6 +23,8 @@ namespace Casino.CardGames.Poker.Combinations
         private readonly int _valueDataSize;
         private readonly byte[] _valueArray; 
 
+        private int _lastFilledIndex;
+
         public ValueData(int size = 5)
         {
             _valueDataSize = size;
@@ -31,6 +33,7 @@ namespace Casino.CardGames.Poker.Combinations
             {
                 _valueArray[i] = 0;
             }
+            _lastFilledIndex = 0;
         }
 
         public void AddValue(int value)
@@ -45,6 +48,7 @@ namespace Casino.CardGames.Poker.Combinations
                 if(_valueArray[i] == 0)
                 {
                     _valueArray[i] = Convert.ToByte(value);
+                    _lastFilledIndex++;
                     return;
                 }
             }
@@ -54,6 +58,27 @@ namespace Casino.CardGames.Poker.Combinations
 
         public void AddValueData(ValueData valueData)
         {
+            foreach (var value in valueData.ValueArray)
+            {
+                AddValue(value);
+            }
+        }
+
+        public void AddValueDataAtFront(ValueData valueData)
+        {
+            // 02020202030000000000
+            // 00000000000202020203
+            // 02020202030202020203
+            int shiftSize = valueData.Size;
+            if (shiftSize + _lastFilledIndex >= Size)
+                throw new OverflowException("No space to insert ValueData during AddValueDataAtFront().");
+
+            for (int i = shiftSize - 1; i >= shiftSize; i--)
+            {
+                _valueArray[i] = _valueArray[i - shiftSize];
+            }
+            _lastFilledIndex += shiftSize;
+
             foreach (var value in valueData.ValueArray)
             {
                 AddValue(value);
