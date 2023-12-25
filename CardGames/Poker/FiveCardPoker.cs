@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Casino.CardGames.Poker
 {
     public class FiveCardPoker : IPlayable
@@ -9,9 +5,9 @@ namespace Casino.CardGames.Poker
         private const int PLAYER_HAND_SIZE = 5;
         private const int CARD_SWAP_TERMINATOR = 0;
 
-        private readonly Hand _playerHand;
-        private readonly Hand _dealerHand;
-        private readonly List<Hand> _allHands;
+        private readonly PokerHand _playerHand;
+        private readonly PokerHand _dealerHand;
+        private readonly List<PokerHand> _allHands;
         private readonly DeckCards _deck;
 
         private readonly List<int> _swapArray;
@@ -19,10 +15,10 @@ namespace Casino.CardGames.Poker
 
         public FiveCardPoker()
         {
-            _playerHand = new Hand("Player");
-            _dealerHand = new Hand("Dealer");
+            _playerHand = new PokerHand("Player", PLAYER_HAND_SIZE);
+            _dealerHand = new PokerHand("Dealer", PLAYER_HAND_SIZE);
 
-            _allHands = new List<Hand>
+            _allHands = new List<PokerHand>
             {
                 _playerHand,
                 _dealerHand
@@ -37,15 +33,23 @@ namespace Casino.CardGames.Poker
         public void Play()
         {
             _deck.SetUpDeck();
-            foreach (var hand in _allHands)
+            foreach (PokerHand hand in _allHands)
             {
                 List<Card> dealtCards = _deck.DrawCards(PLAYER_HAND_SIZE);
+                // List<Card> dealtCards = new()
+                // { 
+                //     new Card(Card.Suit.H, Card.Value.Four),
+                //     new Card(Card.Suit.H, Card.Value.Three),
+                //     new Card(Card.Suit.H, Card.Value.Two),
+                //     new Card(Card.Suit.H, Card.Value.Five),
+                //     new Card(Card.Suit.H, Card.Value.Ace)
+                // };
                 hand.ResetHand();
                 hand.AddCards(dealtCards);
             }
 
-            HandEvaluator.SortHand(_playerHand);
-            PokerUIHandler.DisplayHand(_playerHand);
+            PokerUIHandler.DisplayHand(_playerHand, true);
+            return;
             Input[] possibleInputs = { Input.Yes, Input.No };
             PokerUIHandler.MessageWithInputResponse("Do you want to swap any cards? Press (Y)es or (N)o.",
                 possibleInputs, "Press 'Y' to swap cards, or 'N' to skip.", LaunchCardSwap);
@@ -54,7 +58,7 @@ namespace Casino.CardGames.Poker
                 Card newCard = _deck.DrawCard();
                 _playerHand.SwapCard(cardPosition - 1, newCard);
             }
-            PokerUIHandler.DisplayHand(_playerHand);
+            PokerUIHandler.DisplayHand(_playerHand, true);
         }
 
         private void LaunchCardSwap(Input input)

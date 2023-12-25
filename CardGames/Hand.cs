@@ -15,7 +15,7 @@ namespace Casino.CardGames
         /// </summary>
         public string Owner { get { return _owner; } }
 
-        private List<Card> _hand; // Список карт в руке
+        protected List<Card> _hand; // Список карт в руке
 
         private string _owner; // Имя владельца руки
 
@@ -44,7 +44,7 @@ namespace Casino.CardGames
         /// Adds a card to the hand.
         /// </summary>
         /// <param name="card">The card to be added.</param>
-        public void AddCard(Card card)
+        public virtual void AddCard(Card card)
         {
             _hand.Add(card);
         }
@@ -53,7 +53,7 @@ namespace Casino.CardGames
         /// Adds a list of cards to the hand.
         /// </summary>
         /// <param name="cards">The list of cards to be added.</param>
-        public void AddCards(List<Card> cards)
+        public virtual void AddCards(List<Card> cards)
         {
             foreach (var card in cards)
             {
@@ -66,7 +66,7 @@ namespace Casino.CardGames
         /// </summary>
         /// <param name="previousCardPosition">The position of the card to be replaced.</param>
         /// <param name="newCard">The new card to be placed in the hand.</param>
-        public void SwapCard(int previousCardPosition, Card newCard)
+        public virtual void SwapCard(int previousCardPosition, Card newCard)
         {
             _hand[previousCardPosition] = newCard;
         }
@@ -74,7 +74,7 @@ namespace Casino.CardGames
         /// <summary>
         /// Resets the hand by clearing all cards.
         /// </summary>
-        public void ResetHand()
+        public virtual void ResetHand()
         {
             _hand = new List<Card>();
         }

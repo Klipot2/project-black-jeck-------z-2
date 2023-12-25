@@ -13,16 +13,19 @@ namespace Casino
             //     Console.BufferWidth = 65;
             //     Console.BufferHeight = 40;
             // }
-            Console.Title = "Game Selection";
-            Console.WriteLine();
-            Console.WriteLine("Select a game to play:");
-            Console.WriteLine("1. Poker Game");
-            Console.WriteLine("2. Triangle Drawer Game");
-            Console.WriteLine("3. Dice Game");
-            Console.WriteLine("4. Guessing Game");
-            Console.WriteLine("Enter the number of the game to play:");
 
-            string? choice = Console.ReadLine();
+            // Turned off for debug
+            // Console.Title = "Game Selection";
+            // Console.WriteLine();
+            // Console.WriteLine("Select a game to play:");
+            // Console.WriteLine("1. Poker Game");
+            // Console.WriteLine("2. Triangle Drawer Game");
+            // Console.WriteLine("3. Dice Game");
+            // Console.WriteLine("4. Guessing Game");
+            // Console.WriteLine("Enter the number of the game to play:");
+
+            // Choice turned off for debug
+            string? choice = "1"; //Console.ReadLine();
 
             IPlayable game = new FiveCardPoker();
 

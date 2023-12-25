@@ -1,6 +1,4 @@
-using Casino.CardGames.Poker.Combinations;
-
-namespace Casino.CardGames.Poker
+namespace Casino.CardGames.Poker.Combinations
 {
     /// <summary>
     /// Base class for hand assessment. Classes extending <see cref="CombinationInfo"/> 
@@ -53,8 +51,7 @@ namespace Casino.CardGames.Poker
             }
 
             _isPresent = IsCombinationPresent();
-            // Function potentially sorts initial hand.
-            SortCards();
+            if(_isPresent) SortCards();
             _combinationValue = GenerateValueData();
         }
 
@@ -78,15 +75,11 @@ namespace Casino.CardGames.Poker
         /// </remarks>
         protected virtual void SortCards()
         {
-            if (!IsCombinationPresent()) return;
             HandEvaluator.SortCardsDescending(_cards);
         }
 
         private ValueData GenerateValueData()
         {
-            // 0203040514
-            // 0304050607
-            // 0000000000000000000010101010030000000000000000000000000000001010101003000000000010101010031010101003
             ValueData combinationValue = new();
             if (!_isPresent) return combinationValue;
 
@@ -135,8 +128,12 @@ namespace Casino.CardGames.Poker
                 if (card.CardValue == duplicateCard)
                 {
                     duplicates.Add(card);
-                    cards.Remove(card);
                 }
+            }
+
+            foreach (var duplicate in duplicates)
+            {
+                cards.Remove(duplicate);
             }
 
             return duplicates;

@@ -3,37 +3,21 @@ namespace Casino.CardGames.Poker.Combinations
     public class ValueData
     {
         private const int BIGGEST_ACCEPTED_VALUE = 14;
-        private const int SMALLEST_ACCEPTED_VALUE = 2;
+        private const int SMALLEST_ACCEPTED_VALUE = 0;
 
-        public string ValueString 
-        { 
-            get 
-            {
-                string valueStr = "";
-                foreach (var number in _valueArray)
-                {
-                    valueStr += ValueToString(number);
-                }
-                return valueStr;
-            } 
-        }
         public byte[] ValueArray { get {return _valueArray;} }
         public int Size { get {return _valueDataSize;} }
 
         private readonly int _valueDataSize;
         private readonly byte[] _valueArray; 
 
-        private int _lastFilledIndex;
+        private int _filledValues;
 
         public ValueData(int size = 5)
         {
             _valueDataSize = size;
             _valueArray = new byte[_valueDataSize];
-            for (int i = 0; i < _valueDataSize; i++)
-            {
-                _valueArray[i] = 0;
-            }
-            _lastFilledIndex = 0;
+            ResetData();
         }
 
         public void AddValue(int value)
@@ -48,7 +32,7 @@ namespace Casino.CardGames.Poker.Combinations
                 if(_valueArray[i] == 0)
                 {
                     _valueArray[i] = Convert.ToByte(value);
-                    _lastFilledIndex++;
+                    _filledValues++;
                     return;
                 }
             }
@@ -66,32 +50,35 @@ namespace Casino.CardGames.Poker.Combinations
 
         public void AddValueDataAtFront(ValueData valueData)
         {
-            // 0202020203000000000000000000000000000000
-            // 0202020203020202020300000000000000000000
-            // 0000000000020202020300000000000000000000
-            // 0202020203020202020300000000000000000000
-            // Check if shift is possible
             int shiftSize = valueData.Size;
-            if (shiftSize + _lastFilledIndex >= Size)
-                throw new OverflowException("No space to insert ValueData during AddValueDataAtFront().");
+            ShiftData(shiftSize);
+            AddValueData(valueData);
+        }
 
-            // Shift values in array
-            for (int i = Size - 1; i >= shiftSize; i--)
-            {
-                _valueArray[i] = _valueArray[i - shiftSize];
-            }
-            _lastFilledIndex += shiftSize;
-
-            // Clear array start to add value
-            for (int i = 0; i < shiftSize; i++)
+        public void ResetData()
+        {
+            for (int i = 0; i < _valueDataSize; i++)
             {
                 _valueArray[i] = 0;
             }
+            _filledValues = 0;
+        }
 
-            // Adding value at start
-            foreach (var value in valueData.ValueArray)
+        private void ShiftData(int shiftSize)
+        {
+            if (shiftSize + _filledValues > Size) // Check if possible
+                throw new OverflowException(
+                string.Format("Already filled {0} out of {1} spaces and trying to do shift of size {2}.",
+                _filledValues, Size, shiftSize));
+
+            for (int i = Size - 1; i >= shiftSize; i--) // Shift data
             {
-                AddValue(value);
+                _valueArray[i] = _valueArray[i - shiftSize];
+            }
+
+            for (int i = 0; i < shiftSize; i++) // Clear start
+            {
+                _valueArray[i] = 0;
             }
         }
 
@@ -107,11 +94,11 @@ namespace Casino.CardGames.Poker.Combinations
         { 
             if (other == null) return false;
             if (other is ValueData otherValueData)
-                return ValueString.Equals(otherValueData.ValueString);
+                return ToString().Equals(otherValueData.ToString());
             return false;
         }
         
-        public override int GetHashCode() => ValueString.GetHashCode();
+        public override int GetHashCode() => ToString().GetHashCode();
 
         public static bool operator <(ValueData a, ValueData b)
         {
@@ -142,5 +129,32 @@ namespace Casino.CardGames.Poker.Combinations
         public static bool operator <=(ValueData a, ValueData b) => !(a > b);
 
         public static bool operator >=(ValueData a, ValueData b) => !(a < b);
+
+        public override string ToString()
+        {
+            string valueStr = "";
+            foreach (var number in _valueArray)
+            {
+                valueStr += ValueToString(number);
+            }
+            return valueStr;
+        }
+
+        public string DebugString()
+        {
+            string valueStr = "";
+            int counter = 0;
+            foreach (var number in _valueArray)
+            {
+                counter++;
+                valueStr += ValueToString(number) + " ";
+                if (counter >= 5)
+                {
+                    counter = 0;
+                    valueStr += "| ";
+                }
+            }
+            return valueStr;
+        }
     }
 }

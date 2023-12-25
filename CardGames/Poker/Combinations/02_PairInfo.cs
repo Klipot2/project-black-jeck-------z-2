@@ -8,7 +8,7 @@ namespace Casino.CardGames.Poker.Combinations
 
         protected override void SortCards()
         {
-            base.SortCards(); // Potential bug with return from base function not working properly
+            base.SortCards();
 
             List<Card> pair = PopDuplicates(_cards);
             InsertAtFront(pair); 

@@ -5,10 +5,17 @@ namespace Casino.CardGames.Poker
         public delegate void ProcessInput(Input input);
         public delegate void ProcessInt(int inputInt);
 
-        public static void DisplayHand(Hand hand)
+        public static void DisplayHand(PokerHand hand, bool debugMode = false)
         {
             Console.WriteLine(hand.Owner + ":");
             CardRenderer.PrintFiveCards(hand.GetCards());
+            if (debugMode)
+            {
+                Console.WriteLine("----------------------------------");
+                Console.WriteLine("Debug info:");
+                Console.WriteLine(hand.Value.DebugString());
+                Console.WriteLine("----------------------------------");
+            }
             Console.WriteLine();
         }
 

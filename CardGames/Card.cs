@@ -28,38 +28,5 @@ namespace Casino.CardGames
             _suit = suit;
             _value = value;
         }
-
-        private static string SuitToString(Suit suit)
-        {
-            return suit switch
-            {
-                Suit.H => "Hearts",
-                Suit.S => "Spades",
-                Suit.C => "Clubs",
-                Suit.D => "Diamonds",
-                _ => throw new ArgumentException("Couldn't recognize card suit to convert it into string."),
-            };
-        }
-
-        private static string ValueToString(Value value)
-        {
-            return value switch
-            {
-                Value.Two => "Two",
-                Value.Three => "Three",
-                Value.Four => "Four",
-                Value.Five => "Five",
-                Value.Six => "Six",
-                Value.Seven => "Seven",
-                Value.Eight => "Eight",
-                Value.Nine => "Nine",
-                Value.Ten => "Ten",
-                Value.Jack => "Jack",
-                Value.Queen => "Queen",
-                Value.King => "King",
-                Value.Ace => "Ace",
-                _ => throw new ArgumentException("Couldn't recognize card value to convert it into string."),
-            };
-        }
     }
 }

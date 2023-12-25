@@ -1,4 +1,3 @@
-
 namespace Casino.CardGames.Poker.Combinations
 {
     public class FlushRoyaleInfo : CombinationInfo
