@@ -43,7 +43,7 @@ namespace Casino.CardGames
         private static string GetCardBottom() => "|____|";
 
         // Выводит на консоль пять карт из переданной коллекции
-        public static void PrintFiveCards(IEnumerable<Card> playerHand)
+        public static void PrintCards(List<Card> cards)
         {
             string outputTop = "";
             string outputMiddleTop = "";
@@ -51,7 +51,7 @@ namespace Casino.CardGames
             string outputBottom = "";
 
             // Для каждой карты из коллекции строим строки для верхней, средней и нижней части карты
-            foreach (var card in playerHand.Take(5))
+            foreach (var card in cards)
             {
                 outputTop += GetCardTop() + " ";
                 outputMiddleTop += GetCardMiddleTop(card) + " ";

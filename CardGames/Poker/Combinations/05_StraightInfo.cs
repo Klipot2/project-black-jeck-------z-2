@@ -1,3 +1,6 @@
+using System.Diagnostics;
+using Castle.Core.Internal;
+
 namespace Casino.CardGames.Poker.Combinations
 {
     public class StraightInfo : CombinationInfo
@@ -10,13 +13,9 @@ namespace Casino.CardGames.Poker.Combinations
         {
             base.SortCards();
 
-            if (_valueComposition[Card.Value.Ace] * _valueComposition[Card.Value.Two] != 0)
-            {
-                // May be a problem with ace being a reference.
-                Card ace = _cards[0];
-                _cards.RemoveAt(0);
-                _cards.Add(ace);
-            }
+            List<Card.Value> straightComposition = GetStraightComposition(_valueComposition);
+            List<Card> straight = PopCardsFromComposition(_cards, straightComposition);
+            InsertAtFront(straight);    
         }
 
         public static bool IsStraight(Dictionary<Card.Value, int> valueComposition)
@@ -31,10 +30,57 @@ namespace Casino.CardGames.Poker.Combinations
             string valuesAsString = "";
             foreach (var value in valueComposition.Values)
             {
-                valuesAsString += value.ToString();
+                if (value > 0) valuesAsString += "1";
+                else valuesAsString += "0";
             }
 
             return valuesAsString.Contains("11111");
-        }   
+        }
+        
+        private static List<Card.Value> GetStraightComposition(Dictionary<Card.Value, int> valueComposition)
+        {
+            List<Card.Value> potentialStraight = [];
+            List<Card.Value> confirmedStraight = [];
+
+            if (valueComposition[Card.Value.Ace] > 0)
+            {
+                potentialStraight.Add(Card.Value.Ace);
+            }            
+
+            foreach (var cardValueAndAmountPair in valueComposition)
+            {
+                if (cardValueAndAmountPair.Value > 0)
+                {
+                    potentialStraight.Add(cardValueAndAmountPair.Key);
+                    if (potentialStraight.Count > 5)
+                    {
+                        potentialStraight.RemoveAt(0);
+                    }
+                    if (potentialStraight.Count == 5)
+                    {
+                        confirmedStraight = new(potentialStraight);
+                    }
+                }
+                else
+                {
+                    potentialStraight.Clear();
+                }
+            }
+            
+            if (confirmedStraight.IsNullOrEmpty())
+                throw new ArgumentNullException(
+                string.Format("{0} does not contain straight, so couldn't find one!",
+                valueComposition));
+               
+            return confirmedStraight;          
+        }
+
+        public static List<Card> PopStraightFromCards(List<Card> cards)
+        {
+            Dictionary<Card.Value, int> valueComposition = GenerateValueComposition(cards);
+            List<Card.Value> straightValueComposition = GetStraightComposition(valueComposition);
+            List<Card> straightCards = PopCardsFromComposition(cards, straightValueComposition);
+            return straightCards;
+        }
     }
 }

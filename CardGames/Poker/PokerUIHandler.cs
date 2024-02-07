@@ -8,7 +8,7 @@ namespace Casino.CardGames.Poker
         public static void DisplayHand(PokerHand hand, bool debugMode = false)
         {
             Console.WriteLine(hand.Owner + ":");
-            CardRenderer.PrintFiveCards(hand.GetCards());
+            CardRenderer.PrintCards(hand.GetCards());
             if (debugMode)
             {
                 Console.WriteLine("----------------------------------");

@@ -1,13 +1,16 @@
+using Casino.CardGames.Poker.Combinations;
+
 namespace Casino.CardGames.Poker
 {
     public class FiveCardPoker : IPlayable
     {
         private const int PLAYER_HAND_SIZE = 5;
         private const int CARD_SWAP_TERMINATOR = 0;
+        private const int DEALER_LEEWAY = 2;
+
 
         private readonly PokerHand _playerHand;
         private readonly PokerHand _dealerHand;
-        private readonly List<PokerHand> _allHands;
         private readonly DeckCards _deck;
 
         private readonly List<int> _swapArray;
@@ -18,35 +21,18 @@ namespace Casino.CardGames.Poker
             _playerHand = new PokerHand("Player", PLAYER_HAND_SIZE);
             _dealerHand = new PokerHand("Dealer", PLAYER_HAND_SIZE);
 
-            _allHands = new List<PokerHand>
-            {
-                _playerHand,
-                _dealerHand
-            };
-
             _deck = new DeckCards();
 
-            _swapArray = new List<int>();
-            _possibleSwapInputs = new List<int>();
+            _swapArray = [];
+            _possibleSwapInputs = [];
         }
 
         public void Play()
         {
             _deck.SetUpDeck();
-            foreach (PokerHand hand in _allHands)
-            {
-                List<Card> dealtCards = _deck.DrawCards(PLAYER_HAND_SIZE);
-                // List<Card> dealtCards = new()
-                // { 
-                //     new Card(Card.Suit.H, Card.Value.Four),
-                //     new Card(Card.Suit.H, Card.Value.Three),
-                //     new Card(Card.Suit.H, Card.Value.Two),
-                //     new Card(Card.Suit.H, Card.Value.Five),
-                //     new Card(Card.Suit.H, Card.Value.Ace)
-                // };
-                hand.ResetHand();
-                hand.AddCards(dealtCards);
-            }
+
+            // DealToDealer();
+            DealToPlayer();
 
             PokerUIHandler.DisplayHand(_playerHand, true);
             return;
@@ -59,6 +45,49 @@ namespace Casino.CardGames.Poker
                 _playerHand.SwapCard(cardPosition - 1, newCard);
             }
             PokerUIHandler.DisplayHand(_playerHand, true);
+        }
+
+        private void DealToDealer()
+        {
+            _dealerHand.ResetHand();
+            List<Card> dealtCards = _deck.DrawCards(PLAYER_HAND_SIZE + DEALER_LEEWAY);
+            // List<Card> dealtCards =
+            // [
+            //     new Card(Card.Suit.D, Card.Value.Queen),
+            //     new Card(Card.Suit.D, Card.Value.Jack),
+            //     new Card(Card.Suit.D, Card.Value.King),
+            //     new Card(Card.Suit.C, Card.Value.Nine),
+            //     new Card(Card.Suit.C, Card.Value.Ace),
+            //     new Card(Card.Suit.D, Card.Value.Ace),
+            //     new Card(Card.Suit.C, Card.Value.Six),
+            //     new Card(Card.Suit.D, Card.Value.Ten),
+            //     new Card(Card.Suit.C, Card.Value.Four),
+            //     new Card(Card.Suit.C, Card.Value.Jack),
+            //     new Card(Card.Suit.C, Card.Value.Two),
+            //     new Card(Card.Suit.C, Card.Value.Three),
+            // ];
+            ValueData expandedHandValue = new(dealtCards.Count * HandEvaluator.COMBINATION_AMOUNT);
+            HandEvaluator.CalculateHandValueData(dealtCards, expandedHandValue);
+            CardRenderer.PrintCards(dealtCards);
+            Console.WriteLine("----------------------------------");
+            Console.WriteLine("Debug info:");
+            Console.WriteLine(expandedHandValue.DebugString(dealtCards.Count));
+            Console.WriteLine("----------------------------------");
+        }
+
+        private void DealToPlayer()
+        {
+            _playerHand.ResetHand();
+            List<Card> dealtCards = _deck.DrawCards(PLAYER_HAND_SIZE);
+            // List<Card> dealtCards =
+            // [
+            //     new Card(Card.Suit.C, Card.Value.Jack),
+            //     new Card(Card.Suit.C, Card.Value.Five),
+            //     new Card(Card.Suit.H, Card.Value.Four),
+            //     new Card(Card.Suit.D, Card.Value.Eight),
+            //     new Card(Card.Suit.D, Card.Value.Ace)
+            // ];
+            _playerHand.AddCards(dealtCards);
         }
 
         private void LaunchCardSwap(Input input)

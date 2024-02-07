@@ -13,7 +13,7 @@ namespace Casino.CardGames.Poker.Combinations
 
         private int _filledValues;
 
-        public ValueData(int size = 5)
+        public ValueData(int size)
         {
             _valueDataSize = size;
             _valueArray = new byte[_valueDataSize];
@@ -140,7 +140,7 @@ namespace Casino.CardGames.Poker.Combinations
             return valueStr;
         }
 
-        public string DebugString()
+        public string DebugString(int chunkSize = 5)
         {
             string valueStr = "";
             int counter = 0;
@@ -148,7 +148,7 @@ namespace Casino.CardGames.Poker.Combinations
             {
                 counter++;
                 valueStr += ValueToString(number) + " ";
-                if (counter >= 5)
+                if (counter >= chunkSize)
                 {
                     counter = 0;
                     valueStr += "| ";

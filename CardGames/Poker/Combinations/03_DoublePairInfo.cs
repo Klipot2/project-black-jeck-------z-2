@@ -18,7 +18,7 @@ namespace Casino.CardGames.Poker.Combinations
         protected override void SortCards()
         {
             base.SortCards();
-
+            
             List<Card> firstPair = PopDuplicates(_cards);
             List<Card> secondPair = PopDuplicates(_cards);
             InsertAtFront(secondPair); 

@@ -60,6 +60,6 @@ namespace Casino.CardGames.Poker
             int cardValue = Array.IndexOf(namesOfAllCards, cardName) + LOWEST_CARD_VALUE;
 
             return cardValue;
-        }  
+        }
     }
 }

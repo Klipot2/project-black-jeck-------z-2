@@ -31,28 +31,42 @@ namespace Casino.CardGames.Poker.Combinations
         public CombinationInfo(List<Card> cards)
         {
             _cards = cards;
-
-            _suitComposition = new();
-            foreach (Card.Suit suit in Enum.GetValues(typeof(Card.Suit)))
-            {
-                _suitComposition[suit] = 0;
-            }
-
-            _valueComposition = new();
-            foreach (Card.Value value in Enum.GetValues(typeof(Card.Value)))
-            {
-                _valueComposition[value] = 0;
-            }
-
-            foreach (var card in cards)
-            {
-                _suitComposition[card.CardSuit] += 1;
-                _valueComposition[card.CardValue] += 1;
-            }
+            _suitComposition = GenerateSuitComposition(cards);
+            _valueComposition = GenerateValueComposition(cards);
 
             _isPresent = IsCombinationPresent();
             if(_isPresent) SortCards();
             _combinationValue = GenerateValueData();
+        }
+
+        protected static Dictionary<Card.Suit, int> GenerateSuitComposition(List<Card> cards)
+        {
+            Dictionary<Card.Suit, int> suitComposition = [];
+            foreach (Card.Suit suit in Enum.GetValues(typeof(Card.Suit)))
+            {
+                suitComposition[suit] = 0;
+            }
+
+            foreach (var card in cards)
+            {
+                suitComposition[card.CardSuit] += 1;
+            }
+            return suitComposition;
+        }
+
+        protected static Dictionary<Card.Value, int> GenerateValueComposition(List<Card> cards)
+        {
+            Dictionary<Card.Value, int> valueComposition = [];
+            foreach (Card.Value value in Enum.GetValues(typeof(Card.Value)))
+            {
+                valueComposition[value] = 0;
+            }
+
+            foreach (var card in cards)
+            {
+                valueComposition[card.CardValue] += 1;
+            }
+            return valueComposition;
         }
 
         /// <summary>
@@ -80,7 +94,7 @@ namespace Casino.CardGames.Poker.Combinations
 
         private ValueData GenerateValueData()
         {
-            ValueData combinationValue = new();
+            ValueData combinationValue = new(_cards.Count);
             if (!_isPresent) return combinationValue;
 
             foreach (var card in _cards)
@@ -107,36 +121,61 @@ namespace Casino.CardGames.Poker.Combinations
         /// </exception>
         protected List<Card> PopDuplicates(List<Card> cards)
         {
-            List<Card> duplicates = new();
-            Card.Value? duplicateCard = null;
+            List<Card> duplicates = [];
+            Card.Value? duplicateCardValue = null;
             int maxAmountOfDuplicates = 0;
 
             foreach (var cardValueAndAmountPair in _valueComposition)
             {
                 // Will not work in out of order Dictionary
-                if (cardValueAndAmountPair.Value >= maxAmountOfDuplicates)
+                if (cardValueAndAmountPair.Value >= maxAmountOfDuplicates && CardsContainValue(cards, cardValueAndAmountPair.Key))
                 {
                     maxAmountOfDuplicates = cardValueAndAmountPair.Value;
-                    duplicateCard = cardValueAndAmountPair.Key;
+                    duplicateCardValue = cardValueAndAmountPair.Key;
                 }
             }
-            if (duplicateCard == null) throw new NullReferenceException(
+            if (duplicateCardValue == null) throw new NullReferenceException(
                 "FindDuplicates should only run if duplicates exist in provided list.");
 
-            foreach (var card in cards)
+            for (int i = 0; i < maxAmountOfDuplicates; i++)
             {
-                if (card.CardValue == duplicateCard)
-                {
-                    duplicates.Add(card);
-                }
-            }
-
-            foreach (var duplicate in duplicates)
-            {
-                cards.Remove(duplicate);
+                Card duplicateCard = PopCardOfValue(cards, duplicateCardValue ?? Card.Value.Two);
+                duplicates.Add(duplicateCard);
             }
 
             return duplicates;
+        }
+
+        private static Card GetCardOfValue(List<Card> cards, Card.Value targetValue)
+        {
+            Card? firstCardOfTargetValue = null;
+
+            foreach (var card in cards)
+            {
+                if (card.CardValue == targetValue)
+                {
+                    firstCardOfTargetValue = card;
+                    break;
+                }
+            }
+
+            if (firstCardOfTargetValue == null)
+            {
+                CardRenderer.PrintCards(cards);
+
+                throw new ArgumentNullException(
+                string.Format("{0} is null, because no cards of value {1} were found in {2}.",
+                firstCardOfTargetValue, targetValue, cards));
+            }    
+
+            return firstCardOfTargetValue;
+        }
+
+        protected static Card PopCardOfValue(List<Card> cards, Card.Value targetValue)
+        {
+            Card firstCardOfTargetValue = GetCardOfValue(cards, targetValue); 
+            cards.Remove(firstCardOfTargetValue);
+            return firstCardOfTargetValue;
         }
 
         /// <summary>
@@ -171,6 +210,29 @@ namespace Casino.CardGames.Poker.Combinations
                 doesContain = doesContain || _valueComposition.ContainsValue(value);
             }
             return doesContain;
+        }
+
+        protected static List<Card> PopCardsFromComposition(List<Card> cards, List<Card.Value> valueComposition)
+        {
+            List<Card> cardsFromComposition = new();
+
+            foreach (var cardValue in valueComposition)
+            {
+                Card compositionCard = PopCardOfValue(cards, cardValue);
+                cardsFromComposition.Add(compositionCard);
+            }
+
+            return cardsFromComposition;
+        }
+
+        private bool CardsContainValue(List<Card> cards, Card.Value value)
+        {
+            foreach (var card in cards)
+            {
+                if (card.CardValue == value)
+                    return true;
+            }
+            return false;
         }
     }
 }
