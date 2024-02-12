@@ -6,16 +6,16 @@ namespace Casino.CardGames.Poker
     {
         public ValueData Value { get { return _handValue; } }
 
-        private ValueData _handValue;
+        private readonly ValueData _handValue;
 
         public PokerHand(string ownerName, int handSize) : base(ownerName)
         {
-            _handValue = new ValueData(handSize * HandEvaluator.COMBINATION_AMOUNT);
+            _handValue = new ValueData(handSize, true);
         }
 
         public PokerHand(string ownerName, List<Card> cards) : base(ownerName, cards)
         {
-            _handValue = new ValueData(cards.Count * HandEvaluator.COMBINATION_AMOUNT);
+            _handValue = new ValueData(cards.Count, true);
             if (Size == 5) HandEvaluator.CalculateHandValueData(_hand, _handValue);
         }
 
@@ -38,6 +38,19 @@ namespace Casino.CardGames.Poker
         {
             base.SwapCard(previousCardPosition, newCard);
             if (Size == 5) HandEvaluator.CalculateHandValueData(_hand, _handValue);
+        }
+
+        public void PlainSwapCard(int previousCardPosition, Card newCard)
+        {
+            base.SwapCard(previousCardPosition, newCard);
+        }
+
+        public void ForceUpdateHandValue()
+        {
+            if (Size == 5)
+                HandEvaluator.CalculateHandValueData(_hand, _handValue);
+            else
+                _handValue.ResetData();
         }
 
         public override void ResetHand()

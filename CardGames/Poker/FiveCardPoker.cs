@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Casino.CardGames.Poker.Combinations;
 
 namespace Casino.CardGames.Poker
@@ -31,20 +32,31 @@ namespace Casino.CardGames.Poker
         {
             _deck.SetUpDeck();
 
-            // DealToDealer();
+            DealToDealer();
             DealToPlayer();
 
             PokerUIHandler.DisplayHand(_playerHand, true);
-            return;
+            
             Input[] possibleInputs = { Input.Yes, Input.No };
             PokerUIHandler.MessageWithInputResponse("Do you want to swap any cards? Press (Y)es or (N)o.",
                 possibleInputs, "Press 'Y' to swap cards, or 'N' to skip.", LaunchCardSwap);
             foreach (var cardPosition in _swapArray)
             {
                 Card newCard = _deck.DrawCard();
-                _playerHand.SwapCard(cardPosition - 1, newCard);
+                // CardRenderer.PrintCards([_playerHand.GetCards()[cardPosition - 1], newCard]);
+                _playerHand.PlainSwapCard(cardPosition - 1, newCard);
             }
+            _playerHand.ForceUpdateHandValue();
             PokerUIHandler.DisplayHand(_playerHand, true);
+            bool playerHasBetterHand = _playerHand.Value > _dealerHand.Value;
+            if (playerHasBetterHand)
+            {
+                Console.WriteLine("You won!");
+            }
+            else
+            {
+                Console.WriteLine("Dealer won!");
+            }
         }
 
         private void DealToDealer()
@@ -66,12 +78,19 @@ namespace Casino.CardGames.Poker
             //     new Card(Card.Suit.C, Card.Value.Two),
             //     new Card(Card.Suit.C, Card.Value.Three),
             // ];
-            ValueData expandedHandValue = new(dealtCards.Count * HandEvaluator.COMBINATION_AMOUNT);
+            ValueData expandedHandValue = new(dealtCards.Count, true);
             HandEvaluator.CalculateHandValueData(dealtCards, expandedHandValue);
-            CardRenderer.PrintCards(dealtCards);
+            _dealerHand.AddCards(dealtCards.GetRange(0, PLAYER_HAND_SIZE));
+            for (int i = PLAYER_HAND_SIZE; i < dealtCards.Count; i++)
+            {
+                _deck.AddCard(dealtCards[i]);
+            }
+            _deck.ShuffleCards();
+
+            CardRenderer.PrintCards(_dealerHand.GetCards());
             Console.WriteLine("----------------------------------");
             Console.WriteLine("Debug info:");
-            Console.WriteLine(expandedHandValue.DebugString(dealtCards.Count));
+            Console.WriteLine(_dealerHand.Value.DebugString());
             Console.WriteLine("----------------------------------");
         }
 

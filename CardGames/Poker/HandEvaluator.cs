@@ -4,13 +4,12 @@ namespace Casino.CardGames.Poker
 {
     public static class HandEvaluator
     {
-        public const int COMBINATION_AMOUNT = 10;
         private const int LOWEST_CARD_VALUE = 2;
 
         public static void CalculateHandValueData(List<Card> handCards, ValueData valueData)
         {
-            List<CombinationInfo> combinations = new()
-            {
+            List<CombinationInfo> combinations =
+            [
                 new FreeHandInfo(handCards),
                 new PairInfo(handCards),
                 new DoublePairInfo(handCards),
@@ -21,7 +20,7 @@ namespace Casino.CardGames.Poker
                 new FourOfAKindInfo(handCards),
                 new StraightFlushInfo(handCards),
                 new FlushRoyaleInfo(handCards)
-            };
+            ];
 
             valueData.ResetData();
             foreach (var combination in combinations)

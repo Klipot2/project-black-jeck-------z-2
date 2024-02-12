@@ -2,6 +2,7 @@ namespace Casino.CardGames.Poker.Combinations
 {
     public class ValueData
     {
+        private const int COMBINATION_AMOUNT = 10;
         private const int BIGGEST_ACCEPTED_VALUE = 14;
         private const int SMALLEST_ACCEPTED_VALUE = 0;
 
@@ -13,9 +14,9 @@ namespace Casino.CardGames.Poker.Combinations
 
         private int _filledValues;
 
-        public ValueData(int size)
+        public ValueData(int size, bool usedForCombination = false)
         {
-            _valueDataSize = size;
+            _valueDataSize = usedForCombination ? size * COMBINATION_AMOUNT : size;
             _valueArray = new byte[_valueDataSize];
             ResetData();
         }
