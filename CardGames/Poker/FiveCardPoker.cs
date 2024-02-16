@@ -144,13 +144,15 @@ namespace Casino.CardGames.Poker
                 string.Format("Input for CardSwap is not {0} and not between 1 and {1}.",
                 CARD_SWAP_TERMINATOR, PLAYER_HAND_SIZE));
 
-            _swapArray.Add(inputInt);
-            _possibleSwapInputs.Remove(inputInt);
+            if (!_swapArray.Remove(inputInt))
+            {
+                _swapArray.Add(inputInt);
+            }
 
-            string initialSwapMessage = string.Format("{0} Choose another card to swap, or press '{1}' to stop.",
+            string initialSwapMessage = string.Format("{0} Choose another card to swap, or press '{1}' to stop. To undo swap, type card number again.",
                 PokerUIHandler.SwapArrayToString(_swapArray), CARD_SWAP_TERMINATOR);
             string fallbackSwapMessage = string.Format(
-                "{0} Select a card that has not been swapped already, or press '{1}' to stop.",
+                "{0} Select a new card to swap, undo swap or press '{1}' to stop.",
                 PokerUIHandler.SwapArrayToString(_swapArray), CARD_SWAP_TERMINATOR);
 
             PokerUIHandler.MessageWithNumericResponse(initialSwapMessage, _possibleSwapInputs,
