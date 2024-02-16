@@ -8,11 +8,15 @@ namespace Casino.CardGames.Poker
         private const int PLAYER_HAND_SIZE = 5;
         private const int CARD_SWAP_TERMINATOR = 0;
         private const int DEALER_LEEWAY = 2;
+        private const int MIN_BET = 10;
+        private const int INITIAL_PLAYER_BANK = 1000;
 
 
         private readonly PokerHand _playerHand;
         private readonly PokerHand _dealerHand;
         private readonly DeckCards _deck;
+        private int _playerBank;
+        private int _tableBank;
 
         private readonly List<int> _swapArray;
         private List<int> _possibleSwapInputs;
@@ -21,8 +25,9 @@ namespace Casino.CardGames.Poker
         {
             _playerHand = new PokerHand("Player", PLAYER_HAND_SIZE);
             _dealerHand = new PokerHand("Dealer", PLAYER_HAND_SIZE);
-
             _deck = new DeckCards();
+            _playerBank = INITIAL_PLAYER_BANK; 
+
 
             _swapArray = [];
             _possibleSwapInputs = [];
@@ -31,13 +36,20 @@ namespace Casino.CardGames.Poker
         public void Play()
         {
             _deck.SetUpDeck();
-
             DealToDealer();
             DealToPlayer();
 
-            PokerUIHandler.DisplayHand(_playerHand, true);
+            int currentBet = MIN_BET;
+            _playerBank -= currentBet;
+            _tableBank = currentBet * 2;
             
-            Input[] possibleInputs = { Input.Yes, Input.No };
+
+            PokerUIHandler.DisplayPlayerStatus(_playerHand, _playerBank, currentBet);
+            // Dealer decides if they want to raise
+            // Player response
+            // Dealer response (if needed)
+            
+            Input[] possibleInputs = [Input.Yes, Input.No];
             PokerUIHandler.MessageWithInputResponse("Do you want to swap any cards? Press (Y)es or (N)o.",
                 possibleInputs, "Press 'Y' to swap cards, or 'N' to skip.", LaunchCardSwap);
             foreach (var cardPosition in _swapArray)
@@ -47,7 +59,11 @@ namespace Casino.CardGames.Poker
                 _playerHand.PlainSwapCard(cardPosition - 1, newCard);
             }
             _playerHand.ForceUpdateHandValue();
-            PokerUIHandler.DisplayHand(_playerHand, true);
+            PokerUIHandler.DisplayPlayerStatus(_playerHand, _playerBank, currentBet);
+
+            // Player raises bet or not
+            // Dealer response (if needed)
+
             bool playerHasBetterHand = _playerHand.Value > _dealerHand.Value;
             if (playerHasBetterHand)
             {
@@ -57,6 +73,9 @@ namespace Casino.CardGames.Poker
             {
                 Console.WriteLine("Dealer won!");
             }
+
+            PokerUIHandler.MessageWithInputResponse("Do you want to play another game? Press (Y)es or (N)o.",
+                possibleInputs, "Press 'Y' to start another game, or 'N' to close the program.", RestartSequence);
         }
 
         private void DealToDealer()
@@ -87,11 +106,7 @@ namespace Casino.CardGames.Poker
             }
             _deck.ShuffleCards();
 
-            CardRenderer.PrintCards(_dealerHand.GetCards());
-            Console.WriteLine("----------------------------------");
-            Console.WriteLine("Debug info:");
-            Console.WriteLine(_dealerHand.Value.DebugString());
-            Console.WriteLine("----------------------------------");
+            PokerUIHandler.DisplayHand(_dealerHand);
         }
 
         private void DealToPlayer()
@@ -157,6 +172,23 @@ namespace Casino.CardGames.Poker
 
             PokerUIHandler.MessageWithNumericResponse(initialSwapMessage, _possibleSwapInputs,
                 fallbackSwapMessage, ProcessCardSwapStep);
+        }
+
+        private void RestartSequence(Input input)
+        {
+            switch (input)
+            {
+                case Input.Yes:
+                    Play();
+                    break;
+                case Input.No:
+                    Console.WriteLine("Closing the game...");
+                    break;
+                default:
+                    throw new ArgumentException(
+                    string.Format("Cannot recognize {0} input for RestartSequence.",
+                    input));
+            }
         }
     }
 }
