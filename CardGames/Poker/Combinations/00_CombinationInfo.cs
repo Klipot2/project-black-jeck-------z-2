@@ -1,3 +1,4 @@
+```csharp
 namespace Casino.CardGames.Poker.Combinations
 {
     /// <summary>
@@ -22,7 +23,7 @@ namespace Casino.CardGames.Poker.Combinations
         protected readonly Dictionary<Card.Suit, int> _suitComposition;
         /// <summary> Shows how many cards of each value are currently in hand. </summary>
         protected readonly Dictionary<Card.Value, int> _valueComposition;
-        
+
         /// <summary>
         /// Initializes a new instance of <see cref="CombinationInfo"/> class 
         /// based on <see cref="List{Card}"/> containing cards from assessed hand.
@@ -35,13 +36,13 @@ namespace Casino.CardGames.Poker.Combinations
             _valueComposition = GenerateValueComposition(cards);
 
             _isPresent = IsCombinationPresent();
-            if(_isPresent) SortCards();
+            if (_isPresent) SortCards();
             _combinationValue = GenerateValueData();
         }
 
         protected static Dictionary<Card.Suit, int> GenerateSuitComposition(List<Card> cards)
         {
-            Dictionary<Card.Suit, int> suitComposition = [];
+            Dictionary<Card.Suit, int> suitComposition = new();
             foreach (Card.Suit suit in Enum.GetValues(typeof(Card.Suit)))
             {
                 suitComposition[suit] = 0;
@@ -56,7 +57,7 @@ namespace Casino.CardGames.Poker.Combinations
 
         protected static Dictionary<Card.Value, int> GenerateValueComposition(List<Card> cards)
         {
-            Dictionary<Card.Value, int> valueComposition = [];
+            Dictionary<Card.Value, int> valueComposition = new();
             foreach (Card.Value value in Enum.GetValues(typeof(Card.Value)))
             {
                 valueComposition[value] = 0;
@@ -121,7 +122,7 @@ namespace Casino.CardGames.Poker.Combinations
         /// </exception>
         protected List<Card> PopDuplicates(List<Card> cards)
         {
-            List<Card> duplicates = [];
+            List<Card> duplicates = new();
             Card.Value? duplicateCardValue = null;
             int maxAmountOfDuplicates = 0;
 
@@ -166,14 +167,14 @@ namespace Casino.CardGames.Poker.Combinations
                 throw new ArgumentNullException(
                 string.Format("{0} is null, because no cards of value {1} were found in {2}.",
                 firstCardOfTargetValue, targetValue, cards));
-            }    
+            }
 
             return firstCardOfTargetValue;
         }
 
         protected static Card PopCardOfValue(List<Card> cards, Card.Value targetValue)
         {
-            Card firstCardOfTargetValue = GetCardOfValue(cards, targetValue); 
+            Card firstCardOfTargetValue = GetCardOfValue(cards, targetValue);
             cards.Remove(firstCardOfTargetValue);
             return firstCardOfTargetValue;
         }
@@ -193,7 +194,9 @@ namespace Casino.CardGames.Poker.Combinations
         }
 
         /// <summary>
-        /// Checks if <see cref="_valueComposition"/> contains a certain value. 
+        /// Checks if <see cref="_valueComposition"/> contains a certain value
+
+. 
         /// That corresponds to a certain amount of cards with the same value present in hand.
         /// </summary>
         /// <param name="values">
@@ -236,3 +239,4 @@ namespace Casino.CardGames.Poker.Combinations
         }
     }
 }
+```
