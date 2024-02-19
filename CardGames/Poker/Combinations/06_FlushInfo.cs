@@ -1,4 +1,3 @@
-```csharp
 namespace Casino.CardGames.Poker.Combinations
 {
     /// <summary>
