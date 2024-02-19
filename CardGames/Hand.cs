@@ -15,7 +15,7 @@ namespace Casino.CardGames
         /// </summary>
         public string Owner { get { return _owner; } }
 
-        protected List<Card> _hand; // Список карт в руке
+        protected List<Card> _hand; // List of cards in the hand
 
         private string _owner; // Имя владельца руки
 
