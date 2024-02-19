@@ -1,6 +1,3 @@
-Вот ваш код с добавленными комментариями в стиле XML documentation (summary) на английском языке:
-
-```csharp
 using Casino.CardGames.Poker.Combinations;
 
 namespace Casino.CardGames.Poker
@@ -90,4 +87,3 @@ namespace Casino.CardGames.Poker
         }
     }
 }
-```
