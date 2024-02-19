@@ -1,4 +1,3 @@
-```csharp
 namespace Casino.CardGames.Poker
 {
     /// <summary>
@@ -176,4 +175,3 @@ namespace Casino.CardGames.Poker
         }
     }
 }
-```
