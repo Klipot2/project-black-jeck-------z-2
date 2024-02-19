@@ -1,17 +1,24 @@
 namespace Casino.CardGames
 {
+    /// <summary>
+    /// Class responsible for rendering playing cards.
+    /// </summary>
     public class CardRenderer
     {
-        // Возвращает строку, представляющую верхнюю часть карты
+        /// <summary>
+        /// Returns a string representing the top part of the card.
+        /// </summary>
         private static string GetCardTop() => " ____ ";
 
-        // Возвращает строку, представляющую верхнюю часть средней части карты с учетом значения и масти
+        /// <summary>
+        /// Returns a string representing the top part of the middle section of the card, considering the value and suit.
+        /// </summary>
         private static string GetCardMiddleTop(Card card)
         {
             string cardPositionStatus = GetCardValueSymbol(card.CardValue);
             string suitSymbol = SuitToString(card.CardSuit);
 
-            int spaces = 2 - cardPositionStatus.Length; // Вычисляем количество пробелов для выравнивания
+            int spaces = 2 - cardPositionStatus.Length; // Calculate the number of spaces for alignment
             return $"|{new string(' ', spaces)}{cardPositionStatus}{suitSymbol} |";
         }
 
@@ -36,13 +43,19 @@ namespace Casino.CardGames
             };
         }
 
-        // Возвращает строку, представляющую нижнюю часть средней части карты
+        /// <summary>
+        /// Returns a string representing the bottom part of the middle section of the card.
+        /// </summary>
         private static string GetCardMiddleBottom() => "|    |";
 
-        // Возвращает строку, представляющую нижнюю часть карты
+        /// <summary>
+        /// Returns a string representing the bottom part of the card.
+        /// </summary>
         private static string GetCardBottom() => "|____|";
 
-        // Выводит на консоль пять карт из переданной коллекции
+        /// <summary>
+        /// Prints five cards from the given collection to the console.
+        /// </summary>
         public static void PrintCards(List<Card> cards)
         {
             string outputTop = "";
@@ -50,7 +63,7 @@ namespace Casino.CardGames
             string outputMiddleBottom = "";
             string outputBottom = "";
 
-            // Для каждой карты из коллекции строим строки для верхней, средней и нижней части карты
+            // For each card in the collection, build strings for the top, middle, and bottom parts of the card
             foreach (var card in cards)
             {
                 outputTop += GetCardTop() + " ";
@@ -59,14 +72,16 @@ namespace Casino.CardGames
                 outputBottom += GetCardBottom() + " ";
             }
 
-            // Выводим строки на консоль
+            // Output the strings to the console
             Console.WriteLine(outputTop);
             Console.WriteLine(outputMiddleTop);
             Console.WriteLine(outputMiddleBottom);
             Console.WriteLine(outputBottom);
         }
 
-        // Возвращает символ масти для заданной масти карты
+        /// <summary>
+        /// Returns the suit symbol for the given card suit.
+        /// </summary>
         private static string SuitToString(Card.Suit suit)
         {
             return suit switch
