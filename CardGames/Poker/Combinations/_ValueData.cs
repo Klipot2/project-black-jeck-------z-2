@@ -134,7 +134,7 @@ namespace Casino.CardGames.Poker.Combinations
         public override string ToString()
         {
             string valueStr = "";
-            foreach (var number in _valueArray)
+            foreach (var number in ValueArray)
             {
                 valueStr += ValueToString(number);
             }
@@ -145,7 +145,7 @@ namespace Casino.CardGames.Poker.Combinations
         {
             string valueStr = "";
             int counter = 0;
-            foreach (var number in _valueArray)
+            foreach (var number in ValueArray)
             {
                 counter++;
                 valueStr += ValueToString(number) + " ";
@@ -156,6 +156,31 @@ namespace Casino.CardGames.Poker.Combinations
                 }
             }
             return valueStr;
+        }
+
+        public int GetValueBracket(int chunkSize = 5)
+        {
+            if (Size % chunkSize != 0)
+                throw new ArgumentException(
+                string.Format("ValueData size ({0}) should be divisible by chunk size ({1}).",
+                Size, chunkSize));
+
+            if (Size == chunkSize) return -1;
+
+            int valueBracket = Size / chunkSize - 1;
+            int counter = 0;
+            foreach (var number in ValueArray)
+            {
+                if (number > 0) break;
+
+                counter++;
+                if (counter >= chunkSize)
+                {
+                    counter = 0;
+                    valueBracket -= 1;
+                }
+            }
+            return valueBracket;
         }
     }
 }

@@ -5,11 +5,11 @@ namespace Casino.CardGames.Poker
         public delegate void ProcessInput(Input input);
         public delegate void ProcessInt(int inputInt);
 
-        public static void DisplayPlayerStatus(PokerHand hand, int currentBank, int currentBet)
+        public static void DisplayPlayerStatus(PokerHand hand)
         {
             DisplayHand(hand);
-            Console.WriteLine("Current chip count: " + currentBank);
-            Console.WriteLine("Current bet: " + currentBet);
+            Console.WriteLine("Current chip count: " + hand.Bank);
+            Console.WriteLine("Current bet: " + hand.Bet);
             Console.WriteLine();
         }
         public static void DisplayHand(PokerHand hand, bool debugMode = false)

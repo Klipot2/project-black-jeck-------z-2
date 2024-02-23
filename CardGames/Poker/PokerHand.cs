@@ -5,8 +5,35 @@ namespace Casino.CardGames.Poker
     public class PokerHand : Hand
     {
         public ValueData Value { get { return _handValue; } }
+        public int Bank 
+        { 
+            get { return _bank;} 
+            set 
+            {
+                if (value < 0)
+                    throw new ArgumentException("Person's bank cannot be negative!");
+                if (value % FiveCardPoker.MIN_BET != 0)
+                    throw new ArgumentException("Person's bank should be proportional to minimum bet value.");
+                _bank = value;
+            }
+        }
+
+        public int Bet 
+        { 
+            get { return _bet;} 
+            set 
+            {
+                if (value < 0)
+                    throw new ArgumentException("Person's bet cannot be negative!");
+                if (value % FiveCardPoker.MIN_BET != 0)
+                    throw new ArgumentException("Person's bet should be proportional to minimum bet value.");
+                _bet = value;
+            }
+        }
 
         private readonly ValueData _handValue;
+        private int _bank = 0;
+        private int _bet = 0;
 
         public PokerHand(string ownerName, int handSize) : base(ownerName)
         {
@@ -57,6 +84,12 @@ namespace Casino.CardGames.Poker
         {
             base.ResetHand();
             _handValue.ResetData();
+        }
+
+        public void MakeBet(int amount)
+        {
+            Bet += amount;
+            Bank -= amount;
         }
     }
 }
