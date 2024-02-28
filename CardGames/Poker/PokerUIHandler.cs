@@ -84,6 +84,28 @@ namespace Casino.CardGames.Poker
             intProcessor(parsedInt);
         }
 
+         public static void MessageWithRangeResponse(string message, int minRangeValue, int maxRangeValue,
+            string fallbackMessage, ProcessInt intProcessor)
+        {
+            string response = MessageWithResponse(message);
+
+            if(!int.TryParse(response, out int parsedInt))
+            {
+                Console.Write("Current input cannot contain non-numeric values. ");
+                MessageWithRangeResponse(fallbackMessage, minRangeValue, maxRangeValue, fallbackMessage, intProcessor);
+                return;
+            }
+
+            if (parsedInt < minRangeValue || parsedInt > maxRangeValue)
+            {
+                Console.Write("Current input is out of range. ");
+                MessageWithRangeResponse(fallbackMessage, minRangeValue, maxRangeValue, fallbackMessage, intProcessor);
+                return;
+            }
+
+            intProcessor(parsedInt);
+        }
+
         public static string SwapArrayToString(List<int> swapArray)
         {
             string output = "Currently swapping ";

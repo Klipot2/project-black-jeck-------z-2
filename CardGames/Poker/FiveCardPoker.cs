@@ -41,20 +41,11 @@ namespace Casino.CardGames.Poker
             _dealerHand.Bet = MIN_BET;
             _playerHand.MakeBet(MIN_BET);
             UpdateTableBank();
-            
-            //Dealer: 50, Player: 10, currentBet: 10, _tableBank: 60, expectedDifference: 40
-            //betDifference = mod(_tableBank - currentBet*2);
-            //Dealer: 50, Player: 80, currentBet: 50, _tableBank: 130, expectedDifference: 30
-            //betDifference = mod(_tableBank - currentBet*2);
 
             DealerBetDecision();
             PokerUIHandler.DisplayPlayerStatus(_playerHand);
-            string betDecisionMessage = "Enter a number, corresponding with your actions:\n1.Call\n2.Raise\n3.Pass";
-            List<int> possibleNumericInputs = [1, 2, 3];
-            PokerUIHandler.MessageWithNumericResponse(betDecisionMessage, possibleNumericInputs,
-                "Press '1' to call, '2' to raise or '3' to pass.", PlayerBetDecision);
-            // Player response
-            // Dealer response (if needed)
+            PlayerBetQuery();   
+            DealerCall();
             UpdateTableBank();
             
             PokerUIHandler.DisplayHand(_dealerHand);
@@ -83,8 +74,7 @@ namespace Casino.CardGames.Poker
                 PokerUIHandler.NoResponseMessage("Dealer won!");
             }
 
-            PokerUIHandler.MessageWithInputResponse("Do you want to play another game? Press (Y)es or (N)o.",
-                possibleInputs, "Press 'Y' to start another game, or 'N' to close the program.", RestartSequence);
+            RestartQuery();
         }
 
         private void DealToDealer()
@@ -154,50 +144,79 @@ namespace Casino.CardGames.Poker
 
         private int GetBetDifference() => Math.Abs(_dealerHand.Bet - _playerHand.Bet);
 
+        private void PlayerBetQuery()
+        {
+            string betDecisionMessage = "Enter a number, corresponding with your actions:\n1.Call\n2.Raise\n3.Pass";
+            List<int> possibleNumericInputs = [1, 2, 3];
+            PokerUIHandler.MessageWithNumericResponse(betDecisionMessage, possibleNumericInputs,
+                "Press '1' to call, '2' to raise or '3' to pass.", PlayerBetDecision);
+        }
+
         private void PlayerBetDecision(int inputInt)
         {
             const int CALL_NUM = 1;
             const int RAISE_NUM = 2;
             const int PASS_NUM = 3;
+
+            int betDifference = GetBetDifference();
             switch (inputInt)
             {
                 case CALL_NUM:
-                    int betDifference = GetBetDifference();
                     if (betDifference > _playerHand.Bank)
                     {
                         _playerHand.MakeBet(_playerHand.Bank);
-                        PokerUIHandler.NoResponseMessage("Not enough to match dealer's bet, so you go all-in.");
+                        PokerUIHandler.NoResponseMessage("You don't have enough to match dealer's bet, so you go all-in.");
                         return;
                     }
                     _playerHand.MakeBet(betDifference);
                     PokerUIHandler.NoResponseMessage("You match dealer's bet.");
                     return;
                 case RAISE_NUM:
-                    /*
-                    1. Если у нас не хватает фишек, чтобы поднять, мы уведомляем об этом игрока и просим сделать другой выбор.
-                    2. Какую ставку мы хотим сделать? (NumericResponseMessage)
-                        а) Ставка меньше ставки дилера - нам говорят, что наша ставка меньше, чем у дилера и переспрашивают п. 1
-                        б) Ставка равна ставке дилера - делаем то же, что и в CALL
-                        в) Ставка больше ставки дилера, но такой суммы нет в банке игрока - уведомляем игрока о нехватке средств и переспрашиваем п. 1
-                        г) Ставка больше ставки дилера, и у нас есть такие деньги - делаем ставку, продолжаем игру
-                    */
-                    PokerUIHandler.NoResponseMessage("Currently unable to raise.");
-                    string betDecisionMessage = "Enter a number, corresponding with your actions:\n1.Call\n2.Raise\n3.Pass";
-                    List<int> possibleNumericInputs = [1, 2, 3];
-                    PokerUIHandler.MessageWithNumericResponse(betDecisionMessage, possibleNumericInputs,
-                        "Press '1' to call, '2' to raise or '3' to pass.", PlayerBetDecision);
+                    if (betDifference >= _playerHand.Bank)
+                    {
+                        PokerUIHandler.NoResponseMessage("You don't have enough to raise. Make another choice.");
+                        PlayerBetQuery();
+                        return;
+                    }
+
+                    string inputBetPrompt = string.Format("Enter the amount you want to bet (should be more than {0}). {1} is the lowest bet step.", _dealerHand.Bet, MIN_BET);
+                    int minRaise = _dealerHand.Bet + MIN_BET;
+                    int maxRaise = _playerHand.Bank + _playerHand.Bet;
+                    string fallbackBetPrompt = string.Format("Enter the number between {0} and {1} to bet.", minRaise, maxRaise);
+                    PokerUIHandler.MessageWithRangeResponse(inputBetPrompt, minRaise, maxRaise, fallbackBetPrompt, ProcessPlayerBetRaise);
                     break;
                 case PASS_NUM:
                     PokerUIHandler.NoResponseMessage("You passed. Dealer won by default.");
-                    Input[] possibleInputs = [Input.Yes, Input.No];
-                    PokerUIHandler.MessageWithInputResponse("Do you want to play another game? Press (Y)es or (N)o.",
-                        possibleInputs, "Press 'Y' to start another game, or 'N' to close the program.", RestartSequence);
+                    RestartQuery();
                     break;   
                 default:
                     throw new ArgumentException(
                     string.Format("Got '{0}' as input, which is not acceptable for PlayerBetDecision.",
                     inputInt));
             }
+        }
+
+        private void ProcessPlayerBetRaise(int inputInt)
+        {
+            int amountToBet = inputInt / MIN_BET * MIN_BET;
+            int betLeftovers = inputInt % MIN_BET;
+            if (betLeftovers != 0)
+            {
+                string betLeftoverMessage = string.Format("Bet should be a multiple of {0}, so lowered your bet to {1}.", MIN_BET, amountToBet);
+                PokerUIHandler.NoResponseMessage(betLeftoverMessage);
+                _playerHand.MakeBet(amountToBet - _playerHand.Bet);
+                return;
+            }
+            PokerUIHandler.NoResponseMessage(string.Format("You bet {0}.", amountToBet));
+            _playerHand.MakeBet(amountToBet - _playerHand.Bet);
+        }
+
+        private void DealerCall()
+        {
+            int betDifference = GetBetDifference();
+            if (betDifference == 0) return;
+            _dealerHand.Bet += betDifference;
+            PokerUIHandler.NoResponseMessage("Dealer matches your bet.");
         }
 
         private void LaunchCardSwap(Input input)
@@ -248,6 +267,13 @@ namespace Casino.CardGames.Poker
 
             PokerUIHandler.MessageWithNumericResponse(initialSwapMessage, _possibleSwapInputs,
                 fallbackSwapMessage, ProcessCardSwapStep);
+        }
+
+        private void RestartQuery()
+        {
+            Input[] possibleInputs = [Input.Yes, Input.No];
+            PokerUIHandler.MessageWithInputResponse("Do you want to play another game? Press (Y)es or (N)o.",
+                possibleInputs, "Press 'Y' to start another game, or 'N' to close the program.", RestartSequence);
         }
 
         private void RestartSequence(Input input)
