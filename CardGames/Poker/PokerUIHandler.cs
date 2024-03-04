@@ -26,10 +26,10 @@ namespace Casino.CardGames.Poker
             Console.WriteLine();
         }
 
-        public static void NoResponseMessage(string message)
+        public static void NoResponseMessage(string message, bool spaceAfterMessage = true)
         {
             Console.WriteLine(message);
-            Console.WriteLine();
+            if (spaceAfterMessage) Console.WriteLine();
         }
 
         private static string MessageWithResponse(string message)
