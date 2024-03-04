@@ -9,8 +9,7 @@ namespace Casino.CardGames.Poker
         public const int MIN_BET = 10;
         private const int PLAYER_HAND_SIZE = 5;
         private const int CARD_SWAP_TERMINATOR = 0;
-        //TODO: Dealer leeway not const, but improves with dealer losses
-        private const int DEALER_LEEWAY = 1;
+        private const int INITIAL_DEALER_LEEWAY = 0;
         private const int INITIAL_PLAYER_BANK = 100 * MIN_BET;
         private readonly int[] DEALER_BETS = [MIN_BET, MIN_BET*2, MIN_BET*3, MIN_BET*5, MIN_BET*8, MIN_BET*13, MIN_BET*21, MIN_BET*34, MIN_BET*55, MIN_BET*89];
 
@@ -19,6 +18,7 @@ namespace Casino.CardGames.Poker
         private readonly DeckCards _deck;
         private int _tableBank;
         private bool _playerHasPassed = false;
+        private int _dealerLeeway = INITIAL_DEALER_LEEWAY;
 
         private readonly List<int> _swapArray;
         private List<int> _possibleSwapInputs;
@@ -36,6 +36,7 @@ namespace Casino.CardGames.Poker
 
         public void Play()
         {
+            Console.WriteLine("Leeway:" + _dealerLeeway);
             _playerHasPassed = false;
             _deck.SetUpDeck();
             DealToDealer();
@@ -69,10 +70,12 @@ namespace Casino.CardGames.Poker
                 {
                     PokerUIHandler.NoResponseMessage("You won!");
                     _playerHand.Bank += _tableBank;
+                    _dealerLeeway++;
                 }
                 else
                 {
                     PokerUIHandler.NoResponseMessage("Dealer won!");
+                    _dealerLeeway = INITIAL_DEALER_LEEWAY;
                 }
             }   
 
@@ -83,7 +86,7 @@ namespace Casino.CardGames.Poker
         private void DealToDealer()
         {
             _dealerHand.ResetHand();
-            List<Card> dealtCards = _deck.DrawCards(PLAYER_HAND_SIZE + DEALER_LEEWAY);
+            List<Card> dealtCards = _deck.DrawCards(PLAYER_HAND_SIZE + _dealerLeeway);
             // DEBUG
             // List<Card> dealtCards =
             // [
