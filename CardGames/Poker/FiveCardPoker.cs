@@ -36,7 +36,12 @@ namespace Casino.CardGames.Poker
 
         public void Play()
         {
-            Console.WriteLine("Leeway:" + _dealerLeeway);
+            for (int i = 0; i < 10; i++)
+            {
+                WeightedRNG.WeightedDistributionDebugStep(i);
+            }
+            return;
+
             _playerHasPassed = false;
             _deck.SetUpDeck();
             DealToDealer();
@@ -79,6 +84,7 @@ namespace Casino.CardGames.Poker
                 }
             }   
 
+            //TODO: Dealer shows hand in the end
             PokerUIHandler.NoResponseMessage("Your chip count after game: " + _playerHand.Bank);
             RestartQuery();
         }
@@ -116,6 +122,7 @@ namespace Casino.CardGames.Poker
             PokerUIHandler.DisplayHand(_dealerHand);
         }
 
+        //TODO: Add player leeway
         private void DealToPlayer()
         {
             _playerHand.ResetHand();

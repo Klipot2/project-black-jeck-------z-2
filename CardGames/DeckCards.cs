@@ -11,14 +11,14 @@ namespace Casino.CardGames
         public int DeckSize { get { return _deck.Count; } }
 
         private List<Card> _deck; // List of cards in the deck
-        private readonly Random _rand = new Random(); // Random number generator
+        private readonly Random _rand = new(); // Random number generator
 
         /// <summary>
         /// Initializes a new instance of the DeckCards class.
         /// </summary>
         public DeckCards()
         {
-            _deck = new List<Card>();
+            _deck = [];
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Casino.CardGames
                 throw new ArgumentOutOfRangeException(nameof(amountOfCards), "Invalid number of cards to draw.");
             }
 
-            List<Card> drawnCards = new List<Card>();
+            List<Card> drawnCards = [];
             for (int i = 0; i < amountOfCards; i++)
             {
                 Card card = DrawCard();
@@ -126,7 +126,7 @@ namespace Casino.CardGames
                 {
                     foreach (Card.Value value in Enum.GetValues(typeof(Card.Value)))
                     {
-                        Card card = new Card(suit, value);
+                        Card card = new(suit, value);
                         AddCard(card);
                     }
                 }
@@ -140,7 +140,7 @@ namespace Casino.CardGames
         /// </summary>
         public void ShuffleCards()
         {
-            List<Card> shuffledDeck = new List<Card>();
+            List<Card> shuffledDeck = [];
             while (DeckSize > 0)
             {
                 Card randomCard = DrawRandomCard();
@@ -155,7 +155,7 @@ namespace Casino.CardGames
         /// </summary>
         private void ResetDeck()
         {
-            _deck = new List<Card>();
+            _deck = [];
         }
 
         /// <summary>
