@@ -36,12 +36,6 @@ namespace Casino.CardGames.Poker
 
         public void Play()
         {
-            for (int i = 0; i < 10; i++)
-            {
-                WeightedRNG.WeightedDistributionDebugStep(i);
-            }
-            return;
-
             _playerHasPassed = false;
             _deck.SetUpDeck();
             DealToDealer();
@@ -144,10 +138,11 @@ namespace Casino.CardGames.Poker
             PokerUIHandler.NoResponseMessage(string.Format("Current total bank: {0}", _tableBank));
         }
 
-        //TODO: Dealer betting with RNG
         private void DealerBetDecision()
         {
-            int valueBracket = _dealerHand.Value.GetValueBracket();
+            int initialValueBracket = _dealerHand.Value.GetValueBracket();
+            int[] weightedBetDistribution = WeightedRNG.GenerateWeightedDistribution(initialValueBracket, DEALER_BETS.Length);
+            int valueBracket = WeightedRNG.ChooseIndexFromWeightedDistribution(weightedBetDistribution);
             if (valueBracket <= 0)
             {
                 PokerUIHandler.NoResponseMessage("Dealer calls.");

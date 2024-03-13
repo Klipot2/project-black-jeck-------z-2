@@ -12,8 +12,8 @@ namespace Casino.CardGames.Poker
             bool isRightLeaning = middleIndex >= distributionSize / 2;
             int weight = MIN_WEIGHT;
             int maxAdjustedWeight = (int)Math.Round((1 - Math.Abs(1 - 2 * (float)middleIndex/distributionSize))*MAX_WEIGHT_STEP);
-            // Console.WriteLine(maxAdjustedWeight);
             int adjustedWeightStep = Math.Max(maxAdjustedWeight, MIN_WEIGHT_STEP);
+            // Console.WriteLine(adjustedWeightStep);
             for (int i = 0; i < distributionSize; i++)
             {
                 int index;
@@ -49,16 +49,17 @@ namespace Casino.CardGames.Poker
             return indexPool[randomPoolIndex];
         }
 
-        public static void WeightedDistributionDebugStep(int debugValue)
-        {
-            int[] weightedDistr = GenerateWeightedDistribution(debugValue, 10);
-            Console.Write("[");
-            for (int i = 0; i < 9; i++)
-            {
-                Console.Write(weightedDistr[i].ToString() + ", ");
-            }
-            Console.Write(weightedDistr[9].ToString() + "]\n");
-            Console.WriteLine(ChooseIndexFromWeightedDistribution(weightedDistr));
-        }
+        //DEBUG
+        // public static void WeightedDistributionDebugStep(int debugValue)
+        // {
+        //     int[] weightedDistr = GenerateWeightedDistribution(debugValue, 10);
+        //     Console.Write("[");
+        //     for (int i = 0; i < 9; i++)
+        //     {
+        //         Console.Write(weightedDistr[i].ToString() + ", ");
+        //     }
+        //     Console.Write(weightedDistr[9].ToString() + "]\n");
+        //     Console.WriteLine(ChooseIndexFromWeightedDistribution(weightedDistr));
+        // }
     }
 }
