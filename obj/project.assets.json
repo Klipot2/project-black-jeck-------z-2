@@ -6234,19 +6234,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\XPS\\.nuget\\packages\\": {}
+    "C:\\Users\\saidt\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\games\\Studing Phyton a\\project black jeck 3\\C#.csproj",
+      "projectUniqueName": "D:\\DesktopStuff\\Work\\Code\\C#_projects\\project-black-jeck-------z-2\\C#.csproj",
       "projectName": "C#",
-      "projectPath": "c:\\games\\Studing Phyton a\\project black jeck 3\\C#.csproj",
-      "packagesPath": "C:\\Users\\XPS\\.nuget\\packages\\",
-      "outputPath": "c:\\games\\Studing Phyton a\\project black jeck 3\\obj\\",
+      "projectPath": "D:\\DesktopStuff\\Work\\Code\\C#_projects\\project-black-jeck-------z-2\\C#.csproj",
+      "packagesPath": "C:\\Users\\saidt\\.nuget\\packages\\",
+      "outputPath": "D:\\DesktopStuff\\Work\\Code\\C#_projects\\project-black-jeck-------z-2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\XPS\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\saidt\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
@@ -6264,6 +6264,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -6308,12 +6313,30 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[7.0.17, 7.0.17]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[7.0.17, 7.0.17]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[7.0.17, 7.0.17]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[7.0.17, 7.0.17]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -1,0 +1,235 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>C#</name>
+    </assembly>
+    <members>
+        <member name="T:Casino.CardGames.Card.Suit">
+            <summary> Suit of a card.</summary>
+        </member>
+        <member name="T:Casino.CardGames.Card.Value">
+            <summary> Value of a card.</summary>
+        </member>
+        <member name="T:Casino.CardGames.DeckCards">
+            <summary>
+            Represents a deck of playing cards.
+            </summary>
+        </member>
+        <member name="P:Casino.CardGames.DeckCards.DeckSize">
+            <summary>
+            Gets the current size of the deck.
+            </summary>
+        </member>
+        <member name="M:Casino.CardGames.DeckCards.#ctor">
+            <summary>
+            Initializes a new instance of the DeckCards class.
+            </summary>
+        </member>
+        <member name="M:Casino.CardGames.DeckCards.AddCard(Casino.CardGames.Card)">
+            <summary>
+            Adds a card to the deck.
+            </summary>
+            <param name="card">The card to be added.</param>
+        </member>
+        <member name="M:Casino.CardGames.DeckCards.DrawCard(System.Int32)">
+            <summary>
+            Draws a card from the deck.
+            </summary>
+            <param name="positionFromTop">The position of the card from the top of the deck.</param>
+            <returns>The drawn card.</returns>
+        </member>
+        <member name="M:Casino.CardGames.DeckCards.DrawFromBottom(System.Int32)">
+            <summary>
+            Draws a card from the bottom of the deck.
+            </summary>
+            <param name="positionFromBottom">The position of the card from the bottom of the deck.</param>
+            <returns>The drawn card.</returns>
+        </member>
+        <member name="M:Casino.CardGames.DeckCards.DrawCards(System.Int32)">
+            <summary>
+            Draws a specified number of cards from the deck.
+            </summary>
+            <param name="amountOfCards">The number of cards to draw.</param>
+            <returns>The drawn cards.</returns>
+        </member>
+        <member name="M:Casino.CardGames.DeckCards.DrawExactCard(Casino.CardGames.Card)">
+            <summary>
+            Draws a specific card from the deck.
+            </summary>
+            <param name="card">The card to draw.</param>
+            <returns>The drawn card.</returns>
+        </member>
+        <member name="M:Casino.CardGames.DeckCards.DrawRandomCard">
+            <summary>
+            Draws a random card from the deck.
+            </summary>
+            <returns>The drawn card.</returns>
+        </member>
+        <member name="M:Casino.CardGames.DeckCards.SetUpDeck(System.Int32)">
+            <summary>
+            Sets up the deck with the specified number of full decks and shuffles the cards.
+            </summary>
+            <param name="amountOfFullDecks">The number of full decks to include in the deck.</param>
+        </member>
+        <member name="M:Casino.CardGames.DeckCards.ShuffleCards">
+            <summary>
+            Shuffles the cards in the deck.
+            </summary>
+        </member>
+        <member name="M:Casino.CardGames.DeckCards.ResetDeck">
+            <summary>
+            Resets the deck by creating a new empty deck.
+            </summary>
+        </member>
+        <member name="M:Casino.CardGames.DeckCards.GetAllCards">
+            <summary>
+            Gets a list of all cards in the deck.
+            </summary>
+            <returns>The list of cards in the deck.</returns>
+        </member>
+        <member name="T:Casino.CardGames.Hand">
+            <summary>
+            Represents a player's hand in a card game.
+            </summary>
+        </member>
+        <member name="P:Casino.CardGames.Hand.Size">
+            <summary>
+            Gets the number of cards in the hand.
+            </summary>
+        </member>
+        <member name="P:Casino.CardGames.Hand.Owner">
+            <summary>
+            Gets the owner's name associated with the hand.
+            </summary>
+        </member>
+        <member name="M:Casino.CardGames.Hand.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the Hand class with the specified owner's name.
+            </summary>
+            <param name="ownerName">The name of the hand's owner.</param>
+        </member>
+        <member name="M:Casino.CardGames.Hand.#ctor(System.String,System.Collections.Generic.List{Casino.CardGames.Card})">
+            <summary>
+            Initializes a new instance of the Hand class with the specified owner's name and initial cards.
+            </summary>
+            <param name="ownerName">The name of the hand's owner.</param>
+            <param name="cards">Initial cards in the hand.</param>
+        </member>
+        <member name="M:Casino.CardGames.Hand.AddCard(Casino.CardGames.Card)">
+            <summary>
+            Adds a card to the hand.
+            </summary>
+            <param name="card">The card to be added.</param>
+        </member>
+        <member name="M:Casino.CardGames.Hand.AddCards(System.Collections.Generic.List{Casino.CardGames.Card})">
+            <summary>
+            Adds a list of cards to the hand.
+            </summary>
+            <param name="cards">The list of cards to be added.</param>
+        </member>
+        <member name="M:Casino.CardGames.Hand.SwapCard(System.Int32,Casino.CardGames.Card)">
+            <summary>
+            Swaps a card in the hand with a new card.
+            </summary>
+            <param name="previousCardPosition">The position of the card to be replaced.</param>
+            <param name="newCard">The new card to be placed in the hand.</param>
+        </member>
+        <member name="M:Casino.CardGames.Hand.ResetHand">
+            <summary>
+            Resets the hand by clearing all cards.
+            </summary>
+        </member>
+        <member name="M:Casino.CardGames.Hand.GetCards">
+            <summary>
+            Gets a list of cards in the hand.
+            </summary>
+            <returns>The list of cards in the hand.</returns>
+        </member>
+        <member name="T:Casino.CardGames.Poker.Combinations.CombinationInfo">
+            <summary>
+            Base class for hand assessment. Classes extending <see cref="T:Casino.CardGames.Poker.Combinations.CombinationInfo"/> 
+            should imply a certain poker combination that will be used as a base for assessment.
+            </summary>
+        </member>
+        <member name="P:Casino.CardGames.Poker.Combinations.CombinationInfo.CombinationPresent">
+            <summary> Describes if combination is present in hand. </summary>
+        </member>
+        <member name="P:Casino.CardGames.Poker.Combinations.CombinationInfo.CombinationValue">
+            <summary> Represents combination value relative to other combinations of the same type. </summary>
+            <seealso cref="T:Casino.CardGames.Poker.Combinations.ValueData"/>
+        </member>
+        <member name="F:Casino.CardGames.Poker.Combinations.CombinationInfo._cards">
+            <summary> Contains list of all cards present in hand. </summary>
+        </member>
+        <member name="F:Casino.CardGames.Poker.Combinations.CombinationInfo._suitComposition">
+            <summary> Shows how many cards of each suit are currently in hand. </summary>
+        </member>
+        <member name="F:Casino.CardGames.Poker.Combinations.CombinationInfo._valueComposition">
+            <summary> Shows how many cards of each value are currently in hand. </summary>
+        </member>
+        <member name="M:Casino.CardGames.Poker.Combinations.CombinationInfo.#ctor(System.Collections.Generic.List{Casino.CardGames.Card})">
+            <summary>
+            Initializes a new instance of <see cref="T:Casino.CardGames.Poker.Combinations.CombinationInfo"/> class 
+            based on <see cref="T:System.Collections.Generic.List`1"/> containing cards from assessed hand.
+            </summary>
+            <param name="cards">List of all cards present in assessed hand.</param>
+        </member>
+        <member name="M:Casino.CardGames.Poker.Combinations.CombinationInfo.IsCombinationPresent">
+            <summary>
+            Checks if combination is present, depending on a class that extends
+            base <see cref="T:Casino.CardGames.Poker.Combinations.CombinationInfo"/>.
+            </summary>
+            <returns>
+            A boolean representing combination presence in hand.
+            This value is stored in <see cref="P:Casino.CardGames.Poker.Combinations.CombinationInfo.CombinationPresent"/>
+            and doesn't change after <see cref="T:Casino.CardGames.Poker.Combinations.CombinationInfo"/> initialization.
+            </returns>
+        </member>
+        <member name="M:Casino.CardGames.Poker.Combinations.CombinationInfo.SortCards">
+            <summary>
+            Sorts cards based on their importance in combination. Combination is picked
+            depending on a class that extends base <see cref="T:Casino.CardGames.Poker.Combinations.CombinationInfo"/>.
+            </summary>
+            <remarks>
+            Runs only on <see cref="T:Casino.CardGames.Poker.Combinations.CombinationInfo"/> initialization.
+            Always run <c>base.SortCards()</c> first when overriding.
+            </remarks>
+        </member>
+        <member name="M:Casino.CardGames.Poker.Combinations.CombinationInfo.PopDuplicates(System.Collections.Generic.List{Casino.CardGames.Card})">
+            <summary>
+            Pops most common duplicates from target <see cref="T:System.Collections.Generic.List`1"/>.
+            </summary>
+            <remarks>
+            <see cref="T:System.Collections.Generic.List`1"/> needs to be sorted first.
+            Duplicates are cards with equal <see cref="T:Casino.CardGames.Card.Value"/>.
+            </remarks>
+            <param name="cards">List of cards that is checked for duplicates.</param>
+            <returns>
+            <see cref="T:System.Collections.Generic.List`1"/> that contains most common duplicates in no specified order.
+            </returns>
+            <exception cref="T:System.NullReferenceException">
+            Thrown when there are no duplicates in the provided <see cref="T:System.Collections.Generic.List`1"/>.
+            </exception>
+        </member>
+        <member name="M:Casino.CardGames.Poker.Combinations.CombinationInfo.InsertAtFront(System.Collections.Generic.List{Casino.CardGames.Card})">
+            <summary>
+            Inserts cards in front of a sorted <see cref="F:Casino.CardGames.Poker.Combinations.CombinationInfo._cards"/> list.
+            </summary>
+            <param name="cards">
+            <see cref="T:System.Collections.Generic.List`1"/> containing cards which should be inserted in front.
+            </param>
+        </member>
+        <member name="M:Casino.CardGames.Poker.Combinations.CombinationInfo.CompositionContainsOneOf(System.Int32[])">
+            <summary>
+            Checks if <see cref="F:Casino.CardGames.Poker.Combinations.CombinationInfo._valueComposition"/> contains a certain value. 
+            That corresponds to a certain amount of cards with the same value present in hand.
+            </summary>
+            <param name="values">
+            An <see cref="T:System.Array"/> of values, any of which should be present for function to return <c>true</c>.
+            </param>
+            <returns>
+            A boolean representing if a certain amount of cards with the same value are present in hand.
+            </returns>
+        </member>
+    </members>
+</doc>
