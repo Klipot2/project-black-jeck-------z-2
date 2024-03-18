@@ -2,9 +2,17 @@ namespace Casino.CardGames.Poker
 {
     public static class PokerUIHandler
     {
-        public delegate void ProcessInput(Input input);
+        public delegate void ProcessInput(LetterInput input);
         public delegate void ProcessInt(int inputInt);
 
+        public static void DisplayDivider(int dividerLength = 50)
+        {
+            for (int i = 0; i < dividerLength; i++)
+            {
+                Console.Write("-");
+            }
+            Console.WriteLine();
+        }
         public static void DisplayPlayerStatus(PokerHand hand)
         {
             DisplayHand(hand);
@@ -40,12 +48,12 @@ namespace Casino.CardGames.Poker
             return input.ToLower();
         }
 
-        public static void MessageWithInputResponse(string message, Input[] possibleInputs,
+        public static void MessageWithInputResponse(string message, LetterInput[] possibleInputs,
             string fallbackMessage, ProcessInput inputProcessor)
         {
             string response = MessageWithResponse(message);
 
-            if (!PokerInputSchema.TryGetInputFromString(response, out Input parsedInput))
+            if (!PokerInputSchema.TryGetInputFromString(response, out LetterInput parsedInput))
             {
                 Console.Write("Cannot identify input. ");
                 MessageWithInputResponse(fallbackMessage, possibleInputs, fallbackMessage, inputProcessor);
@@ -122,8 +130,7 @@ namespace Casino.CardGames.Poker
 
         private static string ReplaceCharacterAt(string input, int index, char newChar)
         {
-            if (input == null)
-                throw new ArgumentNullException("Trying to replace character, but string is null.");
+            ArgumentNullException.ThrowIfNull(input, "Trying to replace character, but string is null.");
 
             if (index >= input.Length)
                 throw new ArgumentOutOfRangeException(

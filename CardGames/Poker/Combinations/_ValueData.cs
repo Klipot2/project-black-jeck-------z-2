@@ -11,7 +11,6 @@ namespace Casino.CardGames.Poker.Combinations
 
         private readonly int _valueDataSize;
         private readonly byte[] _valueArray; 
-
         private int _filledValues;
 
         public ValueData(int size, bool usedForCombination = false)

@@ -1,29 +1,29 @@
 namespace Casino.CardGames.Poker
 {
-    public enum Input
+    public enum LetterInput
     {
         Undefined, Yes, No
     }
 
     public static class PokerInputSchema
     {
-        public static Dictionary<Input, string[]> GetInputDictionary()
+        public static Dictionary<LetterInput, string[]> GetInputDictionary()
         {
-            Dictionary<Input, string[]> inputDictionary = new();
-            string[] yesStrings = {"y"};
-            inputDictionary.Add(Input.Yes, yesStrings);
-            string[] noStrings = {"n"};
-            inputDictionary.Add(Input.No, noStrings);
+            Dictionary<LetterInput, string[]> inputDictionary = [];
+            string[] yesStrings = ["y"];
+            inputDictionary.Add(LetterInput.Yes, yesStrings);
+            string[] noStrings = ["n"];
+            inputDictionary.Add(LetterInput.No, noStrings);
 
             return inputDictionary;
         }
 
-        public static bool TryGetInputFromString(string potentialInput, out Input input)
+        public static bool TryGetInputFromString(string potentialInput, out LetterInput input)
         {
-            input = Input.Undefined;
-            Dictionary<Input, string[]> inputDict = GetInputDictionary();
+            input = LetterInput.Undefined;
+            Dictionary<LetterInput, string[]> inputDict = GetInputDictionary();
 
-            foreach (KeyValuePair<Input, string[]> inputPair in inputDict)
+            foreach (KeyValuePair<LetterInput, string[]> inputPair in inputDict)
             {
                 if (inputPair.Value.Contains(potentialInput))
                 {

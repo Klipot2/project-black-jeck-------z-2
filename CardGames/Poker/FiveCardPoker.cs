@@ -1,6 +1,4 @@
-using System.Diagnostics;
 using Casino.CardGames.Poker.Combinations;
-using Castle.DynamicProxy.Contributors;
 
 namespace Casino.CardGames.Poker
 {
@@ -10,16 +8,17 @@ namespace Casino.CardGames.Poker
         private const int PLAYER_HAND_SIZE = 5;
         private const int CARD_SWAP_TERMINATOR = 0;
         private const int INITIAL_DEALER_LEEWAY = 0;
+        private const int INITIAL_PLAYER_LEEWAY = 0;
         private const int INITIAL_PLAYER_BANK = 100 * MIN_BET;
         private readonly int[] DEALER_BETS = [MIN_BET, MIN_BET*2, MIN_BET*3, MIN_BET*5, MIN_BET*8, MIN_BET*13, MIN_BET*21, MIN_BET*34, MIN_BET*55, MIN_BET*89];
 
-        private readonly PokerHand _playerHand;
-        private readonly PokerHand _dealerHand;
+        private PokerHand _playerHand;
+        private PokerHand _dealerHand;
         private readonly DeckCards _deck;
         private int _tableBank;
         private bool _playerHasPassed = false;
         private int _dealerLeeway = INITIAL_DEALER_LEEWAY;
-
+        private int _playerLeeway = INITIAL_PLAYER_LEEWAY;
         private readonly List<int> _swapArray;
         private List<int> _possibleSwapInputs;
 
@@ -38,10 +37,11 @@ namespace Casino.CardGames.Poker
         {
             _playerHasPassed = false;
             _deck.SetUpDeck();
-            DealToDealer();
-            DealToPlayer();
+            DealToPlayer(_dealerHand, _dealerLeeway);
+            DealToPlayer(_playerHand, _playerLeeway);
             _tableBank = 0;
             _playerHand.Bet = 0;
+            PokerUIHandler.DisplayDivider();
        
             _dealerHand.Bet = MIN_BET;
             _playerHand.MakeBet(MIN_BET);
@@ -51,6 +51,7 @@ namespace Casino.CardGames.Poker
             DealerBetDecision();
             PokerUIHandler.DisplayPlayerStatus(_playerHand);
             PlayerBetQuery();
+
             if (!_playerHasPassed)
             {
                 DealerCall();
@@ -64,72 +65,41 @@ namespace Casino.CardGames.Poker
                 DealerCall();
                 UpdateTableBank();
 
+                PokerUIHandler.DisplayHand(_dealerHand);
+                PokerUIHandler.NoResponseMessage("VS");
+                PokerUIHandler.DisplayHand(_playerHand);
                 bool playerHasBetterHand = _playerHand.Value > _dealerHand.Value;
                 if (playerHasBetterHand)
                 {
-                    PokerUIHandler.NoResponseMessage("You won!");
+                    PokerUIHandler.NoResponseMessage(string.Format("You won {0} tokens!", _dealerHand.Bet));
                     _playerHand.Bank += _tableBank;
                     _dealerLeeway++;
+                    _playerLeeway = INITIAL_PLAYER_LEEWAY;
                 }
                 else
                 {
-                    PokerUIHandler.NoResponseMessage("Dealer won!");
+                    PokerUIHandler.NoResponseMessage(string.Format("Dealer won. You lost {0} tokens!", _playerHand.Bet));
                     _dealerLeeway = INITIAL_DEALER_LEEWAY;
+                    _playerLeeway++;
                 }
             }   
 
-            //TODO: Dealer shows hand in the end
             PokerUIHandler.NoResponseMessage("Your chip count after game: " + _playerHand.Bank);
             RestartQuery();
         }
 
-        private void DealToDealer()
+        private void DealToPlayer(PokerHand hand, int playerLeeway)
         {
-            _dealerHand.ResetHand();
-            List<Card> dealtCards = _deck.DrawCards(PLAYER_HAND_SIZE + _dealerLeeway);
-            // DEBUG
-            // List<Card> dealtCards =
-            // [
-            //     new Card(Card.Suit.D, Card.Value.Queen),
-            //     new Card(Card.Suit.D, Card.Value.Jack),
-            //     new Card(Card.Suit.D, Card.Value.King),
-            //     new Card(Card.Suit.C, Card.Value.Nine),
-            //     new Card(Card.Suit.C, Card.Value.Ace),
-            //     new Card(Card.Suit.D, Card.Value.Ace),
-            //     new Card(Card.Suit.C, Card.Value.Six),
-            //     new Card(Card.Suit.D, Card.Value.Ten),
-            //     new Card(Card.Suit.C, Card.Value.Four),
-            //     new Card(Card.Suit.C, Card.Value.Jack),
-            //     new Card(Card.Suit.C, Card.Value.Two),
-            //     new Card(Card.Suit.C, Card.Value.Three),
-            // ];
+            hand.ResetHand();
+            List<Card> dealtCards = _deck.DrawCards(PLAYER_HAND_SIZE + playerLeeway);
             ValueData expandedHandValue = new(dealtCards.Count, true);
             HandEvaluator.CalculateHandValueData(dealtCards, expandedHandValue);
-            _dealerHand.AddCards(dealtCards.GetRange(0, PLAYER_HAND_SIZE));
+            hand.AddCards(dealtCards.GetRange(0, PLAYER_HAND_SIZE));
             for (int i = PLAYER_HAND_SIZE; i < dealtCards.Count; i++)
             {
                 _deck.AddCard(dealtCards[i]);
             }
             _deck.ShuffleCards();
-
-            // DEBUG
-            PokerUIHandler.DisplayHand(_dealerHand);
-        }
-
-        //TODO: Add player leeway
-        private void DealToPlayer()
-        {
-            _playerHand.ResetHand();
-            List<Card> dealtCards = _deck.DrawCards(PLAYER_HAND_SIZE);
-            // List<Card> dealtCards =
-            // [
-            //     new Card(Card.Suit.C, Card.Value.Jack),
-            //     new Card(Card.Suit.C, Card.Value.Five),
-            //     new Card(Card.Suit.H, Card.Value.Four),
-            //     new Card(Card.Suit.D, Card.Value.Eight),
-            //     new Card(Card.Suit.D, Card.Value.Ace)
-            // ];
-            _playerHand.AddCards(dealtCards);
         }
 
         private void UpdateTableBank()
@@ -236,7 +206,7 @@ namespace Casino.CardGames.Poker
 
         private void PlayerCardSwapQuery()
         {
-            Input[] possibleInputs = [Input.Yes, Input.No];
+            LetterInput[] possibleInputs = [LetterInput.Yes, LetterInput.No];
             PokerUIHandler.MessageWithInputResponse("Do you want to swap any cards? Press (Y)es or (N)o.",
                 possibleInputs, "Press 'Y' to swap cards, or 'N' to skip.", LaunchCardSwap);
             foreach (var cardPosition in _swapArray)
@@ -247,11 +217,11 @@ namespace Casino.CardGames.Poker
             _playerHand.ForceUpdateHandValue();
         }
 
-        private void LaunchCardSwap(Input input)
+        private void LaunchCardSwap(LetterInput input)
         {
             switch (input)
             {
-                case Input.Yes:
+                case LetterInput.Yes:
                     _swapArray.Clear();
                     _possibleSwapInputs = Enumerable.Range(0, PLAYER_HAND_SIZE + 1).ToList();
                     _possibleSwapInputs[0] = CARD_SWAP_TERMINATOR;
@@ -264,7 +234,7 @@ namespace Casino.CardGames.Poker
                     PokerUIHandler.MessageWithNumericResponse(initialSwapMessage, _possibleSwapInputs,
                         fallbackSwapMessage, ProcessCardSwapStep);
                     break;
-                case Input.No:
+                case LetterInput.No:
                     break;
                 default:
                     throw new ArgumentException(
@@ -307,19 +277,19 @@ namespace Casino.CardGames.Poker
 
         private void RestartQuery()
         {
-            Input[] possibleInputs = [Input.Yes, Input.No];
+            LetterInput[] possibleInputs = [LetterInput.Yes, LetterInput.No];
             PokerUIHandler.MessageWithInputResponse("Do you want to play another game? Press (Y)es or (N)o.",
                 possibleInputs, "Press 'Y' to start another game, or 'N' to close the program.", RestartSequence);
         }
 
-        private void RestartSequence(Input input)
+        private void RestartSequence(LetterInput input)
         {
             switch (input)
             {
-                case Input.Yes:
+                case LetterInput.Yes:
                     Play();
                     break;
-                case Input.No:
+                case LetterInput.No:
                     Console.WriteLine("Closing the game...");
                     break;
                 default:

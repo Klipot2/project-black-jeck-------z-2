@@ -127,7 +127,7 @@ namespace Casino.CardGames.Poker.Combinations
 
             foreach (var cardValueAndAmountPair in _valueComposition)
             {
-                // Will not work in out of order Dictionary
+                // Will not work in out of order Dictionary (problem has yet to appear)
                 if (cardValueAndAmountPair.Value >= maxAmountOfDuplicates && CardsContainValue(cards, cardValueAndAmountPair.Key))
                 {
                     maxAmountOfDuplicates = cardValueAndAmountPair.Value;

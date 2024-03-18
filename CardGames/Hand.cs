@@ -15,9 +15,9 @@ namespace Casino.CardGames
         /// </summary>
         public string Owner { get { return _owner; } }
 
-        protected List<Card> _hand; // Список карт в руке
+        protected List<Card> _hand;
 
-        private string _owner; // Имя владельца руки
+        private string _owner;
 
         /// <summary>
         /// Initializes a new instance of the Hand class with the specified owner's name.
@@ -25,7 +25,7 @@ namespace Casino.CardGames
         /// <param name="ownerName">The name of the hand's owner.</param>
         public Hand(string ownerName)
         {
-            _hand = new List<Card>();
+            _hand = [];
             _owner = ownerName;
         }
 
@@ -76,7 +76,7 @@ namespace Casino.CardGames
         /// </summary>
         public virtual void ResetHand()
         {
-            _hand = new List<Card>();
+            _hand = [];
         }
 
         /// <summary>

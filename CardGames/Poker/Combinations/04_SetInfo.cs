@@ -4,7 +4,7 @@ namespace Casino.CardGames.Poker.Combinations
     {
         public SetInfo(List<Card> cards) : base(cards) { }
 
-        protected override bool IsCombinationPresent() => CompositionContainsOneOf(new int[] { 3, 4 });
+        protected override bool IsCombinationPresent() => CompositionContainsOneOf([3, 4]);
 
         protected override void SortCards()
         {
