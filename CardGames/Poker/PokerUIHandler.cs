@@ -62,6 +62,11 @@ namespace Casino.CardGames.Poker
             if (spaceAfterMessage) Console.WriteLine();
         }
 
+        /// <summary>
+        /// Displays a message and retrieves user input.
+        /// </summary>
+        /// <param name="message">The message to display.</param>
+        /// <returns>User input as a string.</returns>
         private static string MessageWithResponse(string message)
         {
             Console.WriteLine(message);
@@ -181,21 +186,6 @@ namespace Casino.CardGames.Poker
             char[] chars = input.ToCharArray();
             chars[index] = newChar;
             return new string(chars);
-        }
-
-        /// <summary>
-        /// Displays a message
-
- and retrieves user input.
-        /// </summary>
-        /// <param name="message">The message to display.</param>
-        /// <returns>User input as a string.</returns>
-        private static string MessageWithResponse(string message)
-        {
-            Console.WriteLine(message);
-            string? input = Console.ReadLine() ?? throw new ArgumentNullException("Input ended up as null.");
-            Console.WriteLine();
-            return input.ToLower();
         }
     }
 }

@@ -193,9 +193,7 @@ namespace Casino.CardGames.Poker.Combinations
         }
 
         /// <summary>
-        /// Checks if <see cref="_valueComposition"/> contains a certain value
-
-. 
+        /// Checks if <see cref="_valueComposition"/> contains a certain value. 
         /// That corresponds to a certain amount of cards with the same value present in hand.
         /// </summary>
         /// <param name="values">
