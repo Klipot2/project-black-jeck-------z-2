@@ -10,15 +10,15 @@ namespace Casino.CardGames
         /// </summary>
         public int DeckSize { get { return _deck.Count; } }
 
-        private List<Card> _deck; // List of cards in the deck
-        private readonly Random _rand = new Random(); // Random number generator
+        private List<Card> _deck;
+        private readonly Random _rand = new();
 
         /// <summary>
         /// Initializes a new instance of the DeckCards class.
         /// </summary>
         public DeckCards()
         {
-            _deck = new List<Card>();
+            _deck = [];
         }
 
         /// <summary>
@@ -37,7 +37,6 @@ namespace Casino.CardGames
         /// <returns>The drawn card.</returns>
         public Card DrawCard(int positionFromTop = 0)
         {
-            // Checks for the validity of the index
             if (positionFromTop < 0 || positionFromTop >= DeckSize)
             {
                 throw new ArgumentOutOfRangeException(nameof(positionFromTop), "Invalid card index.");
@@ -63,13 +62,12 @@ namespace Casino.CardGames
         /// <returns>The drawn cards.</returns>
         public List<Card> DrawCards(int amountOfCards)
         {
-            // Checks for the validity of the number of cards
             if (amountOfCards <= 0 || amountOfCards > DeckSize)
             {
                 throw new ArgumentOutOfRangeException(nameof(amountOfCards), "Invalid number of cards to draw.");
             }
 
-            List<Card> drawnCards = new List<Card>();
+            List<Card> drawnCards = [];
             for (int i = 0; i < amountOfCards; i++)
             {
                 Card card = DrawCard();
@@ -85,7 +83,6 @@ namespace Casino.CardGames
         /// <returns>The drawn card.</returns>
         public Card DrawExactCard(Card card)
         {
-            // Checks for the presence of the card in the deck
             if (!_deck.Contains(card))
             {
                 throw new ArgumentException("The specified card is not in the deck.", nameof(card));
@@ -111,7 +108,6 @@ namespace Casino.CardGames
         /// <param name="amountOfFullDecks">The number of full decks to include in the deck.</param>
         public void SetUpDeck(int amountOfFullDecks = 1)
         {
-            // Checks for the validity of the number of decks
             if (amountOfFullDecks <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(amountOfFullDecks), "Invalid number of decks.");
@@ -119,14 +115,13 @@ namespace Casino.CardGames
 
             ResetDeck();
 
-            // Creating and adding cards to the deck
             for (int i = 0; i < amountOfFullDecks; i++)
             {
                 foreach (Card.Suit suit in Enum.GetValues(typeof(Card.Suit)))
                 {
                     foreach (Card.Value value in Enum.GetValues(typeof(Card.Value)))
                     {
-                        Card card = new Card(suit, value);
+                        Card card = new(suit, value);
                         AddCard(card);
                     }
                 }
@@ -140,7 +135,7 @@ namespace Casino.CardGames
         /// </summary>
         public void ShuffleCards()
         {
-            List<Card> shuffledDeck = new List<Card>();
+            List<Card> shuffledDeck = [];
             while (DeckSize > 0)
             {
                 Card randomCard = DrawRandomCard();
@@ -155,7 +150,7 @@ namespace Casino.CardGames
         /// </summary>
         private void ResetDeck()
         {
-            _deck = new List<Card>();
+            _deck = [];
         }
 
         /// <summary>

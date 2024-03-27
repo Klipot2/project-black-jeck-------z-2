@@ -3,7 +3,7 @@ namespace Casino.CardGames.Poker
     /// <summary>
     /// Represents possible inputs for poker interactions.
     /// </summary>
-    public enum Input
+    public enum LetterInput
     {
         Undefined, Yes, No
     }
@@ -17,13 +17,13 @@ namespace Casino.CardGames.Poker
         /// Gets a dictionary mapping Input enum values to their corresponding valid string representations.
         /// </summary>
         /// <returns>A dictionary of Input enum values and their string representations.</returns>
-        public static Dictionary<Input, string[]> GetInputDictionary()
+        public static Dictionary<LetterInput, string[]> GetInputDictionary()
         {
-            Dictionary<Input, string[]> inputDictionary = new();
-            string[] yesStrings = { "y" };
-            inputDictionary.Add(Input.Yes, yesStrings);
-            string[] noStrings = { "n" };
-            inputDictionary.Add(Input.No, noStrings);
+            Dictionary<LetterInput, string[]> inputDictionary = [];
+            string[] yesStrings = ["y"];
+            inputDictionary.Add(LetterInput.Yes, yesStrings);
+            string[] noStrings = ["n"];
+            inputDictionary.Add(LetterInput.No, noStrings);
 
             return inputDictionary;
         }
@@ -34,12 +34,12 @@ namespace Casino.CardGames.Poker
         /// <param name="potentialInput">The potential string representation of the input.</param>
         /// <param name="input">The resulting Input enum value, if successful.</param>
         /// <returns>True if the conversion is successful, false otherwise.</returns>
-        public static bool TryGetInputFromString(string potentialInput, out Input input)
+        public static bool TryGetInputFromString(string potentialInput, out LetterInput input)
         {
-            input = Input.Undefined;
-            Dictionary<Input, string[]> inputDict = GetInputDictionary();
+            input = LetterInput.Undefined;
+            Dictionary<LetterInput, string[]> inputDict = GetInputDictionary();
 
-            foreach (KeyValuePair<Input, string[]> inputPair in inputDict)
+            foreach (KeyValuePair<LetterInput, string[]> inputPair in inputDict)
             {
                 if (inputPair.Value.Contains(potentialInput))
                 {

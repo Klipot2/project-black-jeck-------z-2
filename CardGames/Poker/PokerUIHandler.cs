@@ -9,7 +9,7 @@ namespace Casino.CardGames.Poker
         /// Delegate for processing user input of type Input.
         /// </summary>
         /// <param name="input">The user input of type Input.</param>
-        public delegate void ProcessInput(Input input);
+        public delegate void ProcessInput(LetterInput input);
 
         /// <summary>
         /// Delegate for processing user input of type int.
@@ -17,17 +17,19 @@ namespace Casino.CardGames.Poker
         /// <param name="inputInt">The user input of type int.</param>
         public delegate void ProcessInt(int inputInt);
 
-        /// <summary>
-        /// Displays the player's hand, current chip count, and current bet.
-        /// </summary>
-        /// <param name="hand">The player's poker hand.</param>
-        /// <param name="currentBank">The current chip count of the player.</param>
-        /// <param name="currentBet">The current bet in the game.</param>
-        public static void DisplayPlayerStatus(PokerHand hand, int currentBank, int currentBet)
+        public static void DisplayDivider(int dividerLength = 50)
+        {
+            for (int i = 0; i < dividerLength; i++)
+            {
+                Console.Write("-");
+            }
+            Console.WriteLine();
+        }
+        public static void DisplayPlayerStatus(PokerHand hand)
         {
             DisplayHand(hand);
-            Console.WriteLine("Current chip count: " + currentBank);
-            Console.WriteLine("Current bet: " + currentBet);
+            Console.WriteLine("Current chip count: " + hand.Bank);
+            Console.WriteLine("Current bet: " + hand.Bet);
             Console.WriteLine();
         }
 
@@ -54,25 +56,26 @@ namespace Casino.CardGames.Poker
         /// Displays a message without expecting user input.
         /// </summary>
         /// <param name="message">The message to display.</param>
-        public static void NoResponseMessage(string message)
+        public static void NoResponseMessage(string message, bool spaceAfterMessage = true)
         {
             Console.WriteLine(message);
-            Console.WriteLine();
+            if (spaceAfterMessage) Console.WriteLine();
         }
 
-        /// <summary>
-        /// Displays a message and prompts the user for an input, processing it based on possible inputs.
-        /// </summary>
-        /// <param name="message">The message to display.</param>
-        /// <param name="possibleInputs">Array of possible Input enum values.</param>
-        /// <param name="fallbackMessage">The fallback message if input validation fails.</param>
-        /// <param name="inputProcessor">Delegate to process the valid user input.</param>
-        public static void MessageWithInputResponse(string message, Input[] possibleInputs,
+        private static string MessageWithResponse(string message)
+        {
+            Console.WriteLine(message);
+            string? input = Console.ReadLine() ?? throw new ArgumentNullException("Input ended up as null.");
+            Console.WriteLine();
+            return input.ToLower();
+        }
+
+        public static void MessageWithInputResponse(string message, LetterInput[] possibleInputs,
             string fallbackMessage, ProcessInput inputProcessor)
         {
             string response = MessageWithResponse(message);
 
-            if (!PokerInputSchema.TryGetInputFromString(response, out Input parsedInput))
+            if (!PokerInputSchema.TryGetInputFromString(response, out LetterInput parsedInput))
             {
                 Console.Write("Cannot identify input. ");
                 MessageWithInputResponse(fallbackMessage, possibleInputs, fallbackMessage, inputProcessor);
@@ -118,6 +121,28 @@ namespace Casino.CardGames.Poker
             intProcessor(parsedInt);
         }
 
+        public static void MessageWithRangeResponse(string message, int minRangeValue, int maxRangeValue,
+            string fallbackMessage, ProcessInt intProcessor)
+        {
+            string response = MessageWithResponse(message);
+
+            if(!int.TryParse(response, out int parsedInt))
+            {
+                Console.Write("Current input cannot contain non-numeric values. ");
+                MessageWithRangeResponse(fallbackMessage, minRangeValue, maxRangeValue, fallbackMessage, intProcessor);
+                return;
+            }
+
+            if (parsedInt < minRangeValue || parsedInt > maxRangeValue)
+            {
+                Console.Write("Current input is out of range. ");
+                MessageWithRangeResponse(fallbackMessage, minRangeValue, maxRangeValue, fallbackMessage, intProcessor);
+                return;
+            }
+
+            intProcessor(parsedInt);
+        }
+
         /// <summary>
         /// Converts a list of integers to a formatted string describing card positions for swapping.
         /// </summary>
@@ -146,8 +171,7 @@ namespace Casino.CardGames.Poker
         /// <returns>The modified string.</returns>
         private static string ReplaceCharacterAt(string input, int index, char newChar)
         {
-            if (input == null)
-                throw new ArgumentNullException("Trying to replace a character, but the string is null.");
+            ArgumentNullException.ThrowIfNull(input, "Trying to replace character, but string is null.");
 
             if (index >= input.Length)
                 throw new ArgumentOutOfRangeException(

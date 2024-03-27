@@ -15,7 +15,7 @@ namespace Casino.CardGames.Poker.Combinations
         /// Checks if the hand contains four of a kind.
         /// </summary>
         /// <returns>True if four of a kind is present, false otherwise.</returns>
-        protected override bool IsCombinationPresent() => CompositionContainsOneOf(new int[] { 4 });
+        protected override bool IsCombinationPresent() => CompositionContainsOneOf([4]);
 
         /// <summary>
         /// Sorts the cards based on their importance in a four of a kind combination.

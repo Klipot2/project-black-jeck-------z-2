@@ -15,7 +15,7 @@ namespace Casino.CardGames.Poker.Combinations
         /// Checks if the hand contains a pair.
         /// </summary>
         /// <returns>True if a pair is present, false otherwise.</returns>
-        protected override bool IsCombinationPresent() => CompositionContainsOneOf(new int[] { 2, 3, 4 });
+        protected override bool IsCombinationPresent() => CompositionContainsOneOf([2, 3, 4]);
 
         /// <summary>
         /// Sorts the cards based on their importance in a pair combination.

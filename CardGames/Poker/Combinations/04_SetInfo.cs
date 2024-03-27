@@ -15,7 +15,7 @@ namespace Casino.CardGames.Poker.Combinations
         /// Checks if the hand contains a set (three of a kind).
         /// </summary>
         /// <returns>True if a set is present, false otherwise.</returns>
-        protected override bool IsCombinationPresent() => CompositionContainsOneOf(new int[] { 3, 4 });
+        protected override bool IsCombinationPresent() => CompositionContainsOneOf([3, 4]);
 
         /// <summary>
         /// Sorts the cards based on their importance in a set combination.
