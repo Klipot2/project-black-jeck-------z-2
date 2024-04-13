@@ -7,15 +7,10 @@ namespace Casino.CardGames.Poker
     /// </summary>
     public class PokerHand : Hand
     {
-        private readonly ValueData _handValue;
-        private int _bank = 0;
-        private int _bet = 0;
-
         /// <summary>
         /// Gets the value data representing the hand's poker value.
         /// </summary>
         public ValueData Value { get { return _handValue; } }
-
         /// <summary>
         /// Gets or sets the bank amount associated with the hand.
         /// </summary>
@@ -31,7 +26,6 @@ namespace Casino.CardGames.Poker
                 _bank = value;
             }
         }
-
         /// <summary>
         /// Gets or sets the bet amount associated with the hand.
         /// </summary>
@@ -47,6 +41,10 @@ namespace Casino.CardGames.Poker
                 _bet = value;
             }
         }
+
+        private readonly ValueData _handValue;
+        private int _bank = 0;
+        private int _bet = 0;
 
         /// <summary>
         /// Initializes a new instance of the PokerHand class with the specified owner's name and hand size.

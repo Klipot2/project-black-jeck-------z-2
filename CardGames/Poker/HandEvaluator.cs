@@ -16,8 +16,8 @@ namespace Casino.CardGames.Poker
         /// <param name="valueData">The object to store calculated hand values.</param>
         public static void CalculateHandValueData(List<Card> handCards, ValueData valueData)
         {
-            List<CombinationInfo> combinations = new List<CombinationInfo>
-            {
+            List<CombinationInfo> combinations =
+            [
                 new FreeHandInfo(handCards),
                 new PairInfo(handCards),
                 new DoublePairInfo(handCards),
@@ -28,7 +28,7 @@ namespace Casino.CardGames.Poker
                 new FourOfAKindInfo(handCards),
                 new StraightFlushInfo(handCards),
                 new FlushRoyaleInfo(handCards)
-            };
+            ];
 
             valueData.ResetData();
             foreach (var combination in combinations)

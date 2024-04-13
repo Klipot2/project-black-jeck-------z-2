@@ -18,8 +18,8 @@ namespace Casino.CardGames.Poker
         private const int INITIAL_PLAYER_BANK = 100 * MIN_BET;
         private readonly int[] DEALER_BETS = [MIN_BET, MIN_BET*2, MIN_BET*3, MIN_BET*5, MIN_BET*8, MIN_BET*13, MIN_BET*21, MIN_BET*34, MIN_BET*55, MIN_BET*89];
 
-        private PokerHand _playerHand;
-        private PokerHand _dealerHand;
+        private readonly PokerHand _playerHand;
+        private readonly PokerHand _dealerHand;
         private readonly DeckCards _deck;
         private int _tableBank;
         private bool _playerHasPassed = false;
@@ -230,10 +230,6 @@ namespace Casino.CardGames.Poker
             _playerHand.ForceUpdateHandValue();
         }
 
-        /// <summary>
-        /// Initiates the card swapping process based on the player's choice.
-        /// </summary>
-        /// <param name="input">The player's input.</param>
         private void LaunchCardSwap(LetterInput input)
         {
             switch (input)
@@ -260,10 +256,6 @@ namespace Casino.CardGames.Poker
             }
         }
 
-        /// <summary>
-        /// Processes each step of the card swapping based on player's input.
-        /// </summary>
-        /// <param name="inputInt">The numeric input from the player.</param>
         private void ProcessCardSwapStep(int inputInt)
         {
             if (inputInt == CARD_SWAP_TERMINATOR) return;

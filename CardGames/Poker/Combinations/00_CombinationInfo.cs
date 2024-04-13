@@ -12,9 +12,6 @@ namespace Casino.CardGames.Poker.Combinations
         /// <seealso cref="ValueData"/>
         public ValueData CombinationValue { get { return _combinationValue; } }
 
-        private readonly bool _isPresent;
-        private readonly ValueData _combinationValue;
-
         //Keeping collections below is not optimized
         /// <summary> Contains list of all cards present in hand. </summary>
         protected readonly List<Card> _cards;
@@ -22,6 +19,9 @@ namespace Casino.CardGames.Poker.Combinations
         protected readonly Dictionary<Card.Suit, int> _suitComposition;
         /// <summary> Shows how many cards of each value are currently in hand. </summary>
         protected readonly Dictionary<Card.Value, int> _valueComposition;
+
+        private readonly bool _isPresent;
+        private readonly ValueData _combinationValue;
 
         /// <summary>
         /// Initializes a new instance of <see cref="CombinationInfo"/> class 
@@ -46,7 +46,7 @@ namespace Casino.CardGames.Poker.Combinations
         /// <returns>A dictionary containing the count of each card suit present in the list.</returns>
         protected static Dictionary<Card.Suit, int> GenerateSuitComposition(List<Card> cards)
         {
-            Dictionary<Card.Suit, int> suitComposition = new();
+            Dictionary<Card.Suit, int> suitComposition = [];
             foreach (Card.Suit suit in Enum.GetValues(typeof(Card.Suit)))
             {
                 suitComposition[suit] = 0;
@@ -66,7 +66,7 @@ namespace Casino.CardGames.Poker.Combinations
         /// <returns>A dictionary containing the count of each card value present in the list.</returns>
         protected static Dictionary<Card.Value, int> GenerateValueComposition(List<Card> cards)
         {
-            Dictionary<Card.Value, int> valueComposition = new();
+            Dictionary<Card.Value, int> valueComposition = [];
             foreach (Card.Value value in Enum.GetValues(typeof(Card.Value)))
             {
                 valueComposition[value] = 0;
@@ -102,19 +102,6 @@ namespace Casino.CardGames.Poker.Combinations
             HandEvaluator.SortCardsDescending(_cards);
         }
 
-        private ValueData GenerateValueData()
-        {
-            ValueData combinationValue = new(_cards.Count);
-            if (!_isPresent) return combinationValue;
-
-            foreach (var card in _cards)
-            {
-                int cardValue = HandEvaluator.ValueCard(card);
-                combinationValue.AddValue(cardValue);
-            }
-            return combinationValue;
-        }
-
         /// <summary>
         /// Pops most common duplicates from target <see cref="List{Card}"/>.
         /// </summary>
@@ -131,7 +118,7 @@ namespace Casino.CardGames.Poker.Combinations
         /// </exception>
         protected List<Card> PopDuplicates(List<Card> cards)
         {
-            List<Card> duplicates = new();
+            List<Card> duplicates = [];
             Card.Value? duplicateCardValue = null;
             int maxAmountOfDuplicates = 0;
 
@@ -154,31 +141,6 @@ namespace Casino.CardGames.Poker.Combinations
             }
 
             return duplicates;
-        }
-
-        private static Card GetCardOfValue(List<Card> cards, Card.Value targetValue)
-        {
-            Card? firstCardOfTargetValue = null;
-
-            foreach (var card in cards)
-            {
-                if (card.CardValue == targetValue)
-                {
-                    firstCardOfTargetValue = card;
-                    break;
-                }
-            }
-
-            if (firstCardOfTargetValue == null)
-            {
-                CardRenderer.PrintCards(cards);
-
-                throw new ArgumentNullException(
-                string.Format("{0} is null, because no cards of value {1} were found in {2}.",
-                firstCardOfTargetValue, targetValue, cards));
-            }
-
-            return firstCardOfTargetValue;
         }
         
         /// <summary>
@@ -237,7 +199,7 @@ namespace Casino.CardGames.Poker.Combinations
 
         protected static List<Card> PopCardsFromComposition(List<Card> cards, List<Card.Value> valueComposition)
         {
-            List<Card> cardsFromComposition = new();
+            List<Card> cardsFromComposition = [];
 
             foreach (var cardValue in valueComposition)
             {
@@ -248,7 +210,45 @@ namespace Casino.CardGames.Poker.Combinations
             return cardsFromComposition;
         }
 
-        private bool CardsContainValue(List<Card> cards, Card.Value value)
+        private ValueData GenerateValueData()
+        {
+            ValueData combinationValue = new(_cards.Count);
+            if (!_isPresent) return combinationValue;
+
+            foreach (var card in _cards)
+            {
+                int cardValue = HandEvaluator.ValueCard(card);
+                combinationValue.AddValue(cardValue);
+            }
+            return combinationValue;
+        }
+
+        private static Card GetCardOfValue(List<Card> cards, Card.Value targetValue)
+        {
+            Card? firstCardOfTargetValue = null;
+
+            foreach (var card in cards)
+            {
+                if (card.CardValue == targetValue)
+                {
+                    firstCardOfTargetValue = card;
+                    break;
+                }
+            }
+
+            if (firstCardOfTargetValue == null)
+            {
+                CardRenderer.PrintCards(cards);
+
+                throw new ArgumentNullException(
+                string.Format("{0} is null, because no cards of value {1} were found in {2}.",
+                firstCardOfTargetValue, targetValue, cards));
+            }
+
+            return firstCardOfTargetValue;
+        }
+
+        private static bool CardsContainValue(List<Card> cards, Card.Value value)
         {
             foreach (var card in cards)
             {

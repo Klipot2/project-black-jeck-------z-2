@@ -10,13 +10,11 @@ namespace Casino.CardGames.Poker
         /// </summary>
         /// <param name="input">The user input of type Input.</param>
         public delegate void ProcessInput(LetterInput input);
-
         /// <summary>
         /// Delegate for processing user input of type int.
         /// </summary>
         /// <param name="inputInt">The user input of type int.</param>
         public delegate void ProcessInt(int inputInt);
-
         /// <summary>
         /// Displays a divider of specified length.
         /// </summary>
@@ -70,19 +68,6 @@ namespace Casino.CardGames.Poker
         {
             Console.WriteLine(message);
             if (spaceAfterMessage) Console.WriteLine();
-        }
-
-        /// <summary>
-        /// Displays a message and retrieves user input.
-        /// </summary>
-        /// <param name="message">The message to display.</param>
-        /// <returns>User input as a string.</returns>
-        private static string MessageWithResponse(string message)
-        {
-            Console.WriteLine(message);
-            string? input = Console.ReadLine() ?? throw new ArgumentNullException("Input ended up as null.");
-            Console.WriteLine();
-            return input.ToLower();
         }
 
         /// <summary>
@@ -192,13 +177,14 @@ namespace Casino.CardGames.Poker
             return ReplaceCharacterAt(output, output.Length - 1, '.');
         }
 
-        /// <summary>
-        /// Replaces a character in a string at a specified index.
-        /// </summary>
-        /// <param name="input">The input string.</param>
-        /// <param name="index">The index at which to replace the character.</param>
-        /// <param name="newChar">The new character to replace with.</param>
-        /// <returns>The modified string.</returns>
+        private static string MessageWithResponse(string message)
+        {
+            Console.WriteLine(message);
+            string? input = Console.ReadLine() ?? throw new ArgumentNullException("Input ended up as null.");
+            Console.WriteLine();
+            return input.ToLower();
+        }
+
         private static string ReplaceCharacterAt(string input, int index, char newChar)
         {
             ArgumentNullException.ThrowIfNull(input, "Trying to replace character, but string is null.");

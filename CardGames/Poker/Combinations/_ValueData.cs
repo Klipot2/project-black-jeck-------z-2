@@ -13,7 +13,6 @@ namespace Casino.CardGames.Poker.Combinations
         /// Gets the array of values stored in the ValueData.
         /// </summary>
         public byte[] ValueArray { get { return _valueArray; } }        
-        
         /// <summary>
         /// Gets the size of the ValueData.
         /// </summary>
@@ -92,32 +91,6 @@ namespace Casino.CardGames.Poker.Combinations
                 _valueArray[i] = 0;
             }
             _filledValues = 0;
-        }
-
-        private void ShiftData(int shiftSize)
-        {
-            if (shiftSize + _filledValues > Size) // Check if possible
-                throw new OverflowException(
-                string.Format("Already filled {0} out of {1} spaces and trying to do shift of size {2}.",
-                _filledValues, Size, shiftSize));
-
-            for (int i = Size - 1; i >= shiftSize; i--) // Shift data
-            {
-                _valueArray[i] = _valueArray[i - shiftSize];
-            }
-
-            for (int i = 0; i < shiftSize; i++) // Clear start
-            {
-                _valueArray[i] = 0;
-            }
-        }
-
-        private static string ValueToString(byte value)
-        {
-            string convertedValue = "";
-            if (value < 10) convertedValue += "0";
-            convertedValue += value.ToString();
-            return convertedValue;
         }
 
         /// <summary>
@@ -258,6 +231,32 @@ namespace Casino.CardGames.Poker.Combinations
                 }
             }
             return valueBracket;
+        }
+
+        private void ShiftData(int shiftSize)
+        {
+            if (shiftSize + _filledValues > Size) // Check if possible
+                throw new OverflowException(
+                string.Format("Already filled {0} out of {1} spaces and trying to do shift of size {2}.",
+                _filledValues, Size, shiftSize));
+
+            for (int i = Size - 1; i >= shiftSize; i--) // Shift data
+            {
+                _valueArray[i] = _valueArray[i - shiftSize];
+            }
+
+            for (int i = 0; i < shiftSize; i++) // Clear start
+            {
+                _valueArray[i] = 0;
+            }
+        }
+
+        private static string ValueToString(byte value)
+        {
+            string convertedValue = "";
+            if (value < 10) convertedValue += "0";
+            convertedValue += value.ToString();
+            return convertedValue;
         }
     }
 }

@@ -3,14 +3,12 @@ namespace Casino.CardGames.Poker.Combinations
     /// <summary>
     /// Represents a free hand, which always indicates the presence of a hand.
     /// </summary>
-    public class FreeHandInfo : CombinationInfo
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="FreeHandInfo"/> class.
+    /// </remarks>
+    /// <param name="cards">List of cards in the hand.</param>
+    public class FreeHandInfo(List<Card> cards) : CombinationInfo(cards)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FreeHandInfo"/> class.
-        /// </summary>
-        /// <param name="cards">List of cards in the hand.</param>
-        public FreeHandInfo(List<Card> cards) : base(cards) { }
-
         /// <summary>
         /// Checks if the free hand combination is always present.
         /// </summary>

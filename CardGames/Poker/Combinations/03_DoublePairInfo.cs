@@ -3,13 +3,12 @@ namespace Casino.CardGames.Poker.Combinations
     /// <summary>
     /// Represents a hand with two pairs in a poker hand.
     /// </summary>
-    public class DoublePairInfo : CombinationInfo
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="DoublePairInfo"/> class.
+    /// </remarks>
+    /// <param name="cards">List of cards in the hand.</param>
+    public class DoublePairInfo(List<Card> cards) : CombinationInfo(cards)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DoublePairInfo"/> class.
-        /// </summary>
-        /// <param name="cards">List of cards in the hand.</param>
-        public DoublePairInfo(List<Card> cards) : base(cards) { }
 
         /// <summary>
         /// Checks if the hand contains two pairs.

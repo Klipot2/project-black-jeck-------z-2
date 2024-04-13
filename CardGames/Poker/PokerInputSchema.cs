@@ -9,12 +9,10 @@ namespace Casino.CardGames.Poker
         /// Indicates undefined input.
         /// </summary>
         Undefined, 
-        
         /// <summary>
         /// Indicates "Yes" input.
         /// </summary>
         Yes, 
-        
         /// <summary>
         /// Indicates "No" input.
         /// </summary>

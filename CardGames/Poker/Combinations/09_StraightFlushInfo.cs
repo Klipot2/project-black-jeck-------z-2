@@ -3,15 +3,43 @@ namespace Casino.CardGames.Poker.Combinations
     /// <summary>
     /// Represents information about a Straight Flush combination in a poker hand.
     /// </summary>
-    public class StraightFlushInfo : CombinationInfo
+    /// <remarks>
+    /// Initializes a new instance of the StraightFlushInfo class with the specified list of cards.
+    /// </remarks>
+    /// <param name="cards">The list of cards to analyze.</param>
+    public class StraightFlushInfo(List<Card> cards) : CombinationInfo(cards)
     {
-        private List<Card> _straightFlush = new List<Card>();
+        private List<Card> _straightFlush = [];
 
         /// <summary>
-        /// Initializes a new instance of the StraightFlushInfo class with the specified list of cards.
+        /// Attempts to extract the Straight Flush combination from the given list of cards.
         /// </summary>
         /// <param name="cards">The list of cards to analyze.</param>
-        public StraightFlushInfo(List<Card> cards) : base(cards) { }
+        /// <param name="straightFlush">The list containing the Straight Flush combination, if found.</param>
+        /// <returns>True if the Straight Flush combination is found; otherwise, false.</returns>
+        public static bool TryGetStraighFlush(List<Card> cards, out List<Card> straightFlush)
+        {
+            straightFlush = [];
+
+            Dictionary<Card.Suit, int> suitComposition = GenerateSuitComposition(cards);
+            if (!FlushInfo.IsFlush(suitComposition)) return false;
+
+            Card.Suit flushSuit = FlushInfo.GetFlushSuit(suitComposition);
+            List<Card> straightFlushCandidates = [];
+            foreach (var card in cards)
+            {
+                if (card.CardSuit == flushSuit)
+                {
+                    straightFlushCandidates.Add(card);
+                }
+            }
+
+            Dictionary<Card.Value, int> valueComposition = GenerateValueComposition(straightFlushCandidates);
+            if (!StraightInfo.IsStraight(valueComposition)) return false;
+            straightFlush = StraightInfo.PopStraightFromCards(straightFlushCandidates);
+
+            return true;
+        }
 
         /// <summary>
         /// Determines if the Straight Flush combination is present in the hand.
@@ -31,36 +59,6 @@ namespace Casino.CardGames.Poker.Combinations
                 _cards.Remove(card);
             }
             InsertAtFront(_straightFlush);
-        }
-
-        /// <summary>
-        /// Attempts to extract the Straight Flush combination from the given list of cards.
-        /// </summary>
-        /// <param name="cards">The list of cards to analyze.</param>
-        /// <param name="straightFlush">The list containing the Straight Flush combination, if found.</param>
-        /// <returns>True if the Straight Flush combination is found; otherwise, false.</returns>
-        public static bool TryGetStraighFlush(List<Card> cards, out List<Card> straightFlush)
-        {
-            straightFlush = new List<Card>();
-
-            Dictionary<Card.Suit, int> suitComposition = GenerateSuitComposition(cards);
-            if (!FlushInfo.IsFlush(suitComposition)) return false;
-
-            Card.Suit flushSuit = FlushInfo.GetFlushSuit(suitComposition);
-            List<Card> straightFlushCandidates = new List<Card>();
-            foreach (var card in cards)
-            {
-                if (card.CardSuit == flushSuit)
-                {
-                    straightFlushCandidates.Add(card);
-                }
-            }
-
-            Dictionary<Card.Value, int> valueComposition = GenerateValueComposition(straightFlushCandidates);
-            if (!StraightInfo.IsStraight(valueComposition)) return false;
-            straightFlush = StraightInfo.PopStraightFromCards(straightFlushCandidates);
-
-            return true;
         }
     }
 }

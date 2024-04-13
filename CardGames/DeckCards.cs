@@ -146,17 +146,14 @@ namespace Casino.CardGames
         }
 
         /// <summary>
-        /// Resets the deck by creating a new empty deck.
-        /// </summary>
-        private void ResetDeck()
-        {
-            _deck = [];
-        }
-
-        /// <summary>
         /// Gets a list of all cards in the deck.
         /// </summary>
         /// <returns>The list of cards in the deck.</returns>
         public List<Card> GetAllCards() => _deck;
+
+        private void ResetDeck()
+        {
+            _deck = [];
+        }
     }
 }

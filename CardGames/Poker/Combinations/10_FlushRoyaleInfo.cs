@@ -3,15 +3,13 @@ namespace Casino.CardGames.Poker.Combinations
     /// <summary>
     /// Represents information about a Flush Royale combination in a poker hand.
     /// </summary>
-    public class FlushRoyaleInfo : CombinationInfo
+    /// <remarks>
+    /// Initializes a new instance of the FlushRoyaleInfo class with the specified list of cards.
+    /// </remarks>
+    /// <param name="cards">The list of cards to analyze.</param>
+    public class FlushRoyaleInfo(List<Card> cards) : CombinationInfo(cards)
     {
-        private List<Card>? _flushRoyale;
-
-        /// <summary>
-        /// Initializes a new instance of the FlushRoyaleInfo class with the specified list of cards.
-        /// </summary>
-        /// <param name="cards">The list of cards to analyze.</param>
-        public FlushRoyaleInfo(List<Card> cards) : base(cards) { }
+        private List<Card> _flushRoyale = [];
 
         /// <summary>
         /// Determines if the Flush Royale combination is present in the hand.
@@ -39,13 +37,18 @@ namespace Casino.CardGames.Poker.Combinations
         {
             base.SortCards();
 
-            if (_flushRoyale != null)
+            if (_flushRoyale != null) 
             {
+
                 foreach (var card in _flushRoyale)
                 {
                     _cards.Remove(card);
                 }
                 InsertAtFront(_flushRoyale);
+            }
+            else
+            {
+                throw new NullReferenceException("Flush Royale list of cards ended up as null.");
             }
         }
     }

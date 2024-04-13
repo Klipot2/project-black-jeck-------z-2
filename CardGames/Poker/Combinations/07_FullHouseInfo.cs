@@ -3,14 +3,12 @@ namespace Casino.CardGames.Poker.Combinations
     /// <summary>
     /// Represents a hand with a full house in a poker hand.
     /// </summary>
-    public class FullHouseInfo : CombinationInfo
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="FullHouseInfo"/> class.
+    /// </remarks>
+    /// <param name="cards">List of cards in the hand.</param>
+    public class FullHouseInfo(List<Card> cards) : CombinationInfo(cards)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FullHouseInfo"/> class.
-        /// </summary>
-        /// <param name="cards">List of cards in the hand.</param>
-        public FullHouseInfo(List<Card> cards) : base(cards) { }
-
         /// <summary>
         /// Checks if the hand contains a full house.
         /// </summary>

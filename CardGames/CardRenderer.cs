@@ -6,6 +6,32 @@ namespace Casino.CardGames
     public class CardRenderer
     {
         /// <summary>
+        /// Prints five cards from the given collection to the console.
+        /// </summary>
+        public static void PrintCards(List<Card> cards)
+        {
+            string outputTop = "";
+            string outputMiddleTop = "";
+            string outputMiddleBottom = "";
+            string outputBottom = "";
+
+            // For each card in the collection, build strings for the top, middle, and bottom parts of the card
+            foreach (var card in cards)
+            {
+                outputTop += GetCardTop() + " ";
+                outputMiddleTop += GetCardMiddleTop(card) + " ";
+                outputMiddleBottom += GetCardMiddleBottom() + " ";
+                outputBottom += GetCardBottom() + " ";
+            }
+
+            // Output the strings to the console
+            Console.WriteLine(outputTop);
+            Console.WriteLine(outputMiddleTop);
+            Console.WriteLine(outputMiddleBottom);
+            Console.WriteLine(outputBottom);
+        }
+
+        /// <summary>
         /// Returns a string representing the top part of the card.
         /// </summary>
         private static string GetCardTop() => " ____ ";
@@ -52,32 +78,6 @@ namespace Casino.CardGames
         /// Returns a string representing the bottom part of the card.
         /// </summary>
         private static string GetCardBottom() => "|____|";
-
-        /// <summary>
-        /// Prints five cards from the given collection to the console.
-        /// </summary>
-        public static void PrintCards(List<Card> cards)
-        {
-            string outputTop = "";
-            string outputMiddleTop = "";
-            string outputMiddleBottom = "";
-            string outputBottom = "";
-
-            // For each card in the collection, build strings for the top, middle, and bottom parts of the card
-            foreach (var card in cards)
-            {
-                outputTop += GetCardTop() + " ";
-                outputMiddleTop += GetCardMiddleTop(card) + " ";
-                outputMiddleBottom += GetCardMiddleBottom() + " ";
-                outputBottom += GetCardBottom() + " ";
-            }
-
-            // Output the strings to the console
-            Console.WriteLine(outputTop);
-            Console.WriteLine(outputMiddleTop);
-            Console.WriteLine(outputMiddleBottom);
-            Console.WriteLine(outputBottom);
-        }
 
         /// <summary>
         /// Returns the suit symbol for the given card suit.

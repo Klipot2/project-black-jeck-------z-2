@@ -3,14 +3,12 @@ namespace Casino.CardGames.Poker.Combinations
     /// <summary>
     /// Represents a hand with a set (three of a kind) in a poker hand.
     /// </summary>
-    public class SetInfo : CombinationInfo
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="SetInfo"/> class.
+    /// </remarks>
+    /// <param name="cards">List of cards in the hand.</param>
+    public class SetInfo(List<Card> cards) : CombinationInfo(cards)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SetInfo"/> class.
-        /// </summary>
-        /// <param name="cards">List of cards in the hand.</param>
-        public SetInfo(List<Card> cards) : base(cards) { }
-
         /// <summary>
         /// Checks if the hand contains a set (three of a kind).
         /// </summary>

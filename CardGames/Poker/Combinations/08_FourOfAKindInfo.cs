@@ -3,14 +3,12 @@ namespace Casino.CardGames.Poker.Combinations
     /// <summary>
     /// Represents a hand with four of a kind in a poker hand.
     /// </summary>
-    public class FourOfAKindInfo : CombinationInfo
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="FourOfAKindInfo"/> class.
+    /// </remarks>
+    /// <param name="cards">List of cards in the hand.</param>
+    public class FourOfAKindInfo(List<Card> cards) : CombinationInfo(cards)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FourOfAKindInfo"/> class.
-        /// </summary>
-        /// <param name="cards">List of cards in the hand.</param>
-        public FourOfAKindInfo(List<Card> cards) : base(cards) { }
-
         /// <summary>
         /// Checks if the hand contains four of a kind.
         /// </summary>
