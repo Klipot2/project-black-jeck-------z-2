@@ -1,18 +1,33 @@
 namespace Casino.CardGames.Poker.Combinations
 {
+    /// <summary>
+    /// Represents the data structure for storing values related to poker hand evaluation.
+    /// </summary>
     public class ValueData
     {
         private const int COMBINATION_AMOUNT = 10;
         private const int BIGGEST_ACCEPTED_VALUE = 14;
         private const int SMALLEST_ACCEPTED_VALUE = 0;
 
-        public byte[] ValueArray { get {return _valueArray;} }
-        public int Size { get {return _valueDataSize;} }
+        /// <summary>
+        /// Gets the array of values stored in the ValueData.
+        /// </summary>
+        public byte[] ValueArray { get { return _valueArray; } }        
+        
+        /// <summary>
+        /// Gets the size of the ValueData.
+        /// </summary>
+        public int Size { get { return _valueDataSize; } }
 
         private readonly int _valueDataSize;
         private readonly byte[] _valueArray; 
         private int _filledValues;
 
+        /// <summary>
+        /// Initializes a new instance of the ValueData class with the specified size.
+        /// </summary>
+        /// <param name="size">The size of the ValueData.</param>
+        /// <param name="usedForCombination">Indicates whether the ValueData is used for combinations.</param>
         public ValueData(int size, bool usedForCombination = false)
         {
             _valueDataSize = usedForCombination ? size * COMBINATION_AMOUNT : size;
@@ -20,16 +35,20 @@ namespace Casino.CardGames.Poker.Combinations
             ResetData();
         }
 
+        /// <summary>
+        /// Adds a value to the ValueData.
+        /// </summary>
+        /// <param name="value">The value to add.</param>
         public void AddValue(int value)
         {
             if (value < SMALLEST_ACCEPTED_VALUE || value > BIGGEST_ACCEPTED_VALUE)
                 throw new ArgumentOutOfRangeException(
-                string.Format("ValueData.AddValue() only accepts values between {0} and {1}, but recieved {2}.",
-                SMALLEST_ACCEPTED_VALUE, BIGGEST_ACCEPTED_VALUE, value));
+                    string.Format("ValueData.AddValue() only accepts values between {0} and {1}, but received {2}.",
+                        SMALLEST_ACCEPTED_VALUE, BIGGEST_ACCEPTED_VALUE, value));
 
             for (int i = 0; i < _valueDataSize; i++)
             {
-                if(_valueArray[i] == 0)
+                if (_valueArray[i] == 0)
                 {
                     _valueArray[i] = Convert.ToByte(value);
                     _filledValues++;
@@ -40,6 +59,10 @@ namespace Casino.CardGames.Poker.Combinations
             throw new OverflowException("Value array is full, so ValueData.AddValue() failed.");
         }
 
+        /// <summary>
+        /// Adds values from another ValueData to this ValueData.
+        /// </summary>
+        /// <param name="valueData">The ValueData containing values to add.</param>
         public void AddValueData(ValueData valueData)
         {
             foreach (var value in valueData.ValueArray)
@@ -48,6 +71,10 @@ namespace Casino.CardGames.Poker.Combinations
             }
         }
 
+        /// <summary>
+        /// Adds values from another ValueData to the front of this ValueData.
+        /// </summary>
+        /// <param name="valueData">The ValueData containing values to add.</param>
         public void AddValueDataAtFront(ValueData valueData)
         {
             int shiftSize = valueData.Size;
@@ -55,6 +82,9 @@ namespace Casino.CardGames.Poker.Combinations
             AddValueData(valueData);
         }
 
+        /// <summary>
+        /// Resets the values stored in the ValueData.
+        /// </summary>
         public void ResetData()
         {
             for (int i = 0; i < _valueDataSize; i++)
@@ -90,6 +120,11 @@ namespace Casino.CardGames.Poker.Combinations
             return convertedValue;
         }
 
+        /// <summary>
+        /// Determines whether the specified object is equal to the current object.
+        /// </summary>
+        /// <param name="other">The object to compare with the current object.</param>
+        /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
         public override bool Equals(object? other)
         { 
             if (other == null) return false;
@@ -98,8 +133,18 @@ namespace Casino.CardGames.Poker.Combinations
             return false;
         }
         
+        /// <summary>
+        /// Serves as the default hash function.
+        /// </summary>
+        /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode() => ToString().GetHashCode();
 
+        /// <summary>
+        /// Determines whether one specified <see cref="ValueData"/> object is less than another specified <see cref="ValueData"/> object.
+        /// </summary>
+        /// <param name="a">The first <see cref="ValueData"/> to compare.</param>
+        /// <param name="b">The second <see cref="ValueData"/> to compare.</param>
+        /// <returns>true if <paramref name="a"/> is less than <paramref name="b"/>; otherwise, false.</returns>
         public static bool operator <(ValueData a, ValueData b)
         {
             if (a.Size != b.Size) return a.Size < b.Size;
@@ -113,6 +158,12 @@ namespace Casino.CardGames.Poker.Combinations
             return false;
         }
 
+        /// <summary>
+        /// Determines whether one specified <see cref="ValueData"/> object is greater than another specified <see cref="ValueData"/> object.
+        /// </summary>
+        /// <param name="a">The first <see cref="ValueData"/> to compare.</param>
+        /// <param name="b">The second <see cref="ValueData"/> to compare.</param>
+        /// <returns>true if <paramref name="a"/> is greater than <paramref name="b"/>; otherwise, false.</returns>
         public static bool operator >(ValueData a, ValueData b)
         {
             if (a.Size != b.Size) return a.Size > b.Size;
@@ -126,10 +177,26 @@ namespace Casino.CardGames.Poker.Combinations
             return false;
         }
 
+        /// <summary>
+        /// Determines whether one specified <see cref="ValueData"/> object is less than or equal to another specified <see cref="ValueData"/> object.
+        /// </summary>
+        /// <param name="a">The first <see cref="ValueData"/> to compare.</param>
+        /// <param name="b">The second <see cref="ValueData"/> to compare.</param>
+        /// <returns>true if <paramref name="a"/> is less than or equal to <paramref name="b"/>; otherwise, false.</returns>
         public static bool operator <=(ValueData a, ValueData b) => !(a > b);
 
+        /// <summary>
+        /// Determines whether one specified <see cref="ValueData"/> object is greater than or equal to another specified <see cref="ValueData"/> object.
+        /// </summary>
+        /// <param name="a">The first <see cref="ValueData"/> to compare.</param>
+        /// <param name="b">The second <see cref="ValueData"/> to compare.</param>
+        /// <returns>true if <paramref name="a"/> is greater than or equal to <paramref name="b"/>; otherwise, false.</returns>
         public static bool operator >=(ValueData a, ValueData b) => !(a < b);
 
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
             string valueStr = "";
@@ -140,6 +207,11 @@ namespace Casino.CardGames.Poker.Combinations
             return valueStr;
         }
 
+        /// <summary>
+        /// Returns a string representation of the <see cref="ValueData"/> object, suitable for debugging purposes.
+        /// </summary>
+        /// <param name="chunkSize">The number of elements in each chunk.</param>
+        /// <returns>A string representation of the <see cref="ValueData"/> object.</returns>
         public string DebugString(int chunkSize = 5)
         {
             string valueStr = "";
@@ -157,6 +229,12 @@ namespace Casino.CardGames.Poker.Combinations
             return valueStr;
         }
 
+        /// <summary>
+        /// Gets the value bracket of the <see cref="ValueData"/> object based on the specified chunk size.
+        /// </summary>
+        /// <param name="chunkSize">The number of elements in each chunk.</param>
+        /// <returns>The value bracket of the <see cref="ValueData"/> object.</returns>
+        /// <exception cref="ArgumentException">Thrown when the <see cref="Size"/> of the <see cref="ValueData"/> object is not divisible by the chunk size.</exception>
         public int GetValueBracket(int chunkSize = 5)
         {
             if (Size % chunkSize != 0)

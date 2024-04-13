@@ -39,6 +39,11 @@ namespace Casino.CardGames.Poker.Combinations
             _combinationValue = GenerateValueData();
         }
 
+        /// <summary>
+        /// Generates a dictionary representing the composition of card suits in the provided list of cards.
+        /// </summary>
+        /// <param name="cards">The list of cards to analyze.</param>
+        /// <returns>A dictionary containing the count of each card suit present in the list.</returns>
         protected static Dictionary<Card.Suit, int> GenerateSuitComposition(List<Card> cards)
         {
             Dictionary<Card.Suit, int> suitComposition = new();
@@ -54,6 +59,11 @@ namespace Casino.CardGames.Poker.Combinations
             return suitComposition;
         }
 
+        /// <summary>
+        /// Generates a dictionary representing the composition of card values in the provided list of cards.
+        /// </summary>
+        /// <param name="cards">The list of cards to analyze.</param>
+        /// <returns>A dictionary containing the count of each card value present in the list.</returns>
         protected static Dictionary<Card.Value, int> GenerateValueComposition(List<Card> cards)
         {
             Dictionary<Card.Value, int> valueComposition = new();
@@ -170,7 +180,13 @@ namespace Casino.CardGames.Poker.Combinations
 
             return firstCardOfTargetValue;
         }
-
+        
+        /// <summary>
+        /// Removes and returns the first card with the specified value from the provided list of cards.
+        /// </summary>
+        /// <param name="cards">The list of cards to search for the target value.</param>
+        /// <param name="targetValue">The value of the card to be removed.</param>
+        /// <returns>The first card with the specified value removed from the list.</returns>
         protected static Card PopCardOfValue(List<Card> cards, Card.Value targetValue)
         {
             Card firstCardOfTargetValue = GetCardOfValue(cards, targetValue);
@@ -211,6 +227,13 @@ namespace Casino.CardGames.Poker.Combinations
             }
             return doesContain;
         }
+
+        /// <summary>
+        /// Pops cards from the given list based on the provided value composition.
+        /// </summary>
+        /// <param name="cards">The list of cards to pop from.</param>
+        /// <param name="valueComposition">The list of card values to pop from the cards list.</param>
+        /// <returns>The list of cards popped from the original list based on the provided value composition.</returns>
 
         protected static List<Card> PopCardsFromComposition(List<Card> cards, List<Card.Value> valueComposition)
         {

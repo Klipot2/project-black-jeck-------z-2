@@ -14,7 +14,10 @@ namespace Casino.CardGames
         /// Gets the owner's name associated with the hand.
         /// </summary>
         public string Owner { get { return _owner; } }
-
+        
+        /// <summary>
+        /// The list of cards in the hand.
+        /// </summary>
         protected List<Card> _hand;
 
         private string _owner;

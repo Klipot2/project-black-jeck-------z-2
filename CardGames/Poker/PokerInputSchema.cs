@@ -1,11 +1,24 @@
 namespace Casino.CardGames.Poker
 {
     /// <summary>
-    /// Represents possible inputs for poker interactions.
+    /// Represents the possible inputs in the form of letters.
     /// </summary>
     public enum LetterInput
     {
-        Undefined, Yes, No
+        /// <summary>
+        /// Indicates undefined input.
+        /// </summary>
+        Undefined, 
+        
+        /// <summary>
+        /// Indicates "Yes" input.
+        /// </summary>
+        Yes, 
+        
+        /// <summary>
+        /// Indicates "No" input.
+        /// </summary>
+        No
     }
 
     /// <summary>

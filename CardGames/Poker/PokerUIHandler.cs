@@ -17,6 +17,10 @@ namespace Casino.CardGames.Poker
         /// <param name="inputInt">The user input of type int.</param>
         public delegate void ProcessInt(int inputInt);
 
+        /// <summary>
+        /// Displays a divider of specified length.
+        /// </summary>
+        /// <param name="dividerLength">The length of the divider.</param>
         public static void DisplayDivider(int dividerLength = 50)
         {
             for (int i = 0; i < dividerLength; i++)
@@ -25,6 +29,11 @@ namespace Casino.CardGames.Poker
             }
             Console.WriteLine();
         }
+
+        /// <summary>
+        /// Displays the player's status including hand, bank, and bet.
+        /// </summary>
+        /// <param name="hand">The player's poker hand.</param>
         public static void DisplayPlayerStatus(PokerHand hand)
         {
             DisplayHand(hand);
@@ -56,6 +65,7 @@ namespace Casino.CardGames.Poker
         /// Displays a message without expecting user input.
         /// </summary>
         /// <param name="message">The message to display.</param>
+        /// <param name="spaceAfterMessage">Whether to add an extra line after the message.</param>
         public static void NoResponseMessage(string message, bool spaceAfterMessage = true)
         {
             Console.WriteLine(message);
@@ -75,6 +85,13 @@ namespace Casino.CardGames.Poker
             return input.ToLower();
         }
 
+        /// <summary>
+        /// Handles user input responses.
+        /// </summary>
+        /// <param name="message">The message to display.</param>
+        /// <param name="possibleInputs">Array of possible inputs.</param>
+        /// <param name="fallbackMessage">The fallback message if input validation fails.</param>
+        /// <param name="inputProcessor">Delegate to process the valid user input.</param>
         public static void MessageWithInputResponse(string message, LetterInput[] possibleInputs,
             string fallbackMessage, ProcessInput inputProcessor)
         {
@@ -126,12 +143,20 @@ namespace Casino.CardGames.Poker
             intProcessor(parsedInt);
         }
 
+        /// <summary>
+        /// Displays a message and prompts the user for a numeric input within a specified range.
+        /// </summary>
+        /// <param name="message">The message to display.</param>
+        /// <param name="minRangeValue">The minimum value of the range.</param>
+        /// <param name="maxRangeValue">The maximum value of the range.</param>
+        /// <param name="fallbackMessage">The fallback message if input validation fails.</param>
+        /// <param name="intProcessor">Delegate to process the valid user input.</param>
         public static void MessageWithRangeResponse(string message, int minRangeValue, int maxRangeValue,
             string fallbackMessage, ProcessInt intProcessor)
         {
             string response = MessageWithResponse(message);
 
-            if(!int.TryParse(response, out int parsedInt))
+            if (!int.TryParse(response, out int parsedInt))
             {
                 Console.Write("Current input cannot contain non-numeric values. ");
                 MessageWithRangeResponse(fallbackMessage, minRangeValue, maxRangeValue, fallbackMessage, intProcessor);

@@ -7,6 +7,9 @@ namespace Casino.CardGames.Poker
     /// </summary>
     public class FiveCardPoker : IPlayable
     {
+        /// <summary>
+        /// The minimum bet allowed in the poker game.
+        /// </summary>
         public const int MIN_BET = 10;
         private const int PLAYER_HAND_SIZE = 5;
         private const int CARD_SWAP_TERMINATOR = 0;

@@ -7,39 +7,46 @@ namespace Casino.CardGames.Poker
     /// </summary>
     public class PokerHand : Hand
     {
+        private readonly ValueData _handValue;
+        private int _bank = 0;
+        private int _bet = 0;
+
         /// <summary>
         /// Gets the value data representing the hand's poker value.
         /// </summary>
         public ValueData Value { get { return _handValue; } }
+
+        /// <summary>
+        /// Gets or sets the bank amount associated with the hand.
+        /// </summary>
         public int Bank 
         { 
             get { return _bank;} 
             set 
             {
                 if (value < 0)
-                    throw new ArgumentException("Person's bank cannot be negative!");
+                    throw new ArgumentException("Bank cannot be negative!");
                 if (value % FiveCardPoker.MIN_BET != 0)
-                    throw new ArgumentException("Person's bank should be proportional to minimum bet value.");
+                    throw new ArgumentException("Bank should be proportional to the minimum bet value.");
                 _bank = value;
             }
         }
 
+        /// <summary>
+        /// Gets or sets the bet amount associated with the hand.
+        /// </summary>
         public int Bet 
         { 
             get { return _bet;} 
             set 
             {
                 if (value < 0)
-                    throw new ArgumentException("Person's bet cannot be negative!");
+                    throw new ArgumentException("Bet cannot be negative!");
                 if (value % FiveCardPoker.MIN_BET != 0)
-                    throw new ArgumentException("Person's bet should be proportional to minimum bet value.");
+                    throw new ArgumentException("Bet should be proportional to the minimum bet value.");
                 _bet = value;
             }
         }
-
-        private readonly ValueData _handValue;
-        private int _bank = 0;
-        private int _bet = 0;
 
         /// <summary>
         /// Initializes a new instance of the PokerHand class with the specified owner's name and hand size.
@@ -78,10 +85,7 @@ namespace Casino.CardGames.Poker
         /// <param name="cards">The list of cards to be added.</param>
         public override void AddCards(List<Card> cards)
         {
-            foreach (var card in cards)
-            {
-                base.AddCard(card);
-            }
+            base.AddCards(cards);
             if (Size == 5) HandEvaluator.CalculateHandValueData(_hand, _handValue);
         }
 
@@ -126,6 +130,10 @@ namespace Casino.CardGames.Poker
             _handValue.ResetData();
         }
 
+        /// <summary>
+        /// Makes a bet with the specified amount, deducting it from the bank.
+        /// </summary>
+        /// <param name="amount">The amount to bet.</param>
         public void MakeBet(int amount)
         {
             Bet += amount;

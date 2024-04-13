@@ -5,24 +5,102 @@ namespace Casino.CardGames
     /// </summary>
     public class Card
     {
-        /// <summary> 
-        /// Suit of a card.
+    /// <summary>
+    /// Represents the suits of a standard deck of cards.
+    /// </summary>
+    public enum Suit
+    {
+        /// <summary>
+        /// Spades.
         /// </summary>
-        public enum Suit
-        {
-            S,  // Spades
-            H,  // Hearts
-            C,  // Clubs
-            D   // Diamonds
-        }
+        S,  
 
-        /// <summary> 
-        /// Value of a card.
+        /// <summary>
+        /// Hearts.
         /// </summary>
-        public enum Value
-        {
-            Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, Ace
-        }
+        H,  
+
+        /// <summary>
+        /// Clubs.
+        /// </summary>
+        C,  
+
+        /// <summary>
+        /// Diamonds.
+        /// </summary>
+        D   
+    }
+
+    /// <summary>
+    /// Represents the values of a standard deck of cards.
+    /// </summary>
+    public enum Value
+    {
+        /// <summary>
+        /// Two.
+        /// </summary>
+        Two, 
+
+        /// <summary>
+        /// Three.
+        /// </summary>
+        Three, 
+
+        /// <summary>
+        /// Four.
+        /// </summary>
+        Four, 
+
+        /// <summary>
+        /// Five.
+        /// </summary>
+        Five, 
+
+        /// <summary>
+        /// Six.
+        /// </summary>
+        Six, 
+
+        /// <summary>
+        /// Seven.
+        /// </summary>
+        Seven, 
+
+        /// <summary>
+        /// Eight.
+        /// </summary>
+        Eight, 
+
+        /// <summary>
+        /// Nine.
+        /// </summary>
+        Nine, 
+
+        /// <summary>
+        /// Ten.
+        /// </summary>
+        Ten, 
+
+        /// <summary>
+        /// Jack.
+        /// </summary>
+        Jack, 
+
+        /// <summary>
+        /// Queen.
+        /// </summary>
+        Queen, 
+
+        /// <summary>
+        /// King.
+        /// </summary>
+        King, 
+
+        /// <summary>
+        /// Ace.
+        /// </summary>
+        Ace
+    }
 
         /// <summary> 
         /// Gets the suit of the card.
